@@ -2,32 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+html, body {
+  @apply h-full;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+body{
+  @apply bg-gray-100 ;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.footer-fix {
+  @apply bg-white mt-6 bottom-0 w-full font-bold text-sm shadow-lg
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+input {
+  @apply p-2 text-2xl border rounded-md 
+}
+
+.btn-primary {
+  @apply bg-gradient-to-t from-sky-500 to-indigo-500 p-2 rounded-md text-white font-bold ;
+}
+
+.btn-secondary {
+  @apply bg-secondary p-2 rounded-md text-white font-bold;
+}
+
+.btn-login {
+  @apply bg-purple-600 shadow rounded-md text-center text-white w-full py-4 flex gap-3 items-center justify-center hover:bg-purple-400 transition duration-300
+}
+
+/* estilos de los radio butons */
+.card {
+  @apply p-4 border border-primary rounded-lg cursor-pointer flex items-center justify-center;
+}
+
+.card-selected {
+  @apply bg-primary text-white;
+}
+
+input[type="radio"] {
+  @apply hidden;
 }
