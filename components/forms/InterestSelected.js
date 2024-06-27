@@ -40,8 +40,8 @@ export default function InterestSelected({ formData, handleChange }) {
                 />
             </label>
             <label
-                htmlFor="more-gender-identity"
-                className={`card ${selectedInterest === 'evefryone' ? 'card-selected' : ''}`}
+                htmlFor="everyone-gender-interest"
+                className={`card ${selectedInterest === 'everyone' ? 'card-selected' : ''}`}
             >
                 Everyone
                 <input

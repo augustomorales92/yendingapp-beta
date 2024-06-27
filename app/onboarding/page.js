@@ -3,10 +3,12 @@ import GenderSelect from '@/components/forms/GenderSelected';
 import InterestSelected from '@/components/forms/InterestSelected';
 import { upload } from '@/lib/upload';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FaUpload } from 'react-icons/fa';
+import { IoIosReturnLeft } from "react-icons/io";
 
 
 export default function onboarding() {
@@ -179,8 +181,14 @@ export default function onboarding() {
 
     return (
         <>
-            <h2 className='p-3 text-primary font-bold text-2xl'>ONBOARDING PROFILE</h2>
-            <form className='grid grid-cols-3 gap-3 border-t-2 p-5' onSubmit={handleSubmit}>
+            <div className='p-3 flex justify-between items-center align-center'>
+                <h2 className='p-3 text-primary font-bold text-xl md:text-3xl'>ONBOARDING PROFILE</h2>
+                <Link className='text-2xl text-primary text-bold' href="/dashboard">
+                    <IoIosReturnLeft />
+                </Link>
+            </div>
+
+            <form className='grid grid-cols-3 gap-3 border-t-2 border-primary_b p-5' onSubmit={handleSubmit}>
                 <div className="col-span-3 lg:col-span-2">
                     <label htmlFor="name">First Name</label>
                     <input
@@ -241,7 +249,7 @@ export default function onboarding() {
                         <label>Show Me</label>
                         <InterestSelected formData={formData} handleChange={handleChange} />
                     </div>
-                    <div className='flex items-center gap-3 border-b-2 border-t-2 m-2'>
+                    <div className='flex items-center gap-3 border-b-2 border-t-2 border-primary_b m-2'>
                         <label htmlFor="show_interest">Show Interest on my Profile</label>
                         <input
                             id="show_interest"
@@ -269,7 +277,7 @@ export default function onboarding() {
                         <div>
                             {formData.url_img && <img src={formData.url_img} alt="profile pic preview" />}
                         </div>
-                        <label className="w-full bg-gray-200 p-2 border text-center flex flex-col items-center justify-center gap-1 cursor-pointer ">
+                        <label className="w-full text-secondary bg-primary_b p-2 border text-center flex flex-col items-center justify-center gap-1 cursor-pointer ">
                             <FaUpload />
                             <div>
                                 Upload photo

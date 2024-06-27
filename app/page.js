@@ -1,6 +1,6 @@
 'use client'
 
-import Header from "@/components/Header";
+import Navbar from "@/components/Navbar";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -22,21 +22,18 @@ export default function Home() {
 
 
   return (
-    <div>
-      <Header minimal={false} />
-      <div className="w-screen h-screen fixed p-5">
-        <div className="mt-1">
-          <h1 className="text-secondary text-3xl font-bold ">Swipe Right</h1>
-          <button className="btn-primary" onClick={handleClick}>
+    <>
+      <Navbar />
+      <div className=" h-screen p-12 flex flex-col min-h-screen">
+        <div className="m-auto gap-3">
+          <h1 className="text-primary text-5xl font-bold ">Swipe Right</h1>
+          <button className="btn-primary my-3" onClick={handleClick}>
             {session ? 'Singout' : "Let's start"}
           </button>
+        </div>
 
-        </div>
-        <div>
-          Hola <span className="font-bold">{session?.user?.name}</span>
-        </div>
       </div>
-    </div>
+    </>
 
   );
 }

@@ -1,11 +1,8 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaUser } from "react-icons/fa";
-
 
 export default function LoginForm() {
 
@@ -49,9 +46,8 @@ export default function LoginForm() {
                 type="password"
                 placeholder="Password"
             />
-            <button className="btn-login">
-                <FaUser className="h-6" />
-                <span>Continue with Credentials</span>
+            <button className="btn-secondary">
+                <span>Login</span>
             </button>
 
             {error && (
@@ -59,9 +55,7 @@ export default function LoginForm() {
                     {error}
                 </div>
             )}
-            <Link className="text-sm " href={"/auth/register"}>
-                Don't have an account? <span className="underline text-primary font-bold">Register</span>
-            </Link>
+           
         </form>
     )
 }

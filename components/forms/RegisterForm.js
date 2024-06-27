@@ -78,7 +78,7 @@ export default function RegisterForm() {
 
     return (
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3 px-6">
             <input
                 onChange={(e) => setEmail(e.target.value)}
                 type="text"

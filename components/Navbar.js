@@ -1,0 +1,41 @@
+'use client'
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import React from 'react'
+import { FaGlassCheers } from 'react-icons/fa';
+import { MdDashboard, MdLogin } from "react-icons/md";
+
+export default function Navbar() {
+
+    const { data: session } = useSession();
+
+    return (
+        <nav className='w-full bg-secondary fixed top-0 left-0 right-0 z-10'>
+            <div className='flex justify-between items-center align-center m-2 px-6 py-3'>
+                <Link href="/" className='text-primary text-3xl hover:text-primary_b' >
+                    <FaGlassCheers />
+                </Link>
+                <ul className="">
+                    <li className="text-3xl text-primary text-center hover:text-secondary_b  ">
+                        {!session &&
+                            <Link href="/auth/login" >
+                                <div className="flex items-center">
+                                    <MdLogin className="block md:hidden" />
+                                    <span className="hidden md:block">Login</span>
+                                </div>
+                            </Link>
+                        }
+                        {session &&
+                            <Link href="/dashboard"  >
+                                <div className="flex items-center">
+                                    <MdDashboard className="block md:hidden" />
+                                    <span className="hidden md:block">Dashboard</span>
+                                </div>
+                            </Link>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </nav >
+    )
+}

@@ -14,12 +14,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <AuthProvider>
-          <main className='flex flex-col min-h-screen'>
-            <div className='flex-grow'>
-              <Toaster position="bottom-center" />
-              {children}
-            </div>
-          </main>
+          <div>
+            <Toaster position="bottom-center" />
+            {children}
+          </div>
         </AuthProvider>
       </body>
     </html>

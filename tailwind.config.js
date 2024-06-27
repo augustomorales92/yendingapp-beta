@@ -8,8 +8,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: 'rgb(2 132 199)', // Azul personalizado
-        secondary: 'rgb(99 102 241)', // Morado personalizado
+        primary: 'rgb(0, 141, 218)', 
+        secondary: 'rgb(247, 238, 221)', 
+        primary_b:'rgb(65, 201, 226)',
+        secondary_b:'rgb(172, 226, 225)',
       },
     },
   },

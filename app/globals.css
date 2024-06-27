@@ -7,7 +7,7 @@ html, body {
 }
 
 body{
-  @apply bg-gray-100 ;
+  @apply bg-secondary ;
 }
 
 .footer-fix {
@@ -19,15 +19,15 @@ input {
 }
 
 .btn-primary {
-  @apply bg-gradient-to-t from-sky-500 to-indigo-500 p-2 rounded-md text-white font-bold ;
+  @apply bg-primary to-indigo-500 p-2 rounded-md text-white font-bold  hover:bg-primary_b transition duration-300 ;
 }
 
 .btn-secondary {
-  @apply bg-secondary p-2 rounded-md text-white font-bold;
+  @apply bg-primary_b p-2 rounded-md text-white font-bold hover:bg-primary transition duration-300;
 }
 
 .btn-login {
-  @apply bg-purple-600 shadow rounded-md text-center text-white w-full py-4 flex gap-3 items-center justify-center hover:bg-purple-400 transition duration-300
+  @apply bg-primary shadow rounded-md text-center text-white w-full py-4 flex gap-3 items-center justify-center hover:bg-primary_b transition duration-300;
 }
 
 /* estilos de los radio butons */
