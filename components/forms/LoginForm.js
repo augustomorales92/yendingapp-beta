@@ -1,8 +1,10 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import {  useState } from "react";
+import toast from "react-hot-toast";
+import BeatLoader from "react-spinners/BeatLoader";
 
 export default function LoginForm() {
 
@@ -10,13 +12,17 @@ export default function LoginForm() {
     const [password, setPassword] = useState("");
     // handle errors 
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        let toastId;
         try {
+            setIsLoading(true);
+            toastId = toast.loading("We're working on in... you'll be redirected soon...");
             const res = await signIn("credentials", {
                 email,
                 password,
@@ -25,12 +31,24 @@ export default function LoginForm() {
 
             if (res.error) {
                 setError("Invalid Credentials");
+                toast.dismiss(toastId);
+                setIsLoading(false)
                 return;
             }
 
-            router.push("/dashboard");
+            router.push("/onboarding");
+            setEmail('');
+            setPassword('');
+            toast.dismiss(toastId);
+            setIsLoading(false);
+
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
+            if (toastId) {
+                toast.dismiss(toastId)
+            };
+            toast.error('Ocurrió un error. Inténtalo de nuevo.');
         }
     };
 
@@ -38,7 +56,7 @@ export default function LoginForm() {
         <form onSubmit={handleSubmit} className="flex flex-col mt-3 gap-3">
             <input
                 onChange={(e) => setEmail(e.target.value)}
-                type="text"
+                type="email"
                 placeholder="Email"
             />
             <input
@@ -47,7 +65,7 @@ export default function LoginForm() {
                 placeholder="Password"
             />
             <button className="btn-secondary">
-                <span>Login</span>
+                <span>{isLoading ? <BeatLoader color="#f7eedd" /> : 'Login'}</span>
             </button>
 
             {error && (
@@ -55,7 +73,7 @@ export default function LoginForm() {
                     {error}
                 </div>
             )}
-           
+
         </form>
     )
 }

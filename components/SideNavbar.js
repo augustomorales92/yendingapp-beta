@@ -10,7 +10,7 @@ import {
 } from "react-icons/md";
 import { IoReturnDownBack } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
-import {  FaGlassCheers } from "react-icons/fa";
+import { FaGlassCheers } from "react-icons/fa";
 import { BiMessageSquareDots } from "react-icons/bi";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
@@ -18,16 +18,16 @@ import { useRouter } from "next/navigation";
 
 function SideNavbar() {
 
-    const { data: session } = useSession();
-    const router = useRouter()
+  const { data: session } = useSession();
+  const router = useRouter()
 
-    const handleClick = () => {
-        if (session) {
-            signOut()
-            router.push('/')
-          }
-          router.push("/auth/login")
-      }
+  const handleClick = () => {
+    if (session) {
+      signOut()
+      router.push('/')
+    }
+    router.push("/auth/login")
+  }
 
   return (
     <div>
@@ -46,7 +46,7 @@ function SideNavbar() {
             <div className=" my-4 border-b border-primary pb-4">
               <Link href="/dashboard" className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-primary p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                 <MdOutlineSpaceDashboard className="text-2xl text-gray-600 group-hover:text-white " />
-                <h3  className="text-base text-gray-800 group-hover:text-white font-semibold ">
+                <h3 className="text-base text-gray-800 group-hover:text-white font-semibold ">
                   Dashboard
                 </h3>
               </Link>
@@ -85,17 +85,23 @@ function SideNavbar() {
               </div>
             </div>
             {/* logout */}
-            <div className=" my-4">
+            <div className="my-4">
+              {session? (
+                <div className="flex flex-col text-sm p-2">
+                <p className="text-primary">Logged as: </p>
+                <p className="text-xs font-bold text-primary">{session?.user?.email}</p>
+              </div>
+              ) : ""}
               <div onClick={handleClick} className="flex mb-2 justify-start items-center gap-4 pl-5 border border-primary  hover:bg-primary p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                 <MdOutlineLogout className="text-2xl text-gray-600 group-hover:text-white " />
-                <h3  className="text-base text-gray-800 group-hover:text-white font-semibold ">
-                  {session? "Logout" : "Sign in"}
+                <h3 className="text-base text-gray-800 group-hover:text-white font-semibold ">
+                  {session ? "Logout" : "Sign in"}
                 </h3>
               </div>
-              <Link href="/" className="flex mb-2 justify-start items-center gap-4 pl-5 border border-primary  hover:bg-primary p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+              <Link href="/" className="flex mb-2 justify-start items-center gap-4 pl-5 border border-primary  hover:bg-primary p-1 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                 <IoReturnDownBack className="text-2xl text-gray-600 group-hover:text-white " />
-                <h3  className="text-base text-gray-800 group-hover:text-white font-semibold ">
-                   Back home
+                <h3 className="text-base text-gray-800 group-hover:text-white font-semibold ">
+                  Home
                 </h3>
               </Link>
             </div>

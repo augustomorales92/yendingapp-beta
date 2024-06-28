@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { FaUserAlt } from 'react-icons/fa';
 import { signIn } from 'next-auth/react';
+import toast from 'react-hot-toast';
+import BeatLoader from "react-spinners/BeatLoader";
 
 export default function RegisterForm() {
 
@@ -12,19 +14,22 @@ export default function RegisterForm() {
     const [password, setPassword] = useState("");
     // handle errors 
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email, password)
 
         if (!email || !password) {
-            setError('Miising fields');
+            setError('Mising fields');
             return;
         }
-        //  ANTES HAGO QUE VERIFIQUE EL EMIAL
+        let toastId;
         try {
+            setIsLoading(true);
+            toastId = toast.loading("We're registering the user... you'll be redirected soon...");
+
             const res = await fetch('/api/userExists', {
                 method: "POST",
                 headers: {
@@ -40,6 +45,8 @@ export default function RegisterForm() {
             const { user } = await res.json();
             if (user) {
                 setError('Usuario existente');
+                toast.dismiss(toastId);
+                setIsLoading(false)
                 return;
             }
 
@@ -62,18 +69,23 @@ export default function RegisterForm() {
             if (result.error) {
                 throw new Error('Error iniciando sesión.');
             }
-            console.log(result.status)
 
             const form = e.target;
-            router.push("/onboarding")
+            router.push('/onboarding')
             form.reset();
+            toast.dismiss(toastId);
+            setIsLoading(false);
 
         } catch (error) {
             console.error('Error:', error);
             setError('Ocurrió un error. Inténtalo de nuevo.');
+            setIsLoading(false);
+            if (toastId) {
+                toast.dismiss(toastId);
+            }
+
         }
     }
-
 
 
     return (
@@ -81,7 +93,7 @@ export default function RegisterForm() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-3 px-6">
             <input
                 onChange={(e) => setEmail(e.target.value)}
-                type="text"
+                type="email"
                 placeholder="Email"
             />
             <input
@@ -90,8 +102,14 @@ export default function RegisterForm() {
                 placeholder="Password"
             />
             <button className="btn-login">
-                <FaUserAlt className="h-6" />
-                <span>I'm ready</span>
+                {isLoading ? (
+                    <span><BeatLoader color="#f7eedd"/></span>
+                ) : (
+                    <>
+                        <FaUserAlt className="h-6" />
+                        <span>I'm Ready</span>
+                    </>
+                )}
             </button>
 
             {error && (
