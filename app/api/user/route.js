@@ -19,7 +19,7 @@ export async function PUT(request) {
   }
 
   try {
-    const { updatedFormData } = await request.json();
+    const { updatedFormData,previaId } = await request.json();
 
     // Conexión a la base de datos MongoDB
     await connectMongoDB();
@@ -49,6 +49,11 @@ export async function PUT(request) {
 
     // Actualizar el usuario en la base de datos
     await User.findByIdAndUpdate(user_data._id, updatedData, { new: true });
+
+    // If previaId is provided, update the previas_created array
+    if (previaId) {
+      await User.findByIdAndUpdate(user_data._id, { $push: { previas_created: previaId } }, { new: true });
+    }
 
     return NextResponse.json(
       { user_data },

@@ -24,7 +24,7 @@ export default function LoginPage() {
   }, [session, router]);
 
   if (status === 'loading') {
-    return <div>Loading...</div>; // Or any loading indicator you prefer
+    return <div className="text-secondary">Loading...</div>; // Or any loading indicator you prefer
   }
 
 
@@ -43,10 +43,10 @@ export default function LoginPage() {
           />
         </div>
         <div className="p-5 gap-3 ">
-          <h1 className=" text-4xl font-bold text-center mb-2">
+          <h1 className=" text-4xl text-primary font-bold text-center mb-2">
             Sign in
           </h1>
-          <p className="text-center mb-6 text-gray-500">
+          <p className="text-center mb-6 text-secondary">
             Sign in to your account using one of the methods below
           </p>
           <div className="flex flex-col gap-3 px-6">
@@ -61,7 +61,7 @@ export default function LoginPage() {
 
             {showLogin && <LoginForm />}
             <Link className="text-sm " href={"/auth/register"}>
-              Don't have an account? <span className="underline text-primary font-bold">Register</span>
+              Don't have an account? <span className="underline text-primary_b font-bold">Register</span>
             </Link>
           </div>
         </div>

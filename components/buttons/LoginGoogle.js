@@ -27,11 +27,11 @@ export default function LoginGoogle() {
   return (
     <button
       onClick={handleGoogleSignIn}
-      className="bg-secondary text-black shadow rounded-md text-center w-full py-4 flex gap-3 items-center justify-center hover:text-primary transition duration-300"
+      className="bg-secondary text-white shadow rounded-md text-center w-full py-4 flex gap-3 items-center justify-center hover:bg-secondary/60 transition duration-300"
       disabled={isLoading}>
 
       {isLoading ? (
-        <span><BeatLoader color="#008DDA" /></span>
+        <span><BeatLoader color="white" /></span>
       ) : (
         <>
           <FaGoogle className="h-6" />

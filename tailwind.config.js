@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT( {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,12 +10,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: 'rgb(0, 141, 218)', 
-        secondary: 'rgb(247, 238, 221)', 
-        primary_b:'rgb(65, 201, 226)',
-        secondary_b:'rgb(172, 226, 225)',
+        primary: 'rgb(0, 60, 67)', 
+        secondary: 'rgb(119, 176, 170)', 
+        primary_b:'rgb(19, 93, 102)',
+        secondary_b:'rgb(227, 254, 247)',
       },
     },
   },
   plugins: [],
-};
+});
+
+
+// Oscuro a violeta 
+
+// colors: {
+//   primary: 'rgb(7, 15, 43)', 
+//   secondary: 'rgb(27, 26, 85)', 
+//   primary_b:'rgb(83, 92, 145)',
+//   secondary_b:'rgb(146, 144, 195)',
+// },

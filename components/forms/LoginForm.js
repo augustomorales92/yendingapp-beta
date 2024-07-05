@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@material-tailwind/react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {  useState } from "react";
@@ -54,18 +55,18 @@ export default function LoginForm() {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col mt-3 gap-3">
-            <input
+            <Input
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
-                placeholder="Email"
+                label="Email" 
             />
-            <input
+            <Input
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
-                placeholder="Password"
+                label="Password"
             />
-            <button className="btn-secondary">
-                <span>{isLoading ? <BeatLoader color="#f7eedd" /> : 'Login'}</span>
+            <button className="btn-primary">
+                <span>{isLoading ? <BeatLoader color="white" /> : 'Login'}</span>
             </button>
 
             {error && (

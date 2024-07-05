@@ -8,7 +8,7 @@ const PreviaCommentsSchema = new Schema(
       from_user_id: {
         type: String,
       },
-      message: {
+      comment: {
         type: String,
     },
     },

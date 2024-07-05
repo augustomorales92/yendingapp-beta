@@ -7,13 +7,15 @@ import { FaUserAlt } from 'react-icons/fa';
 import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import BeatLoader from "react-spinners/BeatLoader";
+import { Input } from '@material-tailwind/react';
 
 export default function RegisterForm() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState("");
     // handle errors 
-    const [error, setError] = useState("");
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter();
@@ -21,10 +23,26 @@ export default function RegisterForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!email || !password) {
-            setError('Mising fields');
+        let isError = false;
+        if (!email) {
+            setEmailError(true);
+            isError = true;
+        } else {
+            setEmailError(false);
+        }
+
+        if (!password) {
+            setPasswordError(true);
+            isError = true;
+        } else {
+            setPasswordError(false);
+        }
+
+        if (isError) {
+            toast.error("Missing data")
             return;
         }
+
         let toastId;
         try {
             setIsLoading(true);
@@ -44,7 +62,7 @@ export default function RegisterForm() {
             //  VALIDAMOS USUARIO
             const { user } = await res.json();
             if (user) {
-                setError('Usuario existente');
+                toast.error('Usuario existente');
                 toast.dismiss(toastId);
                 setIsLoading(false)
                 return;
@@ -78,7 +96,7 @@ export default function RegisterForm() {
 
         } catch (error) {
             console.error('Error:', error);
-            setError('Ocurrió un error. Inténtalo de nuevo.');
+            toast.error('Ocurrió un error. Inténtalo de nuevo.');
             setIsLoading(false);
             if (toastId) {
                 toast.dismiss(toastId);
@@ -91,19 +109,25 @@ export default function RegisterForm() {
     return (
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3 px-6">
-            <input
+            <Input
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
-                placeholder="Email"
+                color='white'
+                label="Put your email"
+                error={emailError ? "This field is required" : null}
+                className={emailError ? "border-red-500 text-white" : ""}
             />
-            <input
+            <Input
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
-                placeholder="Password"
+                color='white'
+                label="Choose your password"
+                error={passwordError ? "This field is required" : null}
+                className={passwordError ? "border-red-500 text-white" : ""}
             />
-            <button className="btn-login">
+            <button className="btn-register">
                 {isLoading ? (
-                    <span><BeatLoader color="#f7eedd"/></span>
+                    <span><BeatLoader color="white"/></span>
                 ) : (
                     <>
                         <FaUserAlt className="h-6" />
@@ -111,15 +135,8 @@ export default function RegisterForm() {
                     </>
                 )}
             </button>
-
-            {error && (
-                <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
-                    {error}
-                </div>
-            )}
-
             <Link className="text-sm mt-3" href={"/auth/login"}>
-                Already have an account? <span className="underline text-primary font-bold">Login</span>
+                Already have an account? <span className="underline text-primary_b font-bold">Login</span>
             </Link>
         </form>
     )

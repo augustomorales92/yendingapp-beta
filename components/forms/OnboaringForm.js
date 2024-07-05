@@ -2,6 +2,7 @@
 import GenderSelect from '@/components/forms/GenderSelected';
 import InterestSelected from '@/components/forms/InterestSelected';
 import { upload } from '@/lib/upload';
+import { Checkbox, Input, Option, Select, Typography } from '@material-tailwind/react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -11,10 +12,10 @@ import { ClipLoader } from 'react-spinners';
 
 
 export default function OnboardingForm() {
+
     // eslint-disable-next-line no-unused-vars
     const { data: session, status } = useSession();
     const [isLoading, setIsLoading] = useState(false);
-    const [loadingData, setLoadingData] = useState(false)
 
     // seteo el estatus inicial del form y con cookies, llamo a la propuedad UserId guardada en el cookies despues de un login
     const [formData, setFormData] = useState({
@@ -36,6 +37,7 @@ export default function OnboardingForm() {
     const router = useRouter();
 
     const fetchData = async () => {
+        setIsLoading(true)
         const params = {
             email: session?.user?.email,
         };
@@ -52,16 +54,16 @@ export default function OnboardingForm() {
             }
             const data = await response.json();
             setFormData(data.user_data)
+            setIsLoading(false)
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
     };
 
     useEffect(() => {
-        setLoadingData(true)
-        fetchData();
-        setLoadingData(false)
+        fetchData()
     }, [session]);
+
 
     function calculateAge(day_dob, month_dob, year_dob) {
         const day = parseInt(day_dob);
@@ -85,22 +87,11 @@ export default function OnboardingForm() {
         const { name, value } = e.target;
 
         // Validaciones
-        if (name === "dob_day" && (value <= 1 || value >= 31)) {
-            toast("Please enter a valid day between 1 and 31.");
-            return;
-        }
-
-        if (name === "dob_month" && (value <= 1 || value >= 12)) {
-            toast("Please enter a valid month between 1 and 12.");
-            return;
-        }
-
         const currentYear = new Date().getFullYear();
         if (name === "dob_year" && (value > currentYear - 18)) {
             toast("You must be at least 18 years old.");
             return;
         }
-
 
         setFormData((prevState) => {
             const updatedFormData = {
@@ -120,7 +111,7 @@ export default function OnboardingForm() {
 
     const handleChange = (e) => {
         // desesctructuro el target para trabajarlo
-        const { name, type, value, checked, files } = e.target;
+        const { name, type, value, checked } = e.target;
 
         const fieldValue = type === 'checkbox' ? checked : value;
         setFormData((prevState) => ({
@@ -156,8 +147,10 @@ export default function OnboardingForm() {
             url_img: profileImg || formData.url_img, // Asegúrate de no sobreescribir img_url si profileImg es null
         };
 
+        let toastId
         try {
             setIsLoading(true)
+            toastId = toast.loading("We're saving the user... you'll be redirected soon...");
             const response = await fetch('/api/user', {
                 method: "PUT",
                 headers: {
@@ -169,80 +162,134 @@ export default function OnboardingForm() {
                 router.push('/dashboard');
             } else {
                 console.error('Failed to update user:', response.status);
+                setIsLoading(false)
             }
+            toast.dismiss(toastId);
             setIsLoading(false)
         } catch (err) {
             console.log(err)
+            setIsLoading(false);
+            if (toastId) {
+                toast.dismiss(toastId);
+            }
         }
 
     };
 
     if (status === "loading") {
-        return <div className='text-primary'>Loading...</div>;
+        return <div className='text-secondary'>Loading...</div>;
     }
 
     if (!session) {
-        return <div className='text-primary'>Please sign in to access the dashboard.</div>;
+        return <div className='text-secondary'>Please sign in to access the dashboard.</div>;
     }
 
-    if (loadingData) {
-        return <div className='flex justify-center items-center align-center'> <ClipLoader color='008DDA' size={50} /> </div>
+    if (isLoading) {
+        return <div className='flex justify-center items-center align-center'> <ClipLoader color='white' size={50} /> </div>
     }
 
 
     return (
         <>
-            <form className='grid grid-cols-3 gap-3' onSubmit={handleSubmit}>
+            <form className='grid grid-cols-3 gap-3 text-white' onSubmit={handleSubmit}>
                 <div className="col-span-3 lg:col-span-2">
-                    <label htmlFor="name">First Name</label>
-                    <input
+                    <Input
+                        label='First name'
                         id="name"
+                        color="white"
                         type='text'
                         name="name"
                         placeholder="First Name"
                         required={true}
                         value={formData.name || " "}
                         onChange={handleChange}
-                        className="w-full p-2 border rounded-md"
+                        className={`w-full ${formData.name ? 'text-white' : 'text-secondary'}`}
                     />
-                    <div>
-                        <div className='w-full'>Birthday</div>
-                        <input
-                            id="dob_day"
-                            type="number"
-                            name="dob_day"
-                            placeholder="DD"
-                            required={true}
-                            value={formData.dob_day || ""}
-                            onChange={handleDobChange}
-                            className="w-1/4 p-2 border rounded-md"
-                            min="1"
-                            max="31"
-                        />
-                        <input
-                            id="dob_month"
-                            type="number"
-                            name="dob_month"
-                            placeholder="MM"
-                            required={true}
-                            value={formData.dob_month || ""}
-                            onChange={handleDobChange}
-                            className="w-1/4 p-2 border rounded-md"
-                            min="1"
-                            max="12"
-                        />
-                        <input
-                            id="dob_year"
-                            type="number"
-                            name="dob_year"
-                            placeholder="YYYY"
-                            required={true}
-                            value={formData.dob_year || ""}
-                            onChange={handleDobChange}
-                            className="w-1/3 p-2 border rounded-md"
-                            min={new Date().getFullYear() - 100} // Optional: Adjust the range of years
-                            max={new Date().getFullYear() - 18} // Optional: Adjust the range of years
-                        />
+                    <div className='grid grid-cols-3 gap-2 my-3'>
+                        <div className='col-span-3 lg:col-span-1'>
+                            <Select
+                                label='Day'
+                                color="white"
+                                id="dob_day"
+                                name="dob_day"
+                                required={true}
+                                value={formData.dob_day}
+                                className={`${formData.dob_day ? 'text-white' : 'text-secondary'}`}
+                                onChange={(value) => handleChange({ target: { name: 'dob_day', value } })}>
+                                <Option value='1'>1</Option>
+                                <Option value='2'>2</Option>
+                                <Option value='3'>3</Option>
+                                <Option value="4">4</Option>
+                                <Option value="5">5</Option>
+                                <Option value="6">6</Option>
+                                <Option value="7">7</Option>
+                                <Option value="8">8</Option>
+                                <Option value="9">9</Option>
+                                <Option value="10">10</Option>
+                                <Option value="11">11</Option>
+                                <Option value="12">12</Option>
+                                <Option value='13'>13</Option>
+                                <Option value='14'>14</Option>
+                                <Option value='15'>15</Option>
+                                <Option value="16">16</Option>
+                                <Option value="17">17</Option>
+                                <Option value="18">18</Option>
+                                <Option value="19">19</Option>
+                                <Option value="20">20</Option>
+                                <Option value="21">21</Option>
+                                <Option value="22">22</Option>
+                                <Option value="23">23</Option>
+                                <Option value="24">24</Option>
+                                <Option value="25">25</Option>
+                                <Option value="26">26</Option>
+                                <Option value="27">27</Option>
+                                <Option value="28">28</Option>
+                                <Option value="29">29</Option>
+                                <Option value="30">30</Option>
+                                <Option value="31">31</Option>
+                            </Select>
+                        </div>
+                        <div className='col-span-3 lg:col-span-1'>
+                            <Select
+                                label='Month'
+                                color="white"
+                                id="dob_month"
+                                name="dob_month"
+                                required={true}
+                                value={formData.dob_month}
+                                className={`${formData.dob_month ? 'text-white' : 'text-secondary'}`}
+                                onChange={(value) => handleChange({ target: { name: 'dob_month', value } })}>
+                                <Option value='01'>January</Option>
+                                <Option value='02'>February</Option>
+                                <Option value='03'>March</Option>
+                                <Option value="04">April</Option>
+                                <Option value="05">May</Option>
+                                <Option value="06">June</Option>
+                                <Option value="07">July</Option>
+                                <Option value="08">August</Option>
+                                <Option value="09">September</Option>
+                                <Option value="10">October</Option>
+                                <Option value="11">November</Option>
+                                <Option value="12">December</Option>
+                            </Select>
+                        </div>
+                        <div className='col-span-3 lg:col-span-2'>
+                            <Input
+                                label='Year'
+                                color="white"
+                                id="dob_year"
+                                type="number"
+                                name="dob_year"
+                                placeholder="YYYY"
+                                required={true}
+                                value={formData.dob_year || ""}
+                                onChange={handleDobChange}
+                                min={new Date().getFullYear() - 100} // Optional: Adjust the range of years
+                                max={new Date().getFullYear() - 18} // Optional: Adjust the range of years
+                                className={`w-full ${formData.dob_year ? 'text-white' : 'text-secondary'}`}
+                            />
+                        </div>
+
                     </div>
 
                     <div className='w-full gap-3'>
@@ -253,35 +300,44 @@ export default function OnboardingForm() {
                         <label>Show Me</label>
                         <InterestSelected formData={formData} handleChange={handleChange} />
                     </div>
-                    <div className='flex items-center gap-3 border-b-2 border-t-2 border-primary_b m-2'>
-                        <label htmlFor="show_interest">Show Interest on my Profile</label>
-                        <input
+                    <div className='my-3'>
+                        <Checkbox label={
+                            <Typography color="blue-gray" className="flex font-medium text-white">
+                                Show my interest on my profile
+                            </Typography>
+                        }
                             id="show_interest"
+                            color="white"
                             type="checkbox"
                             name="show_interest"
                             onChange={handleChange}
                             checked={formData.show_interest}
                         />
                     </div>
-
-                    <label htmlFor="about">About me</label>
-                    <textarea
-                        id="about"
-                        type="text"
-                        name="about"
-                        required={true}
-                        placeholder="I like long walks..."
-                        value={formData.about || ""}
-                        onChange={handleChange}
-                        className="w-full p-2 border rounded-md"
-                    />
+                    <div className='my-3 gap-2'>
+                        <label>About me</label>
+                        <textarea
+                            label="About me"
+                            id="about"
+                            type="text"
+                            name="about"
+                            required={true}
+                            value={formData.about || ""}
+                            onChange={handleChange}
+                            className={`bg-transparent border border-white rounded-2 my-2 w-full ${formData.about ? 'text-white' : 'text-secondary'}`}
+                        />
+                    </div>
+                    <div >
+                        {formData.previas_created.length > 0 ? <div>Previas created: {formData.previas_created.length}</div> : <p>You haven't created any Previa yet</p>}
+                        {formData.previas.length > 0 ? <div>Previas you joined: {formData.previas.length}</div> : <p>You haven't joined any</p>}
+                    </div>
                 </div>
                 <div className="col-span-3 lg:col-span-1">
                     <div className="flex flex-wrap justify-center items-center gap-2">
                         <div>
                             {formData.url_img && <img src={formData.url_img} alt="profile pic preview" />}
                         </div>
-                        <label className="w-full text-secondary bg-primary_b p-2 border text-center flex flex-col items-center justify-center gap-1 cursor-pointer ">
+                        <label className="w-full btn-secondary flex flex-col items-center justify-center gap-1 ">
                             <FaUpload />
                             <div>
                                 Upload photo
@@ -296,6 +352,7 @@ export default function OnboardingForm() {
                         </label>
                     </div>
                 </div>
+
                 <button className='btn-secondary mt-4 col-span-3' type="submit">{isLoading ? "Saving data..." : "Save"} </button>
             </form>
 

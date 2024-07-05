@@ -8,6 +8,15 @@ const PreviaUserSchema = new Schema(
       user_id: {
         type: String,
       },
+      attendands: {
+        type: Number, 
+      },
+      photos: [{ type: String }],
+      status: {
+        type: String,
+        default: 'enviada',
+      }
+
     },
     { timestamps: true }
   );

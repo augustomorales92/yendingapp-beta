@@ -10,28 +10,28 @@ export default function Navbar() {
     const { data: session } = useSession();
 
     return (
-        <nav className='w-full bg-secondary fixed top-0 left-0 right-0 z-10'>
+        <nav className='w-full bg-transparent fixed top-0 left-0 right-0 z-10'>
             <div className='flex justify-between items-center align-center m-2 px-6 py-3'>
-                <Link href="/" className='text-primary text-3xl hover:text-primary_b' >
+                <Link href="/" className='text-secondary text-3xl hover:text-secondary_b' >
                     <FaGlassCheers />
                 </Link>
                 <ul className="">
-                    <li className="text-3xl text-primary text-center hover:text-secondary_b  ">
-                        {!session &&
+                    <li className="text-3xl text-secondary text-center hover:text-secondary_b  ">
+                        {/* {!session &&
                             <Link href="/auth/login" >
                                 <div className="flex items-center">
                                     <MdLogin className="block md:hidden" />
                                     <span className="hidden md:block">Login</span>
                                 </div>
                             </Link>
-                        }
-                        {session &&
+                        } */}
+                        {session? 
                             <Link href="/dashboard"  >
                                 <div className="flex items-center">
                                     <MdDashboard className="block md:hidden" />
                                     <span className="hidden md:block">Dashboard</span>
                                 </div>
-                            </Link>
+                            </Link> : ""
                         }
                     </li>
                 </ul>
