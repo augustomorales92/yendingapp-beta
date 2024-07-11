@@ -36,7 +36,7 @@ const userSchema = new Schema(
             type: [String],  
             default: []     
         },
-        previas: {
+        previas_requests: {
             type: [String],  
             default: []     
         },

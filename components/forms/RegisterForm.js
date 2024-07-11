@@ -48,7 +48,7 @@ export default function RegisterForm() {
             setIsLoading(true);
             toastId = toast.loading("We're registering the user... you'll be redirected soon...");
 
-            const res = await fetch('/api/userExists', {
+            const res = await fetch('/api/user/userExists', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

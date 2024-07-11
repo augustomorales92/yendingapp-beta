@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 function EditPreviaModal({ previa, onClose, onSave }) {
+    
     const [formData, setFormData] = useState({
         location: previa.location,
         date: previa.date,

@@ -13,7 +13,7 @@ export default function SeeMyPrevias() {
             <Card className="bg-primary_b hover:bg-primary_b/60 text-secondary_b">
                 <CardBody>
                     <Typography variant="h4" className="mb-2 text-secondary">
-                        MANAGE YOUR PREVIAS 
+                        MY PREVIAS 
                     </Typography>
                     <Typography>
                         Look at the previews you have created and change conditions if you want to.

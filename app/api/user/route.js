@@ -19,7 +19,7 @@ export async function PUT(request) {
   }
 
   try {
-    const { updatedFormData,previaId } = await request.json();
+    const { updatedFormData, previaId } = await request.json();
 
     // Conexión a la base de datos MongoDB
     await connectMongoDB();

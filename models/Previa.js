@@ -32,12 +32,17 @@ const PreviaSchema = new Schema(
       type: String,
     },
     show_location: {
-      type:Boolean, 
+      type: Boolean,
     },
-    join_requests: {
-      type: [String],
-      default: []
-    },
+    join_requests: [
+      {
+        user_id: { type: String, required: true },
+        attendands: { type: Number, required: true },
+        intentions: { type: String, required: true },
+        photos: [{ type: String, required: true }],
+        status: { type: String, default: 'sent' },
+      }
+    ],
     place_details: {
       type: String,
     },

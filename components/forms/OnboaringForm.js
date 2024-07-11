@@ -28,7 +28,7 @@ export default function OnboardingForm() {
         show_interest: false,
         gender_identity: "man",
         previas_interest: "woman",
-        previas: [],
+        previas_requests: [],
         previas_created: [],
         url_img: '',
     });
@@ -328,8 +328,8 @@ export default function OnboardingForm() {
                         />
                     </div>
                     <div >
-                        {formData.previas_created.length > 0 ? <div>Previas created: {formData.previas_created.length}</div> : <p>You haven't created any Previa yet</p>}
-                        {formData.previas.length > 0 ? <div>Previas you joined: {formData.previas.length}</div> : <p>You haven't joined any</p>}
+                        {formData.previas_created.length > 0 ? <div>Previas created: {formData.previas_created.length}</div> : <p>You haven't created any</p>}
+                        {formData.previas_requests.length > 0 ? <div>Previas you joined: {formData.previas_requests.length}</div> : <p>You haven't joined any</p>}
                     </div>
                 </div>
                 <div className="col-span-3 lg:col-span-1">

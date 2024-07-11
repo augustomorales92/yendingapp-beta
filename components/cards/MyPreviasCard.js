@@ -5,6 +5,7 @@ import {
     CardBody,
     CardFooter,
     Typography,
+    Button,
 } from "@material-tailwind/react";
 import { format, isBefore, isSameDay } from "date-fns";
 import { es } from 'date-fns/locale'
@@ -13,36 +14,23 @@ import EditPreviaModal from "../forms/EditPreviaModal";
 import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import Swal from 'sweetalert2';
+import { useRouter } from "next/navigation";
 
 
 export default function MyPreviasCard({ previa_id, location, date, startTime, participants, place_details, description, images_previa_url, join_requests, fetchData }) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
     // Handle date event
     const today = new Date();
     const inputDate = new Date(date);
 
-    // Logica pra la fecha y su estado 
-    // const getFormattedDate = () => {
-    //     if (isSameDay(today, inputDate)) {
-    //         return 'Today';
-    //     } else if (isBefore(inputDate, today)) {
-    //         return 'Due';
-    //     } else {
-    //         return format(inputDate, "EEEE d 'de' MMMM", { locale: es });
-    //     }
-
-    // }
-
-    // const formattedDate = getFormattedDate();
-    // const isDue = formattedDate === 'Due';
-
     const formattedDate = isSameDay(today, inputDate)
-    ? 'Today'
-    : isBefore(inputDate, today)
-    ? 'Due'
-    : format(inputDate, "EEEE d 'de' MMMM", { locale: es });
+        ? 'Today'
+        : isBefore(inputDate, today)
+            ? 'Due'
+            : format(inputDate, "EEEE d 'de' MMMM", { locale: es });
 
     const handleEditClick = () => {
         setIsModalOpen(true);
@@ -59,6 +47,7 @@ export default function MyPreviasCard({ previa_id, location, date, startTime, pa
         }
     };
 
+    // Logica para el envio y petición del backend para generar una nueva previa
     const handleSave = async (updatedData) => {
 
         let toastId
@@ -193,13 +182,9 @@ export default function MyPreviasCard({ previa_id, location, date, startTime, pa
                             onSave={handleSave}
                         />
                     </div>
-
                 </div>
-
             )}
         </>
-
-
 
     );
 }

@@ -16,7 +16,6 @@ export default function page() {
 
   const [sortCriteria, setSortCriteria] = useState('date'); // date or participants
 
-
   const fetchData = async () => {
     setLoadingData(true)
 

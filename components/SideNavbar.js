@@ -57,11 +57,11 @@ function SideNavbar() {
                 </h3>
               </Link>
               <Link href="/dashboard/previas" className={`flex mb-2 justify-start items-center gap-4 pl-5 p-2 rounded-md group cursor-pointer hover:bg-primary_b hover:shadow-lg m-auto ${
-                  pathname === '/dashboard/previas' ? 'bg-primary_b' : ''
+                  pathname.startsWith('/dashboard/previas') ? 'bg-primary_b' : ''
                 }`}>
-                <FaGlassCheers className={`text-2xl ${pathname === '/dashboard/previas' ? 'text-white' : 'text-secondary'} group-hover:text-white`} />
+                <FaGlassCheers className={`text-2xl ${pathname.startsWith('/dashboard/previas') ? 'text-white' : 'text-secondary'} group-hover:text-white`} />
                 <h3 className={`text-base font-semibold ${
-                    pathname === '/dashboard/previas' ? 'text-white' : 'text-secondary'
+                    pathname.startsWith('/dashboard/previas') ? 'text-white' : 'text-secondary'
                   } group-hover:text-white`}>
                   Previas
                 </h3>

@@ -1,5 +1,7 @@
 'use client'
 import CreateNew from '@/components/cards/CreateNew'
+import MyPreviasReq from '@/components/cards/MyPreviasReq';
+import PreviasJoinRequests from '@/components/cards/PreviasJoinRequests';
 import SeeMyPrevias from '@/components/cards/SeeMyPrevias';
 import { useSession } from 'next-auth/react';
 import React from 'react'
@@ -21,6 +23,8 @@ export default function page() {
       <div className='flex flex-wrap justify-center items-center gap-3'>
         <CreateNew/>
         <SeeMyPrevias/>
+        <MyPreviasReq/>
+        <PreviasJoinRequests/>
       </div>
 
     </div>
