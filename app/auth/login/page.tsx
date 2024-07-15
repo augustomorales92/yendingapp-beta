@@ -21,7 +21,7 @@ export default function LoginPage() {
     if (status === 'authenticated') {
       router.push('/dashboard');
     }
-  }, [session, router]);
+  }, [session, router, status]);
 
   if (status === 'loading') {
     return <div className="text-secondary">Loading...</div>; // Or any loading indicator you prefer
@@ -38,7 +38,7 @@ export default function LoginPage() {
             alt="Descriptive Alt Text"
             layout="fill"
             objectFit="cover"
-            priority="false"
+            priority={false}
             className="rounded-t-lg"
           />
         </div>
@@ -61,7 +61,7 @@ export default function LoginPage() {
 
             {showLogin && <LoginForm />}
             <Link className="text-sm " href={"/auth/register"}>
-              Don't have an account? <span className="underline text-primary_b font-bold">Register</span>
+              {`Don't have an account?`} <span className="underline text-primary_b font-bold">Register</span>
             </Link>
           </div>
         </div>

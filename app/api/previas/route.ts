@@ -23,9 +23,9 @@ export async function GET() {
   }
 
   // Ruta a la cual envio el array de los Ids de previas request de determinado user y me trae la info de la previa
-  export async function POST(request) {
+  export async function POST(req) {
     try {
-      const { previas_ids } = await request.json();
+      const { previas_ids } = await req.json();
   
       if (!Array.isArray(previas_ids) || previas_ids.length === 0) {
         return NextResponse.json(

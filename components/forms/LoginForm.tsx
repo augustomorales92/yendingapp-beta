@@ -58,13 +58,11 @@ export default function LoginForm() {
             <Input
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
-                label="Email" 
-            />
+                label="Email" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} crossOrigin={undefined}            />
             <Input
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
-                label="Password"
-            />
+                label="Password" onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} crossOrigin={undefined}            />
             <button className="btn-primary">
                 <span>{isLoading ? <BeatLoader color="white" /> : 'Login'}</span>
             </button>

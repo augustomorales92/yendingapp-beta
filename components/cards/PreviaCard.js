@@ -11,9 +11,10 @@ import {
 } from "@material-tailwind/react";
 import { format, isSameDay } from "date-fns";
 import { es } from 'date-fns/locale'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { FaShare } from "react-icons/fa";
 import RequestJoinModal from "../forms/RequestJoinModal";
+import Image from "next/image";
 
 
 export default function PreviaCard({ previa_id, location, creator, date, startTime, participants, place_details, description, images_previa_url }) {
@@ -29,7 +30,7 @@ export default function PreviaCard({ previa_id, location, creator, date, startTi
     const inputDate = new Date(date);
 
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         const params = { email: creator };
         const queryString = new URLSearchParams(params).toString();
         try {
@@ -47,11 +48,11 @@ export default function PreviaCard({ previa_id, location, creator, date, startTi
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
-    };
+    },[creator]);
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
     // Seteo el formato de fecha para que figure bien
     const formattedDate = isSameDay(today, inputDate)
@@ -85,12 +86,12 @@ export default function PreviaCard({ previa_id, location, creator, date, startTi
                     className="m-0 rounded-none"
                 >
                     <Carousel className="rounded-xl">
-                        <img
+                        <Image
                             src={images_previa_url[0]}
                             alt="image 1"
                             className="h-full w-full object-cover"
                         />
-                        <img
+                        <Image
                             src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
                             alt="image 2"
                             className="h-full w-full object-cover"

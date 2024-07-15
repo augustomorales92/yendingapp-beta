@@ -15,6 +15,7 @@ import { BeatLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import Swal from 'sweetalert2';
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 
 export default function MyPreviasCard({ previa_id, location, date, startTime, participants, place_details, description, images_previa_url, join_requests, fetchData }) {
@@ -135,7 +136,7 @@ export default function MyPreviasCard({ previa_id, location, date, startTime, pa
                     color="transparent"
                     className="m-0 rounded-none"
                 >
-                    <img
+                    <Image
                         src={images_previa_url[0]}
                         alt="image 1"
                         className="h-full w-full object-cover"

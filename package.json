@@ -2,6 +2,7 @@
   "name": "yending-app-beta",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,15 +10,18 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth/mongodb-adapter": "^3.2.0",
+    "@auth/mongodb-adapter": "^3.4.1",
     "@aws-sdk/client-s3": "^3.592.0",
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/ios": "^6.1.0",
     "@headlessui/react": "^2.1.0",
     "@heroicons/react": "^2.1.4",
     "@material-tailwind/react": "^2.1.9",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
     "date-fns": "^3.6.0",
-    "mongodb": "^6.7.0",
+    "mongodb": "^6.8.0",
     "mongoose": "^8.4.1",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
@@ -31,6 +35,8 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^6.1.0",
+    "@types/react": "18.3.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",

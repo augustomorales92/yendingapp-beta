@@ -6,10 +6,10 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { ClipLoader } from 'react-spinners';
 
-export default function page() {
+export default function Page() {
 
   const { data: session } = useSession();
-  const [myPrevias, setMyPrevias] = useState();
+  const [myPrevias, setMyPrevias] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
 
@@ -121,7 +121,7 @@ export default function page() {
       )}
       {myPrevias?.length === 0 && !isLoading && (
         <div className='text-md text-secondary md:text-xl'>
-          You haven't created any Previa yet
+          {`You haven't created any Previa yet`}
         </div>
       )}
       {/* <div className='flex justify-center'>
