@@ -1,11 +1,12 @@
 import {PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
-const { v4: uuidv4 } = require('uuid');
+import { NextRequest, NextResponse } from "next/server";
+import { v4 as uuidv4 } from 'uuid';
 
-export async function POST(req) {
+export async function POST(req:NextRequest) {
   const formData = await req.formData();
 
   if (formData.has('file')) {
-    const file = formData.get('file');
+    const file = formData.get('file') as File;
 
     const s3Client = new S3Client({
       region: 'eu-north-1',
@@ -21,10 +22,17 @@ export async function POST(req) {
     const newFilename = randomId + '.' + ext;
     const bucketName = process.env.BUCKET_NAME;
 
-    const chunks = [];
-    for await (const chunk of file.stream()) {
-      chunks.push(chunk);
-    }
+    const chunks: Uint8Array[] = [];
+      const stream = file.stream();
+      const reader = stream.getReader();
+      let done: boolean | undefined;
+      let value: Uint8Array | undefined;
+
+      while ({ done, value } = await reader.read(), !done) {
+        if (value) {
+          chunks.push(value);
+        }
+      }
 
     await s3Client.send(new PutObjectCommand({
       Bucket: bucketName,
@@ -36,7 +44,9 @@ export async function POST(req) {
 
     const link = `https://${bucketName}.s3.amazonaws.com/${newFilename}`;
 
-    return Response.json(link);
+    return NextResponse.json(link);
 
   }
+
+  return NextResponse.json({ message: 'File not found' }, { status: 400 });
 }

@@ -2,11 +2,11 @@ import { getServerSession } from 'next-auth'
 import { connectMongoDB } from '@/lib/connectMongoose'
 import User from '@/models/User'
 import { authOptions } from '@/lib/authOptions'
-import { NextResponse } from 'next/server'
-const { v4: uuidv4 } = require('uuid')
+import { NextRequest, NextResponse } from 'next/server'
+import { v4 as uuidv4 } from 'uuid';
 
-export async function PUT(req, res) {
-  const session = await getServerSession(req, res, authOptions)
+export async function PUT(req:NextRequest) {
+  const session = await getServerSession(authOptions)
   const emailWanted = session?.user.email
 
   if (!session) {
@@ -25,7 +25,7 @@ export async function PUT(req, res) {
     }
 
     // Crear updatedData dependiendo de si user_id ya existe o no
-    let updatedData
+    let updatedData : any 
 
     // Verificar si user_id ya existe en user_data
     if (user_data.user_id === null) {
@@ -65,7 +65,7 @@ export async function PUT(req, res) {
   }
 }
 
-export async function GET(req, res) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const email = searchParams.get('email')
 

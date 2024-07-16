@@ -222,9 +222,8 @@ export default function OnboardingForm() {
             required={true}
             value={formData.name || ' '}
             onChange={handleChange}
-            className={`w-full ${
-              formData.name ? 'text-white' : 'text-secondary'
-            }`}
+            className={`w-full ${formData.name ? 'text-white' : 'text-secondary'
+              }`}
             crossOrigin={undefined}
             onPointerEnterCapture={undefined}
             onPointerLeaveCapture={undefined}
@@ -237,9 +236,8 @@ export default function OnboardingForm() {
                 id="dob_day"
                 name="dob_day"
                 value={formData.dob_day}
-                className={`${
-                  formData.dob_day ? 'text-white' : 'text-secondary'
-                }`}
+                className={`${formData.dob_day ? 'text-white' : 'text-secondary'
+                  }`}
                 onChange={(value) =>
                   handleChange({ target: { name: 'dob_day', value } })
                 }
@@ -287,9 +285,8 @@ export default function OnboardingForm() {
                 id="dob_month"
                 name="dob_month"
                 value={formData.dob_month}
-                className={`${
-                  formData.dob_month ? 'text-white' : 'text-secondary'
-                }`}
+                className={`${formData.dob_month ? 'text-white' : 'text-secondary'
+                  }`}
                 onChange={(value) =>
                   handleChange({ target: { name: 'dob_month', value } })
                 }
@@ -324,9 +321,8 @@ export default function OnboardingForm() {
                 onChange={handleDobChange}
                 min={new Date().getFullYear() - 100} // Optional: Adjust the range of years
                 max={new Date().getFullYear() - 18} // Optional: Adjust the range of years
-                className={`w-full ${
-                  formData.dob_year ? 'text-white' : 'text-secondary'
-                }`}
+                className={`w-full ${formData.dob_year ? 'text-white' : 'text-secondary'
+                  }`}
                 crossOrigin={undefined}
                 onPointerEnterCapture={undefined}
                 onPointerLeaveCapture={undefined}
@@ -374,9 +370,8 @@ export default function OnboardingForm() {
               required={true}
               value={formData.about || ''}
               onChange={handleChange}
-              className={`bg-transparent border border-white rounded-2 my-2 w-full ${
-                formData.about ? 'text-white' : 'text-secondary'
-              }`}
+              className={`bg-transparent border border-white rounded-2 my-2 w-full ${formData.about ? 'text-white' : 'text-secondary'
+                }`}
             />
           </div>
           <div>
@@ -396,7 +391,12 @@ export default function OnboardingForm() {
           <div className="flex flex-wrap justify-center items-center gap-2">
             <div>
               {formData.url_img && (
-                <Image src={formData.url_img} alt="profile pic preview" />
+                <Image
+                  width={500}
+                  height={500}
+                  sizes="100vw"
+                  src={formData.url_img}
+                  alt="profile pic preview" />
               )}
             </div>
             <label className="w-full btn-secondary flex flex-col items-center justify-center gap-1 ">

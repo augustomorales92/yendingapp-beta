@@ -1,12 +1,12 @@
 import { connectMongoDB } from '@/lib/connectMongoose'
 import Previa from '@/models/Previa'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { authOptions } from '@/lib/authOptions'
 import { getServerSession } from 'next-auth'
 const { v4: uuidv4 } = require('uuid')
 
-export async function POST(req, res) {
-  const session = await getServerSession(req, res, authOptions)
+export async function POST(req: NextRequest, res:NextResponse) {
+  const session = await getServerSession(authOptions)
   const creator_email = session?.user.email
 
   if (!session) {
@@ -36,7 +36,7 @@ export async function POST(req, res) {
   }
 }
 
-export async function GET(req, res) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const previa_id = searchParams.get('previa_id')
 
@@ -62,8 +62,8 @@ export async function GET(req, res) {
   }
 }
 
-export async function PUT(req, res) {
-  const session = await getServerSession(req, res, authOptions)
+export async function PUT(req: NextRequest, res:NextResponse) {
+  const session = await getServerSession(authOptions)
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
@@ -94,8 +94,8 @@ export async function PUT(req, res) {
   }
 }
 
-export async function DELETE(req, res) {
-  const session = await getServerSession(req, res, authOptions)
+export async function DELETE(req: NextRequest, res:NextResponse) {
+  const session = await getServerSession(authOptions)
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })

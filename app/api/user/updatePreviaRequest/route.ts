@@ -1,12 +1,12 @@
 import { connectMongoDB } from '@/lib/connectMongoose'
 import User from '@/models/User'
 import { getServerSession } from 'next-auth'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { authOptions } from '@/lib/authOptions'
 
 // actualizacion de el model User , añadiendo las previas que ha solicitado unirse .. modificamos el array previa_requests
-export async function PUT(req, res) {
-  const session = await getServerSession(req, res, authOptions)
+export async function PUT(req:NextRequest, res:NextResponse) {
+  const session = await getServerSession(authOptions)
   const emailWanted = session?.user.email
 
   if (!session) {

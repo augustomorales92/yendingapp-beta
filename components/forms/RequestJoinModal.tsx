@@ -165,12 +165,18 @@ export default function RequestJoinModal({ previa, onClose, setIsModalOpen }) {
             <div className="text-secondary">
               {photos ? (
                 <Image
+                  width={300}
+                  height={300}
                   className="max-w-full max-h-80 object-contain"
                   src={photos}
                   alt="profile pic preview"
                 />
               ) : (
-                <Image src="" alt="pic preview" />
+                <Image
+                  width={300}
+                  height={300}
+                  src=""
+                  alt="pic preview" />
               )}
             </div>
             <label className="w-full btn-secondary flex flex-col items-center justify-center gap-1 ">

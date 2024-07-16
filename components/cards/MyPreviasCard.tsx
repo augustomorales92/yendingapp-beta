@@ -42,16 +42,16 @@ export default function MyPreviasCard({ previa_id, location, date, startTime, pa
     };
 
     // Si el clic es en el fondo (no en el contenido del modal), cerrar el modal
-    const handleBackdropClick = (event) => {
+    const handleBackdropClick = (event: { target: any; currentTarget: any; }) => {
         if (event.target === event.currentTarget) {
             handleModalClose();
         }
     };
 
     // Logica para el envio y petición del backend para generar una nueva previa
-    const handleSave = async (updatedData) => {
+    const handleSave = async (updatedData: any) => {
 
-        let toastId
+        let toastId: string
         try {
             setIsLoading(true);
             toastId = toast.loading("Changing data...");
@@ -129,45 +129,89 @@ export default function MyPreviasCard({ previa_id, location, date, startTime, pa
 
     return (
         <>
-            <Card className="bg-secondary max-w-[24rem]  h-[30rem] flex flex-col justify-between overflow-hidden mt-3 ">
+            <Card
+                className="bg-secondary max-w-[24rem]  h-[30rem] flex flex-col justify-between overflow-hidden mt-3 "
+                placeholder={undefined}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}>
                 <CardHeader
                     floated={false}
                     shadow={false}
                     color="transparent"
                     className="m-0 rounded-none"
-                >
+                    placeholder={undefined}
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}                >
                     <Image
+                        width={100}
+                        height={100}
                         src={images_previa_url[0]}
                         alt="image 1"
                         className="h-full w-full object-cover"
                     />
                 </CardHeader>
-                <CardBody>
+                <CardBody placeholder={undefined}
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}   >
                     <div className="flex flex-wrap items-center gap-2 ">
-                        <Typography variant="h6" className="text-secondary_b">
+                        <Typography
+                            placeholder={undefined}
+                            onPointerEnterCapture={undefined}
+                            onPointerLeaveCapture={undefined}
+                            variant="h6"
+                            className="text-secondary_b">
                             {location} - {place_details}
                         </Typography>
                     </div>
                     <div className="flex flex-wrap gap-2 ">
-                        <Typography variant="h6" className={`mt-3 ${formattedDate === 'Due' ? 'text-red-500' : 'text-primary_b'}`}>
+                        <Typography
+                            variant="h6"
+                            placeholder={undefined}
+                            onPointerEnterCapture={undefined}
+                            onPointerLeaveCapture={undefined}
+                            className={`mt-3 ${formattedDate === 'Due' ? 'text-red-500' : 'text-primary_b'}`}>
                             {formattedDate}
                         </Typography>
-                        <Typography variant="h6" className="mt-3 text-primary_b">
+                        <Typography
+                            placeholder={undefined}
+                            onPointerEnterCapture={undefined}
+                            onPointerLeaveCapture={undefined}
+                            variant="h6"
+                            className="mt-3 text-primary_b">
                             At: {startTime}
                         </Typography>
                     </div>
-                    <Typography variant="lead" className="mt-3 font-normal text-primary_b">
+                    <Typography
+                        placeholder={undefined}
+                        onPointerEnterCapture={undefined}
+                        onPointerLeaveCapture={undefined}
+                        variant="lead"
+                        className="mt-3 font-normal text-primary_b">
                         {description}
                     </Typography>
-                    <Typography variant="h6" className="mt-3 text-primary_b">
+                    <Typography
+                        placeholder={undefined}
+                        onPointerEnterCapture={undefined}
+                        onPointerLeaveCapture={undefined}
+                        variant="h6"
+                        className="mt-3 text-primary_b">
                         Participants: {participants}
                     </Typography>
-                    <Typography variant="h6" className="mt-3 text-primary_b">
+                    <Typography
+                        placeholder={undefined}
+                        onPointerEnterCapture={undefined}
+                        onPointerLeaveCapture={undefined}
+                        variant="h6"
+                        className="mt-3 text-primary_b">
                         Requests: {join_requests?.length}
                     </Typography>
 
                 </CardBody>
-                <CardFooter className="flex items-center justify-between">
+                <CardFooter
+                    placeholder={undefined}
+                    onPointerEnterCapture={undefined}
+                    onPointerLeaveCapture={undefined}
+                    className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <button className="btn-primary" onClick={handleEditClick}>{isLoading ? <BeatLoader color="white" /> : 'Edit'}</button>
                         <button className="btn-primary" onClick={handleDelete}>Delete</button>

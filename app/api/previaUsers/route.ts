@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { connectMongoDB } from '@/lib/connectMongoose'
 import PreviaUser from '@/models/PreviaUser'
 import { getServerSession } from 'next-auth'
@@ -6,9 +6,9 @@ import { authOptions } from '@/lib/authOptions'
 import User from '@/models/User'
 
 // Ruta para crear un nuevo Usuario de la previa-
-export async function POST(req, res) {
+export async function POST(req: NextRequest, res:NextResponse) {
   // necesito el dato del usuario que esta solicitando para enviarlo a la db como user_id del solicitante
-  const session = await getServerSession(req, res, authOptions)
+  const session = await getServerSession(authOptions)
   const emailWanted = session?.user.email
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
@@ -57,8 +57,8 @@ export async function POST(req, res) {
 }
 
 //  Trae las solicitudes de union que hizo el usuario que esta logeado
-export async function GET(req, res) {
-  const session = await getServerSession(req, res, authOptions)
+export async function GET(req: NextRequest, res:NextResponse) {
+  const session = await getServerSession(authOptions)
   const emailWanted = session?.user.email
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
@@ -79,8 +79,8 @@ export async function GET(req, res) {
 }
 
 //  modifico el status de PreviaUsers cuando el dueño de la previa cambia el mismo
-export async function PUT(req, res) {
-  const session = await getServerSession(req, res, authOptions)
+export async function PUT(req: NextRequest, res:NextResponse) {
+  const session = await getServerSession( authOptions)
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })

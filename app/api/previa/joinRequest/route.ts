@@ -2,11 +2,11 @@ import { connectMongoDB } from '@/lib/connectMongoose'
 import { authOptions } from '@/lib/authOptions'
 import { getServerSession } from 'next-auth'
 import Previa from '@/models/Previa'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 // Actualizacion de la propiedad join_request de Previa, cuando se hace una solicitud de union
-export async function PUT(req, res) {
-  const session = await getServerSession(req, res, authOptions)
+export async function PUT(req: NextRequest, res:NextResponse) {
+  const session = await getServerSession(authOptions)
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })

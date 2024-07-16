@@ -246,9 +246,8 @@ export default function NewPreviaForm() {
                 name="startTime"
                 value={formData.startTime}
                 onChange={handleChange}
-                className={`${
-                  formData.startTime ? 'text-white' : 'text-white'
-                }`}
+                className={`${formData.startTime ? 'text-white' : 'text-white'
+                  }`}
                 crossOrigin={undefined}
                 onPointerEnterCapture={undefined}
                 onPointerLeaveCapture={undefined}
@@ -268,9 +267,8 @@ export default function NewPreviaForm() {
                 name="participants"
                 value={formData.participants}
                 onChange={handleChange}
-                className={`${
-                  formData.participants ? 'text-white' : 'text-white'
-                }`}
+                className={`${formData.participants ? 'text-white' : 'text-white'
+                  }`}
                 crossOrigin={undefined}
                 onPointerEnterCapture={undefined}
                 onPointerLeaveCapture={undefined}
@@ -286,9 +284,8 @@ export default function NewPreviaForm() {
                 id="place_details"
                 name="place_details"
                 value={formData.place_details}
-                className={`${
-                  formData.place_details ? 'text-white' : 'text-white'
-                }`}
+                className={`${formData.place_details ? 'text-white' : 'text-white'
+                  }`}
                 onChange={(value) =>
                   handleChange({ target: { name: 'place_details', value } })
                 }
@@ -326,9 +323,8 @@ export default function NewPreviaForm() {
               name="description"
               value={formData.description || ''}
               onChange={handleChange}
-              className={`bg-transparent border border-white rounded-2 my-2 w-full ${
-                formData.about ? 'text-white' : 'text-white'
-              }`}
+              className={`bg-transparent border border-white rounded-2 my-2 w-full ${formData.about ? 'text-white' : 'text-white'
+                }`}
             />
             {validations.description && (
               <p className="text-red-500">{validations.description}</p>
@@ -340,6 +336,8 @@ export default function NewPreviaForm() {
             <div className="text-secondary">
               {formData.images_previa_url && (
                 <Image
+                  width={500}
+                  height={500}
                   src={formData.images_previa_url}
                   alt="previa pic preview"
                 />

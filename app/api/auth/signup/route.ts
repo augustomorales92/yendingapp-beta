@@ -1,11 +1,11 @@
 import { connectMongoDB } from "@/lib/connectMongoose";
 import User from "@/models/User";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 const { v4: uuidv4 } = require('uuid');
 
 
-export async function POST(req) {
+export async function POST(req: NextRequest) {
     try {
         const { email, password } = await req.json();
         const generated_user_id = uuidv4()

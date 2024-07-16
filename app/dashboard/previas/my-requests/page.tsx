@@ -86,7 +86,7 @@ export default function Page() {
                   <div>
                     <h4>Images:</h4>
                     {previa.images_previa_url.map((url, i) => (
-                      <Image key={i} src={url} alt={`Previa ${index} Image ${i}`} width={100} />
+                      <Image key={i} src={url} alt={`Previa ${index} Image ${i}`} width={100} height={100} />
                     ))}
                   </div>
                   <div>
@@ -102,7 +102,7 @@ export default function Page() {
                           <div>
                             <h5>Photos:</h5>
                             {request.photos.map((photo, j) => (
-                              <Image key={j} src={photo} alt={`Request ${i} Photo ${j}`} width={50} />
+                              <Image key={j} src={photo} alt={`Request ${i} Photo ${j}`} width={50} height={100} />
                             ))}
                           </div>
                         </div>

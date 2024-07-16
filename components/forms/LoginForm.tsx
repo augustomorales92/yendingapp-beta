@@ -20,7 +20,7 @@ export default function LoginForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let toastId;
+        let toastId: string;
         try {
             setIsLoading(true);
             toastId = toast.loading("We're working on in... you'll be redirected soon...");

@@ -1,6 +1,6 @@
 import { connectMongoDB } from "@/lib/connectMongoose";
 import Previa from "@/models/Previa";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // Trae todas las previas que estan registradas
 export async function GET() {
@@ -23,7 +23,7 @@ export async function GET() {
   }
 
   // Ruta a la cual envio el array de los Ids de previas request de determinado user y me trae la info de la previa
-  export async function POST(req) {
+  export async function POST(req: NextRequest) {
     try {
       const { previas_ids } = await req.json();
   
