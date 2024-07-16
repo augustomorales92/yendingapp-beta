@@ -46,7 +46,6 @@ const links = [
 
 export default function NavLinks({ session }) {
   const pathname = usePathname()
-  console.log('pathname:', pathname)
 
   const pathValue = () => {
     if (session) {

@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         //  CONEXION A LA BASE DE DATOS MONGO y guardo los mensajes que se mandan 
-        await prisma.user.create({ email, password:hashedPassword, user_id:generated_user_id});
+        await prisma.users.create({ email, password:hashedPassword, user_id:generated_user_id});
 
         return NextResponse.json(
             { message: "Usuario registrado" },

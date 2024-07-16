@@ -1,19 +1,7 @@
 import React from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Disclosure, DisclosureButton } from "@headlessui/react";
-import {
-  MdOutlineSpaceDashboard,
-  MdOutlineMoreHoriz,
-  MdOutlineSettings,
-  MdOutlineLogout,
-} from "react-icons/md";
-import { IoReturnDownBack } from "react-icons/io5";
-import { CgProfile } from "react-icons/cg";
-import { FaGlassCheers } from "react-icons/fa";
-import { BiMessageSquareDots } from "react-icons/bi";
-import Link from "next/link";
-import { usePathname } from 'next/navigation';
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
 import NavLinks from "./nav-links";
 
 async function SideNavbar() {

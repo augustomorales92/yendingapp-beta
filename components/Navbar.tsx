@@ -1,5 +1,4 @@
-'use client'
-import { useSession } from 'next-auth/react';
+import { auth } from '@/auth';
 import Link from 'next/link';
 import React from 'react'
 import { FaGlassCheers } from 'react-icons/fa';
@@ -7,7 +6,7 @@ import { MdDashboard, MdLogin } from "react-icons/md";
 
 export default function Navbar() {
 
-    const { data: session } = useSession();
+    const session = auth()
 
     return (
         <nav className='w-full bg-transparent fixed top-0 left-0 right-0 z-10'>
