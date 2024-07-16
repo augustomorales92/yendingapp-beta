@@ -20,8 +20,7 @@ type Validations = {
 }
 
 export default function NewPreviaForm() {
-  // eslint-disable-next-line no-unused-vars
-  const { data: session, status } = useSession()
+  const session = auth()
   const router = useRouter()
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)

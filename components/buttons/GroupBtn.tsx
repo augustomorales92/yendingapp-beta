@@ -1,15 +1,26 @@
 "use client"
 import {  ButtonGroup, Select, Option, Button } from '@material-tailwind/react';
-import React from 'react';
+import React, {useState} from 'react';
 import { FaSortNumericDownAlt } from "react-icons/fa";
 import { MdGroupAdd } from 'react-icons/md';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 
 
-export default function GroupBtn({ setSortCriteria }) {
+export default function GroupBtn() {
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const { replace } = useRouter();
 
-    const handleSelectChange = (value:String) => {
-        setSortCriteria(value);
-    };
+    const handleSearch = (criteria: string) => {
+        const params = new URLSearchParams(searchParams);
+        if (criteria) {
+          params.set('criteria', criteria);
+        } else {
+          params.delete('criteria');
+        }
+    
+        replace(`${pathname}?${params.toString()}`);
+      };
 
     return (
         <div className="flex justify-end space-x-4 mb-4">
@@ -17,9 +28,9 @@ export default function GroupBtn({ setSortCriteria }) {
                 <ButtonGroup className='justify-start' placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
                     <Button
                     placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}
-                     onClick={() => setSortCriteria('date')} className='flex text-xl text-secondary_b hover:bg-secondary/80  focus:bg-secondary/80 '><FaSortNumericDownAlt /> Sort by date</Button>
+                     onClick={() => handleSearch('date')} className='flex text-xl text-secondary_b hover:bg-secondary/80  focus:bg-secondary/80 '><FaSortNumericDownAlt /> Sort by date</Button>
                     <Button placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}
-                     onClick={() => setSortCriteria('participants')} className='flex text-xl text-secondary_b hover:bg-secondary/80   focus:bg-secondary/80 '><MdGroupAdd /> Sort by participants</Button>
+                     onClick={() => handleSearch('participants')} className='flex text-xl text-secondary_b hover:bg-secondary/80   focus:bg-secondary/80 '><MdGroupAdd /> Sort by participants</Button>
                 </ButtonGroup>
             </div>
             <div className="md:hidden w-full">
@@ -27,7 +38,7 @@ export default function GroupBtn({ setSortCriteria }) {
                     onPointerEnterCapture={undefined}
                     onPointerLeaveCapture={undefined}
                     label="Sort By"
-                    onChange={(value) => handleSelectChange(value)}>
+                    onChange={(value) => handleSearch(value)}>
                     <Option value="date">Date</Option>
                     <Option value="participants">Participants</Option>
                 </Select>

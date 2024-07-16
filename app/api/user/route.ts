@@ -1,12 +1,10 @@
-import { getServerSession } from 'next-auth'
-import { connectMongoDB } from '@/lib/connectMongoose'
-import User from '@/models/User'
-import { authOptions } from '@/lib/authOptions'
+import { auth } from '@/auth'
+import { prisma } from '@/auth.config'
 import { NextRequest, NextResponse } from 'next/server'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 
-export async function PUT(req:NextRequest) {
-  const session = await getServerSession(authOptions)
+export async function PUT(req: NextRequest) {
+  const session = await auth()
   const emailWanted = session?.user.email
 
   if (!session) {
@@ -17,15 +15,16 @@ export async function PUT(req:NextRequest) {
     const { updatedFormData, previaId } = await req.json()
 
     // Conexión a la base de datos MongoDB
-    await connectMongoDB()
-    const user_data = await User.findOne({ email: emailWanted })
+    const user_data = await prisma.user.findUnique({
+      where: { email: emailWanted }
+    })
 
     if (!user_data) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
 
     // Crear updatedData dependiendo de si user_id ya existe o no
-    let updatedData : any 
+    let updatedData: any
 
     // Verificar si user_id ya existe en user_data
     if (user_data.user_id === null) {
@@ -40,11 +39,13 @@ export async function PUT(req:NextRequest) {
     }
 
     // Actualizar el usuario en la base de datos
-    await User.findByIdAndUpdate(user_data._id, updatedData, { new: true })
+    await prisma.user.findByIdAndUpdate(user_data._id, updatedData, {
+      new: true
+    })
 
     // If previaId is provided, update the previas_created array
     if (previaId) {
-      await User.findByIdAndUpdate(
+      await prisma.user.findByIdAndUpdate(
         user_data._id,
         { $push: { previas_created: previaId } },
         { new: true }
@@ -74,8 +75,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    await connectMongoDB()
-    const user_data = await User.findOne({ email })
+    const user_data = await prisma.users.findUnique({ where: { email } })
 
     if (!user_data) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 })

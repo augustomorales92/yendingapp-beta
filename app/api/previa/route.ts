@@ -1,12 +1,10 @@
-import { connectMongoDB } from '@/lib/connectMongoose'
-import Previa from '@/models/Previa'
 import { NextRequest, NextResponse } from 'next/server'
-import { authOptions } from '@/lib/authOptions'
-import { getServerSession } from 'next-auth'
+import { auth } from '@/auth'
+import { prisma } from '@/auth.config'
 const { v4: uuidv4 } = require('uuid')
 
 export async function POST(req: NextRequest, res:NextResponse) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   const creator_email = session?.user.email
 
   if (!session) {
@@ -14,7 +12,6 @@ export async function POST(req: NextRequest, res:NextResponse) {
   }
 
   try {
-    await connectMongoDB()
     const { formData } = await req.json()
     const generated_previa_id = uuidv4()
     const generated_pass_code = uuidv4()
@@ -28,7 +25,7 @@ export async function POST(req: NextRequest, res:NextResponse) {
       pass_code: generated_pass_code
     }
 
-    const newPrevia = await Previa.create(updatedData)
+    const newPrevia = await prisma.previa.create(updatedData)
     console.log('previa:', newPrevia)
     return NextResponse.json({ newPrevia })
   } catch (error) {
@@ -45,8 +42,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    await connectMongoDB()
-    const previa_data = await Previa.findOne({ previa_id })
+    const previa_data = await prisma.previa.findOne({ previa_id })
 
     if (!previa_data) {
       return NextResponse.json({ message: 'Previa not found' }, { status: 404 })
@@ -63,18 +59,17 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest, res:NextResponse) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    await connectMongoDB()
     const { formData } = await req.json()
     const previaId = formData.previa_id
     // Actualizamos los datos de la DB con previa_id
-    const previa_data = await Previa.findOneAndUpdate(
+    const previa_data = await prisma.previa.findOneAndUpdate(
       { previa_id: previaId },
       formData,
       { new: true }
@@ -95,18 +90,17 @@ export async function PUT(req: NextRequest, res:NextResponse) {
 }
 
 export async function DELETE(req: NextRequest, res:NextResponse) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    await connectMongoDB()
     const { previa_id } = await req.json()
 
     // Eliminar la previa en la base de datos usando previa_id
-    const previa_data = await Previa.findOneAndDelete({ previa_id })
+    const previa_data = await prisma.previa.findOneAndDelete({ previa_id })
 
     if (!previa_data) {
       return NextResponse.json({ message: 'Previa not found' }, { status: 404 })

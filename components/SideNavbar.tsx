@@ -14,22 +14,21 @@ import { FaGlassCheers } from "react-icons/fa";
 import { BiMessageSquareDots } from "react-icons/bi";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { usePathname } from 'next/navigation';
 
 function SideNavbar() {
 
-  const { data: session } = useSession();
-  const router = useRouter();
+  const { data: session, status } = useSession();
   const pathname = usePathname();
 
-  const handleClick = () => {
+  const pathValue = () => {
     if (session) {
       signOut()
-      router.push('/')
+      return '/'
     }
-    router.push("/auth/login")
+    return '/auth/login'
   }
+
 
   return (
     <div>
@@ -106,12 +105,12 @@ function SideNavbar() {
                 <p className="text-xs font-bold ">{session?.user?.email}</p>
               </div>
               ) : ""}
-              <div onClick={handleClick} className="flex mb-2 justify-start items-center gap-4 pl-5 border border-primary_b  hover:bg-primary_b p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+              <Link href={pathValue()} className="flex mb-2 justify-start items-center gap-4 pl-5 border border-primary_b  hover:bg-primary_b p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto" >
                 <MdOutlineLogout className="text-2xl  group-hover:text-white " />
                 <h3 className="text-base  group-hover:text-white font-semibold ">
-                  {session ? "Logout" : "Sign in"}
+                  {status === 'loading' ? '..Loading' : session ? "Logout" : "Sign in"}
                 </h3>
-              </div>
+              </Link>
               <Link href="/" className="flex mb-2 justify-start items-center gap-4 pl-5 border border-primary_b hover:bg-primary_b p-1 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                 <IoReturnDownBack className="text-2xl  group-hover:text-white " />
                 <h3 className="text-base  group-hover:text-white font-semibold ">

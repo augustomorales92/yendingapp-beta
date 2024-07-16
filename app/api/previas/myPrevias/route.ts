@@ -1,20 +1,17 @@
-import { connectMongoDB } from '@/lib/connectMongoose'
-import Previa from '@/models/Previa'
-import { getServerSession } from 'next-auth'
+import { auth } from '@/auth'
+import { prisma } from '@/auth.config'
 import {  NextResponse } from 'next/server'
-import { authOptions } from '@/lib/authOptions'
 
 
 export async function GET() {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   const emailWanted = session?.user.email
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    await connectMongoDB()
-    const previas = await Previa.find({ creator: emailWanted })
+    const previas = await prisma.previa.find({ creator: emailWanted })
 
     return NextResponse.json({ previas }, { status: 200 })
   } catch (error) {

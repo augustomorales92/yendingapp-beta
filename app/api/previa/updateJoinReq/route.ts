@@ -1,22 +1,19 @@
-import { connectMongoDB } from '@/lib/connectMongoose'
-import { authOptions } from '@/lib/authOptions'
-import { getServerSession } from 'next-auth'
-import Previa from '@/models/Previa'
+import { auth } from '@/auth'
+import { prisma } from '@/auth.config'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Actualizacion de la propiedad join_request de Previa, cuando se hace una solicitud de union
 export async function PUT(req: NextRequest, res:NextResponse) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    await connectMongoDB()
     const { previaId, userId, status } = await req.json()
 
-    const previa_data = await Previa.findOne({ previa_id: previaId })
+    const previa_data = await prisma.previa.findOne({ previa_id: previaId })
 
     if (!previa_data) {
       return NextResponse.json({ message: 'Previa not found' }, { status: 404 })

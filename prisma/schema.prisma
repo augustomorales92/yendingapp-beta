@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+type PreviasJoinRequests {
+  id         String   @map("_id") @db.ObjectId
+  attendands Int
+  intentions String
+  photos     String[]
+  status     String
+  user_id    String
+}
+
+model accounts {
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  access_token      String
+  expires_at        Int
+  id_token          String
+  provider          String
+  providerAccountId String
+  scope             String
+  token_type        String
+  type              String
+  userId            String @db.ObjectId
+}
+
+model previas {
+  id                String                @id @default(auto()) @map("_id") @db.ObjectId
+  v                 Int                   @map("__v")
+  createdAt         DateTime              @db.Date
+  creator           String
+  date              DateTime              @db.Date
+  description       String
+  images_previa_url String[]
+  join_requests     PreviasJoinRequests[]
+  location          String
+  participants      Int
+  pass_code         String                @unique(map: "pass_code_1")
+  place_details     String
+  previa_id         String                @unique(map: "previa_id_1")
+  show_location     Boolean
+  startTime         String
+  updatedAt         DateTime              @db.Date
+}
+
+model previausers {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  v          Int      @map("__v")
+  attendands Int
+  createdAt  DateTime @db.Date
+  intentions String
+  photos     String[]
+  previa_id  String
+  status     String
+  updatedAt  DateTime @db.Date
+  user_id    String
+}
+
+model users {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  v                Int?      @map("__v")
+  about            String?
+  age              Int?
+  createdAt        DateTime? @db.Date
+  dob_day          String?
+  dob_month        String?
+  dob_year         String?
+  email            String    @unique(map: "email_1")
+  emailVerified    Boolean?
+  gender_identity  String?
+  image            String?
+  name             String?
+  password         String?
+  previas_created  String[]
+  previas_interest String?
+  previas_requests String[]
+  show_interest    Boolean?
+  updatedAt        DateTime  @db.Date
+  url_img          String?
+  user_id          String    @unique(map: "user_id_1")
+}

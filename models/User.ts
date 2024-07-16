@@ -1,6 +1,40 @@
-import mongoose, { Schema, models } from "mongoose";
+import mongoose, { Schema, models, Model } from "mongoose";
 
-const userSchema = new Schema(
+export interface IUser extends Document {
+    user_id: string;
+    name?: string;
+    email: string;
+    password: string;
+    gender_identity?: GenderIdentity;
+    previas_interest?: PreviasInterest;
+    show_interest?: boolean;
+    url_img?: string;
+    previas_created?: string[];
+    previas_requests?: string[];
+    age?: number;
+    dob_day?: string;
+    dob_month?: string;
+    dob_year?: string;
+    about?: string;
+}
+
+// Define the possible values for gender_identity and previas_interest
+enum GenderIdentity {
+    Male = "Male",
+    Female = "Female",
+    NonBinary = "Non-binary",
+    Other = "Other"
+}
+
+enum PreviasInterest {
+    Sports = "Sports",
+    Music = "Music",
+    Reading = "Reading",
+    Travel = "Travel",
+    Other = "Other"
+}
+
+const userSchema: Schema<IUser> = new Schema(
     {
         user_id: {
             type: String,
@@ -59,5 +93,5 @@ const userSchema = new Schema(
     { timestamps: true }
 );
 
-const User = models.User || mongoose.model("User", userSchema);
+const User: Model<IUser> = models.User || mongoose.model<IUser>("User", userSchema);
 export default User;

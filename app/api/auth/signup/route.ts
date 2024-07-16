@@ -1,7 +1,6 @@
-import { connectMongoDB } from "@/lib/connectMongoose";
-import User from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { prisma } from "@/auth.config";
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -12,8 +11,7 @@ export async function POST(req: NextRequest) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         //  CONEXION A LA BASE DE DATOS MONGO y guardo los mensajes que se mandan 
-        await connectMongoDB();
-        await User.create({ email, password:hashedPassword, user_id:generated_user_id});
+        await prisma.user.create({ email, password:hashedPassword, user_id:generated_user_id});
 
         return NextResponse.json(
             { message: "Usuario registrado" },

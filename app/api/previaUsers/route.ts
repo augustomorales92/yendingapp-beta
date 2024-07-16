@@ -1,21 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { connectMongoDB } from '@/lib/connectMongoose'
-import PreviaUser from '@/models/PreviaUser'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/authOptions'
-import User from '@/models/User'
+import { auth } from '@/auth'
+import { prisma } from '@/auth.config'
 
 // Ruta para crear un nuevo Usuario de la previa-
 export async function POST(req: NextRequest, res:NextResponse) {
   // necesito el dato del usuario que esta solicitando para enviarlo a la db como user_id del solicitante
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   const emailWanted = session?.user.email
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    await connectMongoDB()
     const { attendands, photos, intentions, previa_id } = await req.json()
 
     // Validaciones adicionales
@@ -34,7 +30,7 @@ export async function POST(req: NextRequest, res:NextResponse) {
     // }
 
     // busco el id del usuario solicitante con el email
-    const user_data = await User.findOne({ email: emailWanted })
+    const user_data = await prisma.user.findOne({ email: emailWanted })
     if (!user_data) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
@@ -48,7 +44,7 @@ export async function POST(req: NextRequest, res:NextResponse) {
       user_id: user_data?.user_id
     }
 
-    const newPreviaUser = await PreviaUser.create(updatedData)
+    const newPreviaUser = await prisma.previaUser.create(updatedData)
     console.log('newReq:', newPreviaUser)
     return NextResponse.json({ newPreviaUser })
   } catch (error) {
@@ -58,15 +54,14 @@ export async function POST(req: NextRequest, res:NextResponse) {
 
 //  Trae las solicitudes de union que hizo el usuario que esta logeado
 export async function GET(req: NextRequest, res:NextResponse) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   const emailWanted = session?.user.email
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    await connectMongoDB()
-    const userJoinRequests = await PreviaUser.find({ creator: emailWanted })
+    const userJoinRequests = await prisma.previaUser.find({ creator: emailWanted })
 
     return NextResponse.json({ userJoinRequests }, { status: 200 })
   } catch (error) {
@@ -80,17 +75,16 @@ export async function GET(req: NextRequest, res:NextResponse) {
 
 //  modifico el status de PreviaUsers cuando el dueño de la previa cambia el mismo
 export async function PUT(req: NextRequest, res:NextResponse) {
-  const session = await getServerSession( authOptions)
+  const session = await auth()
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    await connectMongoDB()
     const { previaId, userId, status } = await req.json()
 
-    const previaUser = await PreviaUser.findOne({
+    const previaUser = await prisma.previaUser.findOne({
       previa_id: previaId,
       user_id: userId
     })

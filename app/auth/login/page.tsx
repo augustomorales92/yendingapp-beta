@@ -1,33 +1,15 @@
-'use client'
-
-import { useRouter } from "next/navigation";
 import LoginGoogle from "@/components/buttons/LoginGoogle";
-import LoginForm from "@/components/forms/LoginForm";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import CredentialLogin from "@/components/CredentialLogin";
 
 
-export default function LoginPage() {
+export default async function LoginPage() {
 
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  const [showLogin, setShowLogin] = useState(false);
-
-  useEffect(() => {
-    if (status === 'authenticated') {
-      router.push('/dashboard');
-    }
-  }, [session, router, status]);
-
-  if (status === 'loading') {
+/*   if (status === 'loading') {
     return <div className="text-secondary">Loading...</div>; // Or any loading indicator you prefer
   }
-
-
+ */
 
   return (
     <div className="grid place-items-center h-screen mx-2 ">
@@ -51,15 +33,7 @@ export default function LoginPage() {
           </p>
           <div className="flex flex-col gap-3 px-6">
             <LoginGoogle />
-            <button
-              onClick={() => setShowLogin(!showLogin)}
-              className="btn-login"
-            >
-              <FaUser className="h-6" />
-              Continue with Credentials
-            </button>
-
-            {showLogin && <LoginForm />}
+            <CredentialLogin />
             <Link className="text-sm " href={"/auth/register"}>
               {`Don't have an account?`} <span className="underline text-primary_b font-bold">Register</span>
             </Link>

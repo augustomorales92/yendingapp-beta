@@ -1,14 +1,12 @@
-import { connectMongoDB } from "@/lib/connectMongoose";
-import Previa from "@/models/Previa";
+import { prisma } from "@/auth.config";
 import { NextRequest, NextResponse } from "next/server";
 
 // Trae todas las previas que estan registradas
 export async function GET() {
   
     try {
-      await connectMongoDB();
-      const previas = await Previa.find();
-  
+      const previas = await prisma.previas.findMany();
+      
       return NextResponse.json(
         { previas },
         { status: 200 }
@@ -34,8 +32,7 @@ export async function GET() {
         );
       }
   
-      await connectMongoDB();
-      const previa_data = await Previa.find({ previa_id: { $in: previas_ids } });
+      const previa_data = await prisma.previa.find({ previa_id: { $in: previas_ids } });
   
       if (!previa_data || previa_data.length === 0) {
         return NextResponse.json(

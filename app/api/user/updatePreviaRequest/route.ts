@@ -1,12 +1,10 @@
-import { connectMongoDB } from '@/lib/connectMongoose'
-import User from '@/models/User'
-import { getServerSession } from 'next-auth'
+import { auth } from '@/auth'
+import { prisma } from '@/auth.config'
 import { NextRequest, NextResponse } from 'next/server'
-import { authOptions } from '@/lib/authOptions'
 
 // actualizacion de el model User , añadiendo las previas que ha solicitado unirse .. modificamos el array previa_requests
 export async function PUT(req:NextRequest, res:NextResponse) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   const emailWanted = session?.user.email
 
   if (!session) {
@@ -14,10 +12,9 @@ export async function PUT(req:NextRequest, res:NextResponse) {
   }
 
   try {
-    await connectMongoDB()
     const { previaId } = await req.json()
 
-    const user_data = await User.findOneAndUpdate(
+    const user_data = await prisma.user.findOneAndUpdate(
       { email: emailWanted },
       { $push: { previas_requests: previaId } },
       { new: true }
