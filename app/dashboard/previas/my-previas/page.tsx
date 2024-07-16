@@ -5,9 +5,9 @@ import { compareAsc, parseISO } from 'date-fns';
 import React, { useEffect, useState } from 'react'
 import { ClipLoader } from 'react-spinners';
 
-export default function page() {
+export default function Page() {
 
-    const [previas, setPrevias] = useState();
+    const [previas, setPrevias] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [sortCriteria, setSortCriteria] = useState('date'); // date or participants
 
@@ -76,7 +76,7 @@ export default function page() {
                 ))}
             </div>
             )}
-            {previas?.length === 0 ? <div className='text-md text-secondary md:text-xl'>You haven't created any Previa yet </div> : ""}
+            {previas?.length === 0 ? <div className='text-md text-secondary md:text-xl'>{`You haven't created any Previa yet`} </div> : ""}
         </div>
     )
 }

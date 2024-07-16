@@ -1,10 +1,11 @@
 'use client'
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ClipLoader } from 'react-spinners';
 
-export default function page() {
+export default function Page() {
 
   // eslint-disable-next-line no-unused-vars
   const { data: session, status } = useSession();
@@ -13,7 +14,7 @@ export default function page() {
   const [previasData, setPreviasData] = useState(null);
   const router = useRouter();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true)
     const params = {
       email: session?.user?.email,
@@ -35,7 +36,7 @@ export default function page() {
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
-  };
+  },[session?.user?.email])
 
   //  una vez que tenga los previas_ids -- hago el llamdo al back para traer las previas que he solicitado
   const fetchPreviaData = async (previas_ids) => {
@@ -60,7 +61,7 @@ export default function page() {
     if (session) {
       fetchData();
     }
-  }, [session]);
+  }, [fetchData, session]);
 
   useEffect(() => {
     if (userData?.previas_requests && userData.previas_requests.length > 0) {
@@ -85,7 +86,7 @@ export default function page() {
                   <div>
                     <h4>Images:</h4>
                     {previa.images_previa_url.map((url, i) => (
-                      <img key={i} src={url} alt={`Previa ${index} Image ${i}`} width={100} />
+                      <Image key={i} src={url} alt={`Previa ${index} Image ${i}`} width={100} />
                     ))}
                   </div>
                   <div>
@@ -101,7 +102,7 @@ export default function page() {
                           <div>
                             <h5>Photos:</h5>
                             {request.photos.map((photo, j) => (
-                              <img key={j} src={photo} alt={`Request ${i} Photo ${j}`} width={50} />
+                              <Image key={j} src={photo} alt={`Request ${i} Photo ${j}`} width={50} />
                             ))}
                           </div>
                         </div>

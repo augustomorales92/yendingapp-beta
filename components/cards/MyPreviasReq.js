@@ -16,7 +16,7 @@ export default function MyPreviasReq() {
                         MY REQUESTS
                     </Typography>
                     <Typography>
-                        View the Previas you've applied to join and find out their status, participants and more.
+                        {`View the Previas you've applied to join and find out their status, participants and more.`}
                     </Typography>
                 </CardBody>
             </Card>

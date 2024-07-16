@@ -1,7 +1,7 @@
-/** @type {import('tailwindcss').Config} */
+import type { Config } from "tailwindcss";
 const withMT = require("@material-tailwind/react/utils/withMT");
 
-module.exports = withMT( {
+const config: Config = withMT( {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -29,3 +29,5 @@ module.exports = withMT( {
 //   primary_b:'rgb(83, 92, 145)',
 //   secondary_b:'rgb(146, 144, 195)',
 // },
+
+export default config;

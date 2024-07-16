@@ -1,23 +1,28 @@
-
 import User from "@/models/User";
-import NextAuth from "next-auth/next";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth from "next-auth";
+import { NextAuthOptions } from "next-auth"
+import Credentials  from "next-auth/providers/credentials";
 import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from "bcryptjs";
 import clientPromise from "@/lib/mongodb";
 import { connectMongoDB } from "@/lib/connectMongoose";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import type { Adapter } from 'next-auth/adapters';
 
-export const authOptions = {
+
+interface ICredentials {
+    email: string;
+    password: string;
+}
+export const authOptions: NextAuthOptions = {
 
     providers: [
-        CredentialsProvider({
+        Credentials({
             name: "credentials",
             credentials: {},
 
-            async authorize(credentials) {
+            async authorize(credentials: ICredentials | undefined) {
                 const { email, password } = credentials;
-
                 try {
                     await connectMongoDB();
                     const user = await User.findOne({ email });
@@ -39,19 +44,16 @@ export const authOptions = {
         }),
         // OAuth authentication providers...
         GoogleProvider({
-            clientId: process.env.GOOGLE_ID,
-            clientSecret: process.env.GOOGLE_SECRET
+            clientId: process.env.GOOGLE_ID as string,
+            clientSecret: process.env.GOOGLE_SECRET as string
         }),
     ],
-    adapter: MongoDBAdapter(clientPromise),
+   adapter: MongoDBAdapter(clientPromise)  as Adapter,
     session: {
-        strategy: "jwt",
+        strategy: "jwt" as const,
     },
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: "/",
     },
 };
-
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
