@@ -11,12 +11,11 @@ export const authConfig = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/auth/login'
+    signIn: '/'
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user
-      console.log('aaaaaaa', auth)
       const isOnOnboarding = nextUrl.pathname.startsWith('/dashboard')
       if (isOnOnboarding) {
         if (isLoggedIn) return true
