@@ -5,6 +5,7 @@ import { AuthError } from 'next-auth'
 import { redirect } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { z } from 'zod'
+import { baseUrl } from '@/lib/constants'
 
 export async function authenticate(
   prevState: string | undefined,
@@ -31,19 +32,15 @@ const CreateLoginSchema = z.object({
 })
 
 export async function signup(
-  prevState: string | undefined,
+  prevState: void | undefined,
   formData: FormData
 ) {
-  let toastId
   try {
     const { email, password } = CreateLoginSchema.parse({
       email: formData.get('name'),
       password: formData.get('password')
     })
-    toastId = toast.loading(
-      "We're registering the user... you'll be redirected soon..."
-    )
-    const res = await fetch('/api/user/userExists', {
+    const res = await fetch(`${baseUrl}/api/user/userExists`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -58,11 +55,10 @@ export async function signup(
     const { user } = await res.json()
     if (user) {
       toast.error('Usuario existente')
-      toast.dismiss(toastId)
       return
     }
 
-    const response = await fetch('/api/auth/signup', {
+    const response = await fetch(`${baseUrl}/api/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
