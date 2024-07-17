@@ -5,7 +5,6 @@ import {
     CardBody,
     CardFooter,
     Typography,
-    Button,
 } from "@material-tailwind/react";
 import { format, isBefore, isSameDay } from "date-fns";
 import { es } from 'date-fns/locale'
@@ -17,8 +16,19 @@ import Swal from 'sweetalert2';
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
+interface PreviaCardProps {
+    previa_id: string;
+    location: string;
+    creator?: string;
+    date?: Date;
+    startTime?: string;
+    participants?: number;
+    place_details?: string;
+    images_previa_url?: string[];
+    description?: string;
+  }
 
-export default function MyPreviasCard({ previa_id, location, date, startTime, participants, place_details, description, images_previa_url, join_requests, fetchData }) {
+export default function MyPreviasCard({ previa_id, location, date, startTime, participants, place_details, description, images_previa_url, join_requests, fetchData } : PreviaCardProps) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);

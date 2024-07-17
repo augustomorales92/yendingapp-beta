@@ -29,7 +29,7 @@ const links = [
   },
   {
     name: 'Messages',
-    href: '',
+    href: '/dashboard/messages',
     icon: BiMessageSquareDots
   },
   {
@@ -38,17 +38,22 @@ const links = [
     icon: MdOutlineMoreHoriz
   },
   {
-    name: 'Profile',
-    href: '/dashboard/profile',
-    icon: CgProfile
+    name: 'Settings',
+    href: '/dashboard/settings',
+    icon: MdOutlineSettings
   }
-]
+];
 
-export default function NavLinks({ session }) {
+type LoggedProps = {
+  logged: string;
+}
+
+export default function NavLinks({logged}:LoggedProps) {
+
   const pathname = usePathname()
 
   const pathValue = () => {
-    if (session) {
+    if (logged) {
       signOut()
       redirect('/')
     }
@@ -82,10 +87,10 @@ export default function NavLinks({ session }) {
           </Link>
         )
       })}
-      {session ? (
+      {logged ? (
         <div className="flex flex-col text-sm p-2">
           <p className="">Logged as: </p>
-          <p className="text-xs font-bold ">{session?.user?.email}</p>
+          <p className="text-xs font-bold ">{logged}</p>
         </div>
       ) : (
         ''
@@ -96,7 +101,7 @@ export default function NavLinks({ session }) {
       >
         <MdOutlineLogout className="text-2xl  group-hover:text-white " />
         <h3 className="text-base  group-hover:text-white font-semibold ">
-          { session ? 'Logout' : 'Sign in'}
+          { logged ? 'Logout' : 'Sign in'}
         </h3>
       </div>
       <Link

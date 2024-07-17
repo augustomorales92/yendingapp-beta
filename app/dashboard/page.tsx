@@ -32,7 +32,7 @@ export default async function Page({
   // PRIMERO me aseguro que las previas no esten vencidas y que no sean del creador para filtrar
   const today = new Date()
   const sortCriteria = 'date'
-  const validPrevias = (previas || []).filter((previa) => {
+  const validPrevias = (previas || []).filter((previa: { date: string | number | Date; creator: string | null | undefined }) => {
     const previaDate = new Date(previa.date)
     const isSameDayToday = isSameDay(previaDate, today)
     const isExpired = isBefore(previaDate, today)

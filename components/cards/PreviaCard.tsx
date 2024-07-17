@@ -17,7 +17,19 @@ import RequestJoinModal from "../forms/RequestJoinModal";
 import Image from "next/image";
 
 
-export default function PreviaCard({ previa_id, location, creator, date, startTime, participants, place_details, description, images_previa_url }) {
+interface PreviaCardProps {
+    previa_id: string;
+    location: string;
+    creator?: string;
+    date?: Date;
+    startTime?: string;
+    participants?: number;
+    place_details?: string;
+    images_previa_url?: string[];
+    description?: string;
+  }
+
+export default function PreviaCard({ previa_id, location, creator, date, startTime, participants, place_details, description, images_previa_url }:PreviaCardProps) {
 
     const [creatorData, setCreatorData] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);

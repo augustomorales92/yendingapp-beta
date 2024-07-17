@@ -4,9 +4,11 @@ import { Disclosure, DisclosureButton } from "@headlessui/react";
 import { auth } from "@/auth";
 import NavLinks from "./nav-links";
 
+
 async function SideNavbar() {
 
   const session = await auth();
+  const logged = session?.user?.email || "";
 
   return (
     <div>
@@ -23,7 +25,7 @@ async function SideNavbar() {
               Yending App Dashboard
             </h1>
             <div className=" my-4 border-b border-primary_b pb-4">
-              <NavLinks session={session}/>
+              <NavLinks logged={logged}/>
             </div>
           </div>
         </div>
