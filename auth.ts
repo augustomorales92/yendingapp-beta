@@ -15,7 +15,6 @@ export const {
     Credentials({
       async authorize(credentials) {
         const { email, password } = credentials
-        try {
           const user = await prisma.users.findUnique({ where: { email: email } })
           if (!user) {
             return null
@@ -25,9 +24,7 @@ export const {
             return null
           }
           return user
-        } catch (error) {
-          console.log('error', error)
-        }
+        
       }
     }),
     GoogleProvider({

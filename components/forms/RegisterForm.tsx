@@ -3,17 +3,14 @@ import { FaUserAlt } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import BeatLoader from 'react-spinners/BeatLoader'
 import { Input } from '@material-tailwind/react'
-import {useFormState} from 'react-dom'
+import { useFormState, useFormStatus } from 'react-dom'
 import { signup } from '@/lib/actions'
 
-export default async function RegisterForm() {
+export default function RegisterForm() {
+  const [errorMessage, dispatch] = useFormState(signup, undefined)
+  const { pending:isPending } = useFormStatus()
 
-  const [errorMessage, dispatch, isPending] = useFormState(
-    signup,
-    undefined
-  )
-
- /*  const [email, setEmail] = useState('')
+  /*  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   // handle errors
   const [emailError, setEmailError] = useState(false)
@@ -127,7 +124,7 @@ export default async function RegisterForm() {
         color="white"
         label="Choose your password"
         error={!!errorMessage}
-        aria-errormessage={errorMessage ? 'This field is required' : null}
+        aria-errormessage={errorMessage ? 'This field is required' : ''}
         className={errorMessage ? 'border-red-500 text-white' : ''}
         crossOrigin={undefined}
         onPointerEnterCapture={undefined}
