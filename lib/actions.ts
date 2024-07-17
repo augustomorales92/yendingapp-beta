@@ -12,7 +12,6 @@ export async function authenticate(
 ) {
   try {
     await signIn('credentials', formData)
-    redirect('/dashboard?sortCriteria=date')
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -35,12 +34,15 @@ export async function signup(
   prevState: string | undefined,
   formData: FormData
 ) {
+  let toastId
   try {
     const { email, password } = CreateLoginSchema.parse({
       email: formData.get('name'),
       password: formData.get('password')
     })
-
+    toastId = toast.loading(
+      "We're registering the user... you'll be redirected soon..."
+    )
     const res = await fetch('/api/user/userExists', {
       method: 'POST',
       headers: {
@@ -56,6 +58,7 @@ export async function signup(
     const { user } = await res.json()
     if (user) {
       toast.error('Usuario existente')
+      toast.dismiss(toastId)
       return
     }
 

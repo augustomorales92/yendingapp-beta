@@ -1,26 +1,15 @@
-'use client'
-import { signOut } from 'next-auth/react'
-import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
-export default function LoginButton({ session }) {
-  const handleLink = () => {
-    // si hay token, el boton actua como sign out, sino como sign in
-    if (session) {
-      signOut()
-      redirect('/')
-    } else {
-      redirect('/auth/login')
-    }
-  }
+export default async function LoginButton() {
 
   return (
-    <div
+    <Link
       className={`btn-secondary my-3 max-w-32 ${
         false ? 'opacity-50 cursor-not-allowed' : ''
       }`}
-      onClick={() => handleLink()}
+      href={'/auth/login'}
     >
-      {session ? 'Sign Out' : "Let's Start"}
-    </div>
+      {"Let's Start"}
+    </Link>
   )
 }

@@ -1,14 +1,25 @@
+'use client'
 import { Input } from '@material-tailwind/react'
 import toast from 'react-hot-toast'
 import BeatLoader from 'react-spinners/BeatLoader'
-import {useFormState} from 'react-dom'
+import { useFormState, useFormStatus } from 'react-dom'
 import { authenticate } from '@/lib/actions'
 
 export default function LoginForm() {
-  const [errorMessage, dispatch, isPending] = useFormState(
+  const [errorMessage, dispatch] = useFormState(
     authenticate,
     undefined
   )
+
+  const notify = (isPending: boolean) => {
+    if (isPending) {
+      toast.loading("We're working on in... you'll be redirected soon...")
+    }
+    if(errorMessage){
+      toast.error(errorMessage)
+    }
+  } 
+
   return (
     <form action={dispatch} className="flex flex-col mt-3 gap-3">
       <Input
@@ -29,10 +40,7 @@ export default function LoginForm() {
         onPointerEnterCapture={undefined}
         crossOrigin={undefined}
       />
-      <button className="btn-primary">
-        <span>{isPending ? <BeatLoader color="white" /> : 'Login'}</span>
-      </button>
-
+      <LoginButton notify={notify} />
       {errorMessage && (
         <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
           {errorMessage}
@@ -41,3 +49,13 @@ export default function LoginForm() {
     </form>
   )
 }
+
+function LoginButton({notify}: {notify: (isPending: boolean) => void}) {
+    const { pending } = useFormStatus();
+  
+    return (
+        <button className="btn-primary" onClick={() => notify(pending)}>
+        <span>{pending ? <BeatLoader color="white" /> : 'Login'}</span>
+      </button>
+    );
+  }
