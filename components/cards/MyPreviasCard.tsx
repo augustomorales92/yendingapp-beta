@@ -26,6 +26,8 @@ interface PreviaCardProps {
     place_details?: string;
     images_previa_url?: string[];
     description?: string;
+    fetchData: () => Promise<void>;
+    join_requests:Object[]
   }
 
 export default function MyPreviasCard({ previa_id, location, date, startTime, participants, place_details, description, images_previa_url, join_requests, fetchData } : PreviaCardProps) {
@@ -35,7 +37,7 @@ export default function MyPreviasCard({ previa_id, location, date, startTime, pa
     const router = useRouter();
     // Handle date event
     const today = new Date();
-    const inputDate = new Date(date);
+    const inputDate = new Date(date as Date);
 
     const formattedDate = isSameDay(today, inputDate)
         ? 'Today'
@@ -152,13 +154,17 @@ export default function MyPreviasCard({ previa_id, location, date, startTime, pa
                     placeholder={undefined}
                     onPointerEnterCapture={undefined}
                     onPointerLeaveCapture={undefined}                >
-                    <Image
-                        width={100}
-                        height={100}
-                        src={images_previa_url[0]}
-                        alt="image 1"
-                        className="h-full w-full object-cover"
-                    />
+                     {images_previa_url && images_previa_url.length > 0 ? (
+                            <Image
+                                width={300}
+                                height={300}
+                                src={images_previa_url[0]}
+                                alt="image 1"
+                                className="h-full w-full object-cover"
+                            />
+                        ) : (
+                            <p>No image available</p>
+                        )}
                 </CardHeader>
                 <CardBody placeholder={undefined}
                     onPointerEnterCapture={undefined}

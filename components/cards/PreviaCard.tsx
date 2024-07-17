@@ -27,11 +27,17 @@ interface PreviaCardProps {
     place_details?: string;
     images_previa_url?: string[];
     description?: string;
-  }
+}
 
-export default function PreviaCard({ previa_id, location, creator, date, startTime, participants, place_details, description, images_previa_url }:PreviaCardProps) {
+interface CreatorData {
+    name: string;
+    url_img: string;
+}
 
-    const [creatorData, setCreatorData] = useState(null);
+
+export default function PreviaCard({ previa_id, location, creator, date, startTime, participants, place_details, description, images_previa_url }: PreviaCardProps) {
+
+    const [creatorData, setCreatorData] = useState<CreatorData | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Creo variable para enviar al modal
@@ -39,12 +45,12 @@ export default function PreviaCard({ previa_id, location, creator, date, startTi
 
     // Handle date event
     const today = new Date();
-    const inputDate = new Date(date);
+    const inputDate = new Date(date as Date);
 
 
     const fetchData = useCallback(async () => {
         const params = { email: creator };
-        const queryString = new URLSearchParams(params).toString();
+        const queryString = new URLSearchParams(params as any).toString();
         try {
             const response = await fetch(`/api/user?${queryString}`, {
                 method: "GET",
@@ -69,7 +75,7 @@ export default function PreviaCard({ previa_id, location, creator, date, startTi
     // Seteo el formato de fecha para que figure bien
     const formattedDate = isSameDay(today, inputDate)
         ? 'Today'
-        : format(date, "EEEE d 'de' MMMM", { locale: es });
+        : format(date as Date, "EEEE d 'de' MMMM", { locale: es });
 
     // LOGICA DEL MODAL PARA SOLICITAR UNIRSE A PREVIA 
     const handleJoinClick = () => {
@@ -81,7 +87,7 @@ export default function PreviaCard({ previa_id, location, creator, date, startTi
     };
 
     // Si el clic es en el fondo (no en el contenido del modal), cerrar el modal
-    const handleBackdropClick = (event) => {
+    const handleBackdropClick = (event: any) => {
         if (event.target === event.currentTarget) {
             handleModalClose();
         }
@@ -109,13 +115,17 @@ export default function PreviaCard({ previa_id, location, creator, date, startTi
                         onPointerEnterCapture={undefined}
                         onPointerLeaveCapture={undefined}
                         className="rounded-xl">
-                        <Image
-                            width={300}
-                            height={300}
-                            src={images_previa_url[0]}
-                            alt="image 1"
-                            className="h-full w-full object-cover"
-                        />
+                        {images_previa_url && images_previa_url.length > 0 ? (
+                            <Image
+                                width={300}
+                                height={300}
+                                src={images_previa_url[0]}
+                                alt="image 1"
+                                className="h-full w-full object-cover"
+                            />
+                        ) : (
+                            <p>No image available</p>
+                        )}
                         <Image
                             width={300}
                             height={300}
