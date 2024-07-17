@@ -1,12 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 
-export default function GenderSelect({ formData, handleChange }) {
-  const [selectedGender, setSelectedGender] = useState(formData.gender_identity);
+export default function GenderSelect({ initialValue }: { initialValue: string }) {
+  const [selectedGender, setSelectedGender] = useState(initialValue);
 
-  const handleGenderChange = (event) => {
-    setSelectedGender(event.target.value);
-    handleChange(event);
+  const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedGender(e.target.value);
   };
 
   return (
@@ -53,6 +52,7 @@ export default function GenderSelect({ formData, handleChange }) {
           checked={selectedGender === 'more'}
         />
       </label>
-    </div>
+{/*       <input type="hidden" name='gender_identity' value={selectedGender}/>
+ */}    </div>
   );
 }

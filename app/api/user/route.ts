@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 export async function PUT(req: NextRequest) {
   const session = await auth()
-  const emailWanted = session?.user.email
+  const emailWanted = session?.user?.email || ''
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
@@ -15,7 +15,7 @@ export async function PUT(req: NextRequest) {
     const { updatedFormData, previaId } = await req.json()
 
     // Conexión a la base de datos MongoDB
-    const user_data = await prisma.user.findUnique({
+    const user_data = await prisma.users.findUnique({
       where: { email: emailWanted }
     })
 
@@ -39,17 +39,23 @@ export async function PUT(req: NextRequest) {
     }
 
     // Actualizar el usuario en la base de datos
-    await prisma.user.findByIdAndUpdate(user_data._id, updatedData, {
-      new: true
+    await prisma.users.update({
+      where: {
+        id: user_data.id
+      },
+      data: updatedData
     })
 
     // If previaId is provided, update the previas_created array
     if (previaId) {
-      await prisma.user.findByIdAndUpdate(
-        user_data._id,
-        { $push: { previas_created: previaId } },
-        { new: true }
-      )
+      await prisma.users.update({
+        where: {
+          id: user_data.id
+        },
+        data: {
+          previas_created: previaId
+        }
+      })
     }
 
     return NextResponse.json(

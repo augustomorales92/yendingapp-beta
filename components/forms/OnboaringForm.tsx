@@ -1,6 +1,7 @@
 'use client'
 import GenderSelect from '@/components/forms/GenderSelected'
 import InterestSelected from '@/components/forms/InterestSelected'
+import { fetchUser, updateUser } from '@/lib/actions'
 import { upload } from '@/lib/upload'
 import {
   Checkbox,
@@ -12,16 +13,94 @@ import {
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, Suspense } from 'react'
 import { toast } from 'react-hot-toast'
 import { FaUpload } from 'react-icons/fa'
 import { ClipLoader } from 'react-spinners'
+import { useFormState } from 'react-dom'
+import { FormState } from '@/types/onboarding'
+import { CustomButton } from '../buttons/CustomButton'
+import CustomDropDowns from '../customComponents/CustomDropDown'
+import CustomInput from '../customComponents/CustomInput'
+import { auth } from '@/auth'
+import CustomTextArea from '../customComponents/CustomTextArea'
+import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
+import { Session } from 'next-auth'
 
-export default function OnboardingForm() {
-  // eslint-disable-next-line no-unused-vars
-  const { data: session, status } = useSession()
+const dob_month_values = [
+  { label: 'January', value: '01' },
+  { label: 'February', value: '02' },
+  { label: 'March', value: '03' },
+  { label: 'April', value: '04' },
+  { label: 'May', value: '05' },
+  { label: 'June', value: '06' },
+  { label: 'July', value: '07' },
+  { label: 'August', value: '08' },
+  { label: 'September', value: '09' },
+  { label: 'October', value: '10' },
+  { label: 'November', value: '11' },
+  { label: 'December', value: '12' }
+]
+
+const dob_day_values = [
+  { label: '1', value: '01' },
+  { label: '2', value: '02' },
+  { label: '3', value: '03' },
+  { label: '4', value: '04' },
+  { label: '5', value: '05' },
+  { label: '6', value: '06' },
+  { label: '7', value: '07' },
+  { label: '8', value: '08' },
+  { label: '9', value: '09' },
+  { label: '10', value: '10' },
+  { label: '11', value: '11' },
+  { label: '12', value: '12' },
+  { label: '13', value: '13' },
+  { label: '14', value: '14' },
+  { label: '15', value: '15' },
+  { label: '16', value: '16' },
+  { label: '17', value: '17' },
+  { label: '18', value: '18' },
+  { label: '19', value: '19' },
+  { label: '20', value: '20' },
+  { label: '21', value: '21' },
+  { label: '22', value: '22' },
+  { label: '23', value: '23' },
+  { label: '24', value: '24' },
+  { label: '25', value: '25' },
+  { label: '26', value: '26' },
+  { label: '27', value: '27' },
+  { label: '28', value: '28' },
+  { label: '29', value: '29' },
+  { label: '30', value: '30' },
+  { label: '31', value: '31' }
+]
+
+type OnboardingFormProps = {
+  user: FormState
+  session: Session | null
+}
+
+export default function OnboardingForm({ user, session }: OnboardingFormProps) {
+
+  const notify = (isPending: boolean) => {
+    if (isPending) {
+      toast.loading(
+        "We're registering the user... you'll be redirected soon..."
+      )
+    }
+    if (errorMessage) {
+      toast.error(errorMessage)
+    }
+  }
+  const [errorMessage, dispatch] = useFormState(updateUser, undefined)
+
+  /*   const { data: session, status } = useSession()
   const [isLoading, setIsLoading] = useState(false)
 
+    const [errorMessage, dispatch] = useFormState(authenticate, undefined)
+
+  
   // seteo el estatus inicial del form y con cookies, llamo a la propuedad UserId guardada en el cookies despues de un login
   const [formData, setFormData] = useState({
     name: session?.user?.name || ' ',
@@ -39,57 +118,6 @@ export default function OnboardingForm() {
     previas: []
   })
 
-  const [profileImg, setProfileImg] = useState(null)
-  const router = useRouter()
-
-  const fetchData = useCallback(async () => {
-    setIsLoading(true)
-    const params = {
-      email: session?.user?.email
-    }
-    const queryString = new URLSearchParams(params).toString()
-    try {
-      const response = await fetch(`/api/user?${queryString}`, {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json'
-        }
-      })
-      if (!response.ok) {
-        throw new Error('Error al obtener datos del usuario')
-      }
-      const data = await response.json()
-      setFormData(data.user_data)
-      setIsLoading(false)
-    } catch (error) {
-      console.error('Error fetching user data:', error)
-    }
-  }, [session])
-
-  useEffect(() => {
-    fetchData()
-  }, [fetchData])
-
-  function calculateAge(day_dob, month_dob, year_dob) {
-    const day = parseInt(day_dob)
-    const month = parseInt(month_dob) - 1
-    const year = parseInt(year_dob)
-
-    const birthDate = new Date(year, month, day)
-    const today = new Date()
-
-    let age = today.getFullYear() - birthDate.getFullYear()
-    const monthDifference = today.getMonth() - birthDate.getMonth()
-
-    if (
-      monthDifference < 0 ||
-      (monthDifference === 0 && today.getDate() < birthDate.getDate())
-    ) {
-      age--
-    }
-
-    return age
-  }
 
   const handleDobChange = (e) => {
     const { name, value } = e.target
@@ -117,26 +145,6 @@ export default function OnboardingForm() {
     })
   }
 
-  const handleChange = (e) => {
-    // desesctructuro el target para trabajarlo
-    const { name, type, value, checked } = e.target
-
-    const fieldValue = type === 'checkbox' ? checked : value
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: fieldValue
-    }))
-  }
-
-  async function handleProfileChange(ev) {
-    await upload(ev, (link) => {
-      setProfileImg(link)
-      setFormData((prevState) => ({
-        ...prevState,
-        url_img: link
-      }))
-    })
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -183,10 +191,10 @@ export default function OnboardingForm() {
       }
     }
   }
-
-  if (status === 'loading') {
+ */
+  /*  if (status === 'loading') {
     return <div className="text-secondary">Loading...</div>
-  }
+  } */
 
   if (!session) {
     return (
@@ -196,192 +204,87 @@ export default function OnboardingForm() {
     )
   }
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center align-center">
-        {' '}
-        <ClipLoader color="white" size={50} />{' '}
-      </div>
-    )
-  }
+  const loader = (
+    <div className="flex justify-center items-center align-center">
+      {' '}
+      <ClipLoader color="white" size={50} />{' '}
+    </div>
+  )
 
   return (
-    <>
-      <form
-        className="grid grid-cols-3 gap-3 text-white"
-        onSubmit={handleSubmit}
-      >
+    <Suspense fallback={loader}>
+      <form className="grid grid-cols-3 gap-3 text-white" action={dispatch}>
         <div className="col-span-3 lg:col-span-2">
-          <Input
+          <CustomInput
             label="First name"
-            id="name"
-            color="white"
-            type="text"
             name="name"
             placeholder="First Name"
             required={true}
-            value={formData.name || ' '}
-            onChange={handleChange}
-            className={`w-full ${formData.name ? 'text-white' : 'text-secondary'
-              }`}
-            crossOrigin={undefined}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+            type="text"
+            hasMin={false}
+            hasMax={false}
+            initialValue={user.name}
           />
           <div className="grid grid-cols-3 gap-2 my-3">
             <div className="col-span-3 lg:col-span-1">
-              <Select
-                label="Day"
-                color="gray"
-                id="dob_day"
+              <CustomDropDowns
                 name="dob_day"
-                value={formData.dob_day}
-                className={`${formData.dob_day ? 'text-white' : 'text-secondary'
-                  }`}
-                onChange={(value) =>
-                  handleChange({ target: { name: 'dob_day', value } })
-                }
-                placeholder={undefined}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-              >
-                <Option value="1">1</Option>
-                <Option value="2">2</Option>
-                <Option value="3">3</Option>
-                <Option value="4">4</Option>
-                <Option value="5">5</Option>
-                <Option value="6">6</Option>
-                <Option value="7">7</Option>
-                <Option value="8">8</Option>
-                <Option value="9">9</Option>
-                <Option value="10">10</Option>
-                <Option value="11">11</Option>
-                <Option value="12">12</Option>
-                <Option value="13">13</Option>
-                <Option value="14">14</Option>
-                <Option value="15">15</Option>
-                <Option value="16">16</Option>
-                <Option value="17">17</Option>
-                <Option value="18">18</Option>
-                <Option value="19">19</Option>
-                <Option value="20">20</Option>
-                <Option value="21">21</Option>
-                <Option value="22">22</Option>
-                <Option value="23">23</Option>
-                <Option value="24">24</Option>
-                <Option value="25">25</Option>
-                <Option value="26">26</Option>
-                <Option value="27">27</Option>
-                <Option value="28">28</Option>
-                <Option value="29">29</Option>
-                <Option value="30">30</Option>
-                <Option value="31">31</Option>
-              </Select>
+                label="Day"
+                values={dob_day_values}
+                type="select"
+                initialValue={user.dob_day}
+              />
             </div>
             <div className="col-span-3 lg:col-span-1">
-              <Select
-                label="Month"
-                color="gray"
-                id="dob_month"
+              <CustomDropDowns
                 name="dob_month"
-                value={formData.dob_month}
-                className={`${formData.dob_month ? 'text-white' : 'text-secondary'
-                  }`}
-                onChange={(value) =>
-                  handleChange({ target: { name: 'dob_month', value } })
-                }
-                placeholder={undefined}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-              >
-                <Option value="01">January</Option>
-                <Option value="02">February</Option>
-                <Option value="03">March</Option>
-                <Option value="04">April</Option>
-                <Option value="05">May</Option>
-                <Option value="06">June</Option>
-                <Option value="07">July</Option>
-                <Option value="08">August</Option>
-                <Option value="09">September</Option>
-                <Option value="10">October</Option>
-                <Option value="11">November</Option>
-                <Option value="12">December</Option>
-              </Select>
+                label="Month"
+                values={dob_month_values}
+                type="select"
+                initialValue={user.dob_month}
+              />
             </div>
             <div className="col-span-3 lg:col-span-2">
-              <Input
+              <CustomInput
                 label="Year"
-                color="white"
-                id="dob_year"
-                type="number"
                 name="dob_year"
                 placeholder="YYYY"
                 required={true}
-                value={formData.dob_year || ''}
-                onChange={handleDobChange}
-                min={new Date().getFullYear() - 100} // Optional: Adjust the range of years
-                max={new Date().getFullYear() - 18} // Optional: Adjust the range of years
-                className={`w-full ${formData.dob_year ? 'text-white' : 'text-secondary'
-                  }`}
-                crossOrigin={undefined}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                type="number"
+                hasMin={true}
+                hasMax={true}
+                initialValue={user.dob_year}
               />
             </div>
           </div>
 
           <div className="w-full gap-3">
             <label>Gender</label>
-            <GenderSelect formData={formData} handleChange={handleChange} />
+            <GenderSelect initialValue={user.gender_identity}/>
           </div>
           <div className="w-full gap-3">
             <label>Show Me</label>
-            <InterestSelected formData={formData} handleChange={handleChange} />
+            <InterestSelected initialValue={user.previas_interest}/>
           </div>
           <div className="my-3">
-            <Checkbox
-              label={
-                <Typography
-                  color="blue-gray"
-                  className="flex font-medium text-white"
-                  placeholder={undefined}
-                  onPointerEnterCapture={undefined}
-                  onPointerLeaveCapture={undefined}
-                >
-                  Show my interest on my profile
-                </Typography>
-              }
-              id="show_interest"
-              color="gray"
-              type="checkbox"
+            <CustomDropDowns
               name="show_interest"
-              onChange={handleChange}
-              checked={formData.show_interest}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-              crossOrigin={undefined}
+              label="Show interest"
+              type="checkbox"
+              initialValue={user.show_interest}
             />
           </div>
           <div className="my-3 gap-2">
-            <label>About me</label>
-            <textarea
-              id="about"
-              name="about"
-              required={true}
-              value={formData.about || ''}
-              onChange={handleChange}
-              className={`bg-transparent border border-white rounded-2 my-2 w-full ${formData.about ? 'text-white' : 'text-secondary'
-                }`}
-            />
+            <CustomTextArea name="about" label="About me" required={true} initialValue={user.about}/>
           </div>
           <div>
-            {formData.previas_created.length > 0 ? (
-              <div>Previas created: {formData.previas_created.length}</div>
+            {user.previas_created.length > 0 ? (
+              <div>Previas created: {user.previas_created.length}</div>
             ) : (
               <p>{`You haven't created any`}</p>
             )}
-            {formData.previas_requests.length > 0 ? (
-              <div>Previas you joined: {formData.previas_requests.length}</div>
+            {user.previas_requests.length > 0 ? (
+              <div>Previas you joined: {user.previas_requests.length}</div>
             ) : (
               <p>{`You haven't joined any`}</p>
             )}
@@ -389,34 +292,12 @@ export default function OnboardingForm() {
         </div>
         <div className="col-span-3 lg:col-span-1">
           <div className="flex flex-wrap justify-center items-center gap-2">
-            <div>
-              {formData.url_img && (
-                <Image
-                  width={500}
-                  height={500}
-                  sizes="100vw"
-                  src={formData.url_img}
-                  alt="profile pic preview" />
-              )}
-            </div>
-            <label className="w-full btn-secondary flex flex-col items-center justify-center gap-1 ">
-              <FaUpload />
-              <div>Upload photo</div>
-              <input
-                type="file"
-                name="url_img"
-                id="url_img"
-                className="hidden"
-                onChange={handleProfileChange}
-              />
-            </label>
+            <CustomPhotoUploader label="Upload photo" name="url_img" initialValue={user.url_img}/>
           </div>
         </div>
 
-        <button className="btn-secondary mt-4 col-span-3" type="submit">
-          {isLoading ? 'Saving data...' : 'Save'}{' '}
-        </button>
+        <CustomButton notify={notify} text="Save" />
       </form>
-    </>
+    </Suspense>
   )
 }

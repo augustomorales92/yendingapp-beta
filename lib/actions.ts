@@ -1,11 +1,13 @@
 'use server'
 
-import { signIn } from '@/auth'
+import { auth, signIn } from '@/auth'
 import { AuthError } from 'next-auth'
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 import toast from 'react-hot-toast'
 import { z } from 'zod'
 import { baseUrl } from '@/lib/constants'
+import { calculateAge } from '@/lib/utils'
 
 export async function authenticate(
   prevState: string | undefined,
@@ -31,13 +33,10 @@ const CreateLoginSchema = z.object({
   password: z.string()
 })
 
-export async function signup(
-  prevState: void | undefined,
-  formData: FormData
-) {
+export async function signup(prevState: void | undefined, formData: FormData) {
   try {
     const { email, password } = CreateLoginSchema.parse({
-      email: formData.get('name'),
+      email: formData.get('email'),
       password: formData.get('password')
     })
     const res = await fetch(`${baseUrl}/api/user/userExists`, {
@@ -82,5 +81,82 @@ export async function signup(
   } catch (error) {
     console.error('Error:', error)
     toast.error('Ocurrió un error. Inténtalo de nuevo.')
+  }
+}
+
+export async function fetchUser() {
+  const session = await auth()
+  const params = {
+    email: session?.user?.email || ''
+  }
+  const queryString = new URLSearchParams(params).toString()
+  try {
+    const response = await fetch(`${baseUrl}/api/user?${queryString}`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+    if (!response.ok) {
+      throw new Error('Error al obtener datos del usuario')
+    }
+    const data = await response.json()
+    return data.user_data
+  } catch (error) {
+    console.error('Error fetching user data:', error)
+  }
+}
+
+const CreateUserSchema = z.object({
+  name: z.string(),
+  dob_day: z.string(),
+  dob_month: z.string(),
+  dob_year: z.string(),
+  about: z.string(),
+  age: z.number(),
+  show_interest: z.boolean(),
+  gender_identity: z.string(),
+  previas_interest: z.string(),
+  previas_requests: z.array(z.string()),
+  previas_created: z.array(z.string()),
+  url_img: z.string(),
+  previas: z.array(z.string())
+})
+
+const CreateUserFromSchema = CreateUserSchema.pick({
+  dob_day: true,
+  dob_month: true,
+  dob_year: true
+})
+
+export async function updateUser(
+  prevState: void | undefined,
+  formData: FormData
+) {
+  try {
+    const { dob_day, dob_month, dob_year } = CreateUserFromSchema.parse({
+      dob_day: formData.get('dob_day'),
+      dob_month: formData.get('dob_month'),
+      dob_year: formData.get('dob_year')
+    })
+
+    const calculatedAge = calculateAge({ dob_day, dob_month, dob_year })
+    const newFormData = { ...formData, age: calculatedAge }
+    const response = await fetch(`${baseUrl}/api/user`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify({ newFormData })
+    })
+    if (response.status === 200) {
+      revalidatePath('/dashboard')
+      revalidatePath('/')
+      redirect('/dashboard')
+    } else {
+      console.error('Failed to update user:', response.status)
+    }
+  } catch (err) {
+    console.log(err)
   }
 }
