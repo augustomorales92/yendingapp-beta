@@ -1,4 +1,3 @@
-'use client'
 import OnboardingForm from '@/components/forms/OnboaringForm'
 
 export default function page() {

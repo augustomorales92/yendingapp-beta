@@ -1,6 +1,3 @@
-
-'use client'
-
 import RegisterForm from '@/components/forms/RegisterForm';
 import Image from 'next/image';
 

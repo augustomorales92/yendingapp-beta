@@ -17,6 +17,7 @@ export default function LoginForm() {
         name="email"
         label="Email"
         onPointerLeaveCapture={undefined}
+        onPointerEnterCapture={undefined}
         crossOrigin={undefined}
       />
       <Input
@@ -25,6 +26,7 @@ export default function LoginForm() {
         label="Password"
         name="password"
         onPointerLeaveCapture={undefined}
+        onPointerEnterCapture={undefined}
         crossOrigin={undefined}
       />
       <button className="btn-primary">

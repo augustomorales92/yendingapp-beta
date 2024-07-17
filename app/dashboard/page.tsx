@@ -31,8 +31,6 @@ export default async function Page({
 
   // PRIMERO me aseguro que las previas no esten vencidas y que no sean del creador para filtrar
   const today = new Date()
-  console.log(searchParams)
-  console.log(session)
   const sortCriteria = 'date'
   const validPrevias = (previas || []).filter((previa) => {
     const previaDate = new Date(previa.date)

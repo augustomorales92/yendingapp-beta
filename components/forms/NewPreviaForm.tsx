@@ -1,13 +1,13 @@
 'use client'
 import { upload } from '@/lib/upload'
 import { Checkbox, Input, Select, Option } from '@material-tailwind/react'
-import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 import { FaUpload } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { ClipLoader } from 'react-spinners'
 import Image from 'next/image'
+import { auth } from '@/auth'
 
 type Validations = {
   date?: string

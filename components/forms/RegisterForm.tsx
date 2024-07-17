@@ -1,16 +1,19 @@
-'use client'
-
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
 import { FaUserAlt } from 'react-icons/fa'
-import { signIn } from 'next-auth/react'
 import toast from 'react-hot-toast'
 import BeatLoader from 'react-spinners/BeatLoader'
 import { Input } from '@material-tailwind/react'
+import {useFormState} from 'react-dom'
+import { signup } from '@/lib/actions'
 
-export default function RegisterForm() {
-  const [email, setEmail] = useState('')
+export default async function RegisterForm() {
+
+  const [errorMessage, dispatch, isPending] = useFormState(
+    signup,
+    undefined
+  )
+
+ /*  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   // handle errors
   const [emailError, setEmailError] = useState(false)
@@ -102,36 +105,36 @@ export default function RegisterForm() {
         toast.dismiss(toastId)
       }
     }
-  }
+  } */
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 px-6">
+    <form action={dispatch} className="flex flex-col gap-3 px-6">
       <Input
-        onChange={(e) => setEmail(e.target.value)}
         type="email"
+        name="email"
         color="white"
         label="Put your email"
-        error={!!emailError}
-        aria-errormessage={emailError ? 'This field is required' : null}
-        className={emailError ? 'border-red-500 text-white' : ''}
+        error={!!errorMessage}
+        aria-errormessage={errorMessage ? 'This field is required' : null}
+        className={errorMessage ? 'border-red-500 text-white' : ''}
         crossOrigin={undefined}
         onPointerEnterCapture={undefined}
         onPointerLeaveCapture={undefined}
       />
       <Input
-        onChange={(e) => setPassword(e.target.value)}
         type="password"
+        name="password"
         color="white"
         label="Choose your password"
-        error={!!passwordError}
-        aria-errormessage={passwordError ? 'This field is required' : null}
-        className={passwordError ? 'border-red-500 text-white' : ''}
+        error={!!errorMessage}
+        aria-errormessage={errorMessage ? 'This field is required' : null}
+        className={errorMessage ? 'border-red-500 text-white' : ''}
         crossOrigin={undefined}
         onPointerEnterCapture={undefined}
         onPointerLeaveCapture={undefined}
       />
       <button className="btn-register">
-        {isLoading ? (
+        {isPending ? (
           <span>
             <BeatLoader color="white" />
           </span>

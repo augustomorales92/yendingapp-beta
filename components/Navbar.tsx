@@ -4,9 +4,9 @@ import React from 'react'
 import { FaGlassCheers } from 'react-icons/fa';
 import { MdDashboard, MdLogin } from "react-icons/md";
 
-export default function Navbar() {
+export default async function Navbar() {
 
-    const session = auth()
+    const session = await auth()
 
     return (
         <nav className='w-full bg-transparent fixed top-0 left-0 right-0 z-10'>
