@@ -4,7 +4,7 @@ import { Input } from '@material-tailwind/react'
 type CustomInputProps = {
   name: string
   label: string
-  placeholder: string
+  placeholder?: string
   required?: boolean
   type?: string
   hasMin?: boolean

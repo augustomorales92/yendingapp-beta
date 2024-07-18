@@ -5,7 +5,7 @@ import { FaUpload } from 'react-icons/fa'
 type CustomPhotoUploaderProps = {
   name: string
   label: string
-  initialValue: string
+  initialValue?: string
 }
 
 const CustomPhotoUploader = ({
@@ -44,13 +44,6 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           value={''}
         />
       </label>
-    {/*   <input
-        type="hidden"
-        name={name}
-        id={name}
-        className="hidden"
-        value={value}
-      /> */}
     </>
   )
 }

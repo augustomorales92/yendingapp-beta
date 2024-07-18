@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 
-export default function GenderSelect({ initialValue }: { initialValue: string }) {
+export default function GenderSelect({ initialValue }: { initialValue?: string }) {
   const [selectedGender, setSelectedGender] = useState(initialValue);
 
   const handleGenderChange = (e: React.ChangeEvent<HTMLInputElement>) => {

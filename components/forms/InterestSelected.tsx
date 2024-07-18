@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 
-export default function InterestSelected({initialValue}: {initialValue: string}) {
+export default function InterestSelected({initialValue}: {initialValue?: string}) {
   const [selectedInterest, setSelectedInterest] = useState(initialValue)
 
   const handleInterestChange = (e: React.ChangeEvent<HTMLInputElement>) => {

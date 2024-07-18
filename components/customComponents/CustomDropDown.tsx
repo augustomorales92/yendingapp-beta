@@ -18,7 +18,6 @@ const CustomDropDowns = ({ name, label, values, type, initialValue }: CustomDrop
 
   const handleChange = (e: { target: any }) => {
     const { name, type, value, checked } = e.target
-
     const fieldValue = type === 'checkbox' ? checked : value
     setValue(fieldValue)
   }
@@ -43,12 +42,13 @@ const CustomDropDowns = ({ name, label, values, type, initialValue }: CustomDrop
           type="checkbox"
           name={name}
           onChange={handleChange}
-          checked={!!value}
+          checked={value as boolean}
           onPointerEnterCapture={undefined}
           onPointerLeaveCapture={undefined}
           crossOrigin={undefined}
         />
-      ) : (
+      ) : (<>
+
         <Select
           label={label}
           color="gray"
@@ -67,8 +67,9 @@ const CustomDropDowns = ({ name, label, values, type, initialValue }: CustomDrop
             </Option>
           ))}
         </Select>
+        <input type="hidden" name={name} value={value as string} />
+        </>
       )}
-      <input type="hidden" name={name} value={value as string} />
     </>
   )
 }

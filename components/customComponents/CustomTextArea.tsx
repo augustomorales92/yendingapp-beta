@@ -27,8 +27,7 @@ const CustomTextArea = ({name, label, required, initialValue}: CustomTextAreaPro
           value ? 'text-white' : 'text-secondary'
         }`}
       />
-{/*       <input type="hidden" name={name} value={value} />
- */}    </>
+  </>
   )
 }
 

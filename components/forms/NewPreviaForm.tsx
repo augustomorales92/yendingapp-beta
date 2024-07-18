@@ -1,13 +1,20 @@
 'use client'
 import { upload } from '@/lib/upload'
 import { Checkbox, Input, Select, Option } from '@material-tailwind/react'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { FaUpload } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { ClipLoader } from 'react-spinners'
 import Image from 'next/image'
 import { auth } from '@/auth'
+import { useFormState } from 'react-dom'
+import { createPrevia } from '@/lib/actions'
+import CustomInput from '../customComponents/CustomInput'
+import CustomTextArea from '../customComponents/CustomTextArea'
+import { CustomButton } from '../buttons/CustomButton'
+import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
+import CustomDropDowns from '../customComponents/CustomDropDown'
 
 type Validations = {
   date?: string
@@ -19,9 +26,28 @@ type Validations = {
   images_previa_url?: string
 }
 
+const place_details = [
+  {
+    label: 'In a bar',
+    value: 'In a bar'
+  },
+  {
+    label: 'In a house',
+    value: 'In a house'
+  },
+  {
+    label: 'On the beach',
+    value: 'On the beach'
+  },
+  {
+    label: `We'll move`,
+    value: `We'll move`
+  }
+]
+
 export default function NewPreviaForm() {
   const router = useRouter()
-  const [error, setError] = useState('')
+  /*   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [previaImage, setPreviaImage] = useState(null)
 
@@ -166,195 +192,102 @@ export default function NewPreviaForm() {
         }
       }
     }
+  } */
+
+  const notify = (isPending: boolean) => {
+    if (isPending) {
+      toast.loading("We're creating a new previa... pleas wait")
+    }
+    if (errorMessage) {
+      toast.error(errorMessage)
+    }
   }
 
-  console.log(previaImage)
-  console.log(formData.images_previa_url)
+  const [errorMessage, dispatch] = useFormState(createPrevia, undefined)
 
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center align-center">
-        {' '}
-        <ClipLoader color="white" size={50} />{' '}
-      </div>
-    )
-  }
+  const Loader = () => (
+    <div className="flex justify-center items-center align-center">
+      <ClipLoader color="white" size={50} />{' '}
+    </div>
+  )
 
   return (
-    <>
-      <form className="grid grid-cols-3 gap-3" onSubmit={handleSubmit}>
+    <Suspense fallback={<Loader />}>
+      <form className="grid grid-cols-3 gap-3" action={dispatch}>
         <div className="col-span-3 lg:col-span-2">
           <div className="my-2">
-            <Input
-              color="white"
-              label="Location"
-              id="location"
-              type="text"
-              name="location"
-              value={formData.location || ' '}
-              onChange={handleChange}
-              className={`${formData.location ? 'text-white' : 'text-white'}`}
-              crossOrigin={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-            />
-            {validations.location && (
-              <p className="text-red-500">{validations.location}</p>
-            )}
+            <CustomInput label="Location" name="location" required={true} />
           </div>
 
           <div className="flex flex-wrap justify-start gap-3  ">
             <div className="w-50 my-3">
-              <Input
+              <CustomInput
                 label="Date"
-                id="date"
-                color="white"
-                type="date"
                 name="date"
-                value={formData.date}
-                onChange={handleChange}
-                className={` ${formData.date ? 'text-white' : 'text-white'}`}
-                crossOrigin={undefined}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
+                type="date"
+                required={true}
               />
-              {validations.date && (
-                <p className="text-red-500">{validations.date}</p>
-              )}
             </div>
+          </div>
 
-            <div className="w-50 my-3">
-              <Input
-                label="Start Time"
-                id="startTime"
-                color="white"
-                type="time"
-                name="startTime"
-                value={formData.startTime}
-                onChange={handleChange}
-                className={`${formData.startTime ? 'text-white' : 'text-white'
-                  }`}
-                crossOrigin={undefined}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-              />
-              {validations.startTime && (
-                <p className="text-red-500">{validations.startTime}</p>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-wrap justify-start gap-3">
-            <div className="w-50 my-3">
-              <Input
-                label="How many are there?"
-                id="participants"
-                color="white"
-                type="number"
-                name="participants"
-                value={formData.participants}
-                onChange={handleChange}
-                className={`${formData.participants ? 'text-white' : 'text-white'
-                  }`}
-                crossOrigin={undefined}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-              />
-              {validations.participants && (
-                <p className="text-red-500">{validations.participants}</p>
-              )}
-            </div>
-            <div className="w-50 my-3">
-              <Select
-                label="Where is it?"
-                color="gray"
-                id="place_details"
-                name="place_details"
-                value={formData.place_details}
-                className={`${formData.place_details ? 'text-white' : 'text-white'
-                  }`}
-                onChange={(value) =>
-                  handleChange({ target: { name: 'place_details', value } })
-                }
-                placeholder={undefined}
-                onPointerEnterCapture={undefined}
-                onPointerLeaveCapture={undefined}
-              >
-                <Option value="In a bar">In a bar</Option>
-                <Option value="In a house">In a house</Option>
-                <Option value="On the beach">On the beach</Option>
-                <Option value="We'll move">{`We'll move`}</Option>
-              </Select>
-              {validations.place_details && (
-                <p className="text-red-500">{validations.place_details}</p>
-              )}
-            </div>
-          </div>
-          <div className="flex items-center text-secondary gap-3 border-b-2 border-t-2 border-primary_b m-2">
-            <Checkbox
-              label="Show previa location"
-              id="show_location"
-              color="blue"
-              name="show_location"
-              onChange={handleChange}
-              checked={formData.show_location}
-              crossOrigin={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
+          <div className="w-50 my-3">
+            <CustomInput
+              label="Start Time"
+              name="startTime"
+              type="time"
+              required={true}
             />
           </div>
-          <div className="my-2">
-            <textarea
-              color="white"
-              id="description"
-              name="description"
-              value={formData.description || ''}
-              onChange={handleChange}
-              className={`bg-transparent border border-white rounded-2 my-2 w-full ${formData.about ? 'text-white' : 'text-white'
-                }`}
+        </div>
+        <div className="flex flex-wrap justify-start gap-3">
+          <div className="w-50 my-3">
+            <CustomInput
+              label="How many are there?"
+              name="participants"
+              type="number"
+              required={true}
             />
-            {validations.description && (
-              <p className="text-red-500">{validations.description}</p>
-            )}
           </div>
+          <div className="w-50 my-3">
+            <CustomDropDowns
+              name="place_details"
+              label="Where is it?"
+              values={place_details}
+              type="select"
+            />
+          </div>
+        </div>
+        <div className="flex items-center text-secondary gap-3 border-b-2 border-t-2 border-primary_b m-2">
+          <CustomDropDowns
+            name="show_location"
+            label="Show location"
+            type="checkbox"
+          />
+        </div>
+        <div className="my-2">
+          <CustomTextArea
+            label="Description"
+            name="description"
+            required={true}
+          />
         </div>
         <div className="col-span-3 lg:col-span-1">
           <div className="flex flex-wrap justify-center items-center gap-2">
             <div className="text-secondary">
-              {formData.images_previa_url && (
-                <Image
-                  width={500}
-                  height={500}
-                  src={formData.images_previa_url}
-                  alt="previa pic preview"
-                />
-              )}
-            </div>
-            <label className="w-full btn-secondary flex flex-col items-center justify-center gap-1 ">
-              <FaUpload />
-              <div>Upload photo</div>
-              <input
-                type="file"
-                name="url_img"
-                id="url_img"
-                className="hidden"
-                onChange={handlePreviaChange}
+              <CustomPhotoUploader
+                label="Upload photo"
+                name="images_previa_url"
               />
-            </label>
-            {validations.images_previa_url && (
-              <p className="text-red-500">{validations.images_previa_url}</p>
-            )}
+            </div>
           </div>
         </div>
-        {error && (
+        {!!errorMessage && (
           <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
-            {error}
+            {errorMessage}
           </div>
         )}
-        <button className="btn-secondary mt-4 col-span-3" type="submit">
-          {isLoading ? 'Creating...' : 'Save'}{' '}
-        </button>
+        <CustomButton text="Create Previa" notify={notify} />
       </form>
-    </>
+    </Suspense>
   )
 }
