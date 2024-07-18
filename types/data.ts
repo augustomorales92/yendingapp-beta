@@ -4,7 +4,7 @@ export interface JoinRequest {
   intentions: string
   photos: string[]
   status: string
-  userID: string
+  user_id: string
 }
 
 export interface Previas {

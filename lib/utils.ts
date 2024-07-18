@@ -1,6 +1,6 @@
+import { auth } from '@/auth'
 import { Previas } from '@/types/data'
 import { isBefore, isSameDay, parseISO, compareAsc } from 'date-fns'
-import { Session } from 'next-auth'
 
 interface calculateAge {
   dob_day: string
@@ -31,13 +31,13 @@ export function calculateAge({ dob_day, dob_month, dob_year }: calculateAge) {
 
 type SortedPrevias = {
   previas: Previas[]
-  session: Session | null
   sortCriteria?: string
 }
 const today = new Date()
 
-const previaValidation = ({ previas, session}: SortedPrevias) =>
-  previas?.filter(
+const previaValidation = async ({ previas }: SortedPrevias) => {
+  const session = await auth()
+  return (previas || [])?.filter(
     (previa: {
       date: string | number | Date
       creator: string | null | undefined
@@ -49,10 +49,15 @@ const previaValidation = ({ previas, session}: SortedPrevias) =>
       return (!isExpired || isSameDayToday) && !isCreator
     }
   )
+}
 
 // Ordenar validPrevias según el previas de ordenación
-export const getSortedPrevias = ({ previas, session, sortCriteria = 'date'  }: SortedPrevias) => {
-  const validPrevias = previaValidation({ previas, session })
+export const getSortedPrevias = async ({
+  previas,
+  sortCriteria = 'date'
+}: SortedPrevias) => {
+  const validPrevias = await previaValidation({ previas })
+  console.log(validPrevias)
   return [...validPrevias]?.sort((a, b) => {
     if (sortCriteria === 'date') {
       const dateA = a.date

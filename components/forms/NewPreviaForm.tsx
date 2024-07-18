@@ -20,7 +20,6 @@ type Validations = {
 }
 
 export default function NewPreviaForm() {
-  const session = auth()
   const router = useRouter()
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -172,17 +171,6 @@ export default function NewPreviaForm() {
   console.log(previaImage)
   console.log(formData.images_previa_url)
 
-  if (status === 'loading') {
-    return <div className="text-secondary">Loading...</div>
-  }
-
-  if (!session) {
-    return (
-      <div className="text-secondary">
-        Please sign in to access the dashboard.
-      </div>
-    )
-  }
 
   if (isLoading) {
     return (

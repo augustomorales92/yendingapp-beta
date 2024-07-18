@@ -1,4 +1,3 @@
-import { auth } from '@/auth'
 import GroupBtn from '@/components/buttons/GroupBtn'
 import PreviaCard from '@/components/cards/PreviaCard'
 import { CardsSkeleton } from '@/components/skeletons/CardSkeleton'
@@ -28,10 +27,9 @@ export default async function Page({
 }: {
   searchParams: { sortCriteria: string }
 }) {
-  const session = await auth()
   const previas = await fetchData()
 
-  const sortedPrevias = getSortedPrevias({ previas, session, sortCriteria: searchParams.sortCriteria })
+  const sortedPrevias = await getSortedPrevias({ previas, sortCriteria: searchParams.sortCriteria })
 
   return (
     <Suspense fallback={<CardsSkeleton />}>

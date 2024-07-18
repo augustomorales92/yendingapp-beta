@@ -1,14 +1,14 @@
-import { auth } from '@/auth';
 import GroupBtn from '@/components/buttons/GroupBtn';
 import MyPreviasCard from '@/components/cards/MyPreviasCard';
-import { compareAsc, parseISO } from 'date-fns';
+import { baseUrl } from '@/lib/constants';
+import { getSortedPrevias } from '@/lib/utils';
 import React from 'react'
 
 const fetchData = async () => {
 
     try {
         // ruta que trae las previas creadas por el usuario logeado
-        const response = await fetch(`/api/previas/myPrevias`, {
+        const response = await fetch(`${baseUrl}/api/previas/myPrevias`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json",
@@ -32,28 +32,7 @@ export default async function Page({
 }) {
 
     const previas = await fetchData();
-    const session = await auth();
-
-    const sortCriteria = 'date'
-
-    const sortedMyPrevias = [...previas]?.sort((a, b) => {
-        if (sortCriteria === 'date') {
-            const dateA = parseISO(a.date)
-            const dateB = parseISO(b.date)
-            return compareAsc(dateA, dateB)
-        } else if (sortCriteria === 'participants') {
-            return b.participants - a.participants
-        }
-        return 0
-    })
-
-    if (!session) {
-        return (
-            <div className="text-secondary px-12 py-16 md:py-6 min-h-screen">
-                Please sign in to access the dashboard.
-            </div>
-        )
-    }
+    const sortedPrevias = await getSortedPrevias({ previas, sortCriteria: searchParams.sortCriteria })
 
     return (
         <div className='px-12 py-16 md:py-6 min-h-screen'>
@@ -61,7 +40,7 @@ export default async function Page({
                 <GroupBtn />
             </div>
             <div className='grid grid-cols-3 gap-4'>
-                {sortedMyPrevias?.map((previa, index) => (
+                {sortedPrevias?.map((previa, index) => (
                     <div className='col-span-3 lg:col-span-1' key={index}>
                         <MyPreviasCard
                             previa_id={previa.previa_id}

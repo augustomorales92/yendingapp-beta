@@ -95,7 +95,8 @@ export async function fetchUser() {
     const response = await fetch(`${baseUrl}/api/user?${queryString}`, {
       method: 'GET',
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        Authorization: JSON.stringify(session)
       }
     })
     if (!response.ok) {
@@ -161,4 +162,25 @@ export async function updateUser(
     throw new Error('Error updating user')
   }
   redirect('/dashboard')
+}
+
+export async function getMyPrevias() {
+  const session = await auth()
+
+  try {
+    const response = await fetch(`${baseUrl}/api/previas/myPrevias`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: JSON.stringify(session)
+      }
+    })
+    if (!response.ok) {
+      throw new Error('Error al obtener datos de las previas')
+    }
+    const data = await response.json()
+    return data.previas
+  } catch (error) {
+    console.error('Error fetching previas data:', error)
+  }
 }
