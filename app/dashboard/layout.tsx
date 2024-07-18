@@ -1,7 +1,12 @@
 
 import SideNavbar from "@/components/SideNavbar";
+import { ReactNode } from 'react';
 
-export default function DashboardLayout({ children }) {
+interface DashboardLayoutProps {
+  children: ReactNode;
+}
+
+export default function DashboardLayout({ children }:DashboardLayoutProps) {
 
 
   return (
