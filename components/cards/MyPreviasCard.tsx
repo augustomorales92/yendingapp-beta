@@ -89,10 +89,6 @@ export default function MyPreviasCard({ previa_id, location, date, startTime, pa
         } catch (err) {
             console.log(err)
             setIsLoading(false);
-            if (toastId) {
-                toast.dismiss(toastId);
-            }
-
         }
 
     };

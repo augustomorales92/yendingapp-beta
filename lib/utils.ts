@@ -57,7 +57,7 @@ export const getSortedPrevias = async ({
   sortCriteria = 'date'
 }: SortedPrevias) => {
   const validPrevias = await previaValidation({ previas })
-  console.log(validPrevias)
+
   return [...validPrevias]?.sort((a, b) => {
     if (sortCriteria === 'date') {
       const dateA = a.date
