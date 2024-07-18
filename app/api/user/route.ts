@@ -25,7 +25,6 @@ export async function PUT(req: NextRequest) {
 
     // Crear updatedData dependiendo de si user_id ya existe o no
     let updatedData: any
-    console.log('user_data', user_data)
     // Verificar si user_id ya existe en user_data
     if (user_data.user_id === null) {
       updatedData = {
@@ -37,7 +36,6 @@ export async function PUT(req: NextRequest) {
         ...updatedFormData
       }
     }
-    console.log('updatedData', updatedData)
     // Actualizar el usuario en la base de datos
     await prisma.users.update({
       where: {
@@ -64,7 +62,7 @@ export async function PUT(req: NextRequest) {
       { status: 200 }
     )
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return NextResponse.json(
       { message: 'A ocurrido un error' },
       { status: 500 }
@@ -89,7 +87,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ user_data }, { status: 200 })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return NextResponse.json(
       { message: 'Ha ocurrido un error' },
       { status: 500 }
