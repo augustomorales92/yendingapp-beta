@@ -8,6 +8,8 @@ export default function HomeButton() {
         false ? 'opacity-50 cursor-not-allowed' : ''
       }`}
       href='/auth/login'
+      prefetch
+      scroll={false}
     >
       {"Let's Start"}
     </Link>
