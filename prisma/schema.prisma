@@ -50,7 +50,7 @@ model previas {
 
 model previausers {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  v          Int      @map("__v")
+  v          Int      @map("__v") 
   attendands Int
   createdAt  DateTime @db.Date
   intentions String

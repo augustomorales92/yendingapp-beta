@@ -9,7 +9,7 @@ export default function onboarding() {
                 <h2 className='p-3 text-secondary font-bold text-xl md:text-3xl'>ONBOARDING PROFILE</h2>
             </div>
             <div className='p-6'>
-                <OnboardingForm />
+                <OnboardingForm  />
             </div>
 
         </>

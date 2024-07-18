@@ -65,6 +65,7 @@ export async function signup(prevState: void | undefined, formData: FormData) {
       },
       body: JSON.stringify({ email, password })
     })
+    console.log(response)
     if (!response.ok) {
       throw new Error('Error en el registro.')
     }
@@ -81,7 +82,6 @@ export async function signup(prevState: void | undefined, formData: FormData) {
     redirect('/onboarding')
   } catch (error) {
     console.error('Error:', error)
-    toast.error('Ocurrió un error. Inténtalo de nuevo.')
   }
 }
 

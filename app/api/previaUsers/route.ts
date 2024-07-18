@@ -3,10 +3,10 @@ import { auth } from '@/auth'
 import { prisma } from '@/auth.config'
 
 // Ruta para crear un nuevo Usuario de la previa-
-export async function POST(req: NextRequest, res:NextResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   // necesito el dato del usuario que esta solicitando para enviarlo a la db como user_id del solicitante
   const session = await auth()
-  const emailWanted = session?.user.email
+  const emailWanted = session?.user?.email || ""
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
@@ -30,7 +30,11 @@ export async function POST(req: NextRequest, res:NextResponse) {
     // }
 
     // busco el id del usuario solicitante con el email
-    const user_data = await prisma.user.findOne({ email: emailWanted })
+    const user_data = await prisma.users.findUnique({
+      where: {
+        email: emailWanted
+      }
+    })
     if (!user_data) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
@@ -41,10 +45,15 @@ export async function POST(req: NextRequest, res:NextResponse) {
       photos: photos,
       previa_id: previa_id,
       intentions: intentions,
-      user_id: user_data?.user_id
+      user_id: user_data?.user_id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      // Puse estos dos nose que onda 
+      status: "sent",
+      v: 0,
     }
 
-    const newPreviaUser = await prisma.previaUser.create(updatedData)
+    const newPreviaUser = await prisma.previausers.create({ data: updatedData })
     console.log('newReq:', newPreviaUser)
     return NextResponse.json({ newPreviaUser })
   } catch (error) {
@@ -53,15 +62,19 @@ export async function POST(req: NextRequest, res:NextResponse) {
 }
 
 //  Trae las solicitudes de union que hizo el usuario que esta logeado
-export async function GET(req: NextRequest, res:NextResponse) {
+export async function GET() {
   const session = await auth()
-  const emailWanted = session?.user.email
+  const emailWanted = session?.user?.email || ""
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    const userJoinRequests = await prisma.previaUser.find({ creator: emailWanted })
+    const userJoinRequests = await prisma.previas.findMany({
+      where: {
+        creator: emailWanted
+      }
+    })
 
     return NextResponse.json({ userJoinRequests }, { status: 200 })
   } catch (error) {
@@ -74,7 +87,7 @@ export async function GET(req: NextRequest, res:NextResponse) {
 }
 
 //  modifico el status de PreviaUsers cuando el dueño de la previa cambia el mismo
-export async function PUT(req: NextRequest, res:NextResponse) {
+export async function PUT(req: NextRequest, ) {
   const session = await auth()
 
   if (!session) {
@@ -82,22 +95,43 @@ export async function PUT(req: NextRequest, res:NextResponse) {
   }
 
   try {
-    const { previaId, userId, status } = await req.json()
+    const { previaId, userId, status }: { previaId: string; userId: string; status: string } = await req.json();
 
-    const previaUser = await prisma.previaUser.findOne({
-      previa_id: previaId,
-      user_id: userId
-    })
+    const previaUser = await prisma.previausers.findUnique({
+      where: {
+        user_id: userId,
+      },
+    });
 
     if (!previaUser) {
-      return NextResponse.json(
-        { message: 'PreviaUser not found' },
-        { status: 404 }
-      )
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    previaUser.status = status
-    await previaUser.save()
+    const updatedStatusPrev = await prisma.previausers.update({
+      where: {
+        user_id: userId,
+      },
+      data: {
+        status: status,
+      },
+    });
+
+    // MONGO 
+
+    // const previaUser = await prisma.previausers.findOne({
+    //   previa_id: previaId,
+    //   user_id: userId
+    // })
+
+    // if (!previaUser) {
+    //   return NextResponse.json(
+    //     { message: 'PreviaUser not found' },
+    //     { status: 404 }
+    //   )
+    // }
+
+    // previaUser.status = status
+    // await previaUser.save()
 
     return NextResponse.json({ message: 'Status updated successfully' })
   } catch (error) {

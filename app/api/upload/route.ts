@@ -1,4 +1,4 @@
-import {PutObjectCommand, S3Client} from "@aws-sdk/client-s3";
+import {PutObjectCommand, S3Client, S3ClientConfig} from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -8,13 +8,15 @@ export async function POST(req:NextRequest) {
   if (formData.has('file')) {
     const file = formData.get('file') as File;
 
-    const s3Client = new S3Client({
+    const s3ClientConfig: S3ClientConfig = {
       region: 'eu-north-1',
       credentials: {
-        accessKeyId: process.env.S3_ACCESS_KEY,
-        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+        accessKeyId: process.env.S3_ACCESS_KEY as string,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY as string,
       },
-    });
+    };
+    
+    const s3Client = new S3Client(s3ClientConfig);
 
     // uso la libreria que me crea un ID random 
     const randomId = uuidv4();
