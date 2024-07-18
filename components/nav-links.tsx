@@ -34,7 +34,7 @@ const links = [
   },
   {
     name: 'More',
-    href: '/dashboard/profile',
+    href: '',
     icon: MdOutlineMoreHoriz
   },
   {
@@ -62,24 +62,24 @@ export default function NavLinks({logged}:LoggedProps) {
 
   return (
     <>
-      {links.map((link) => {
+      {links.map((link, index) => {
         const LinkIcon = link.icon
         return (
           <Link
-            key={link.name}
+            key={`${link.name}_${index}`}
             href={link.href}
             className={`flex mb-2 justify-start items-center gap-4 pl-5 p-2 rounded-md group cursor-pointer hover:bg-primary_b hover:shadow-lg m-auto ${
-              pathname.startsWith(link.href) ? 'bg-primary_b' : ''
+              pathname === link.href ? 'bg-primary_b' : ''
             }`}
           >
             <LinkIcon
               className={`text-2xl ${
-                pathname.startsWith(link.href) ? 'text-white' : 'text-secondary'
+                pathname === link.href ? 'text-white' : 'text-secondary'
               } group-hover:text-white`}
             />
             <h3
               className={`text-base font-semibold ${
-                pathname.startsWith(link.href) ? 'text-white' : 'text-secondary'
+                pathname === link.href ? 'text-white' : 'text-secondary'
               } group-hover:text-white`}
             >
               {link.name}

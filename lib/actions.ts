@@ -26,6 +26,7 @@ export async function authenticate(
     }
     throw error
   }
+  redirect('/dashboard?criteria=date')
 }
 
 const CreateLoginSchema = z.object({
