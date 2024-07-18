@@ -46,12 +46,7 @@ export default function RegisterForm() {
         onPointerLeaveCapture={undefined}
       />
       <CustomButton notify={notify} text="Register" />
-      <Link
-        className="text-sm mt-3"
-        href={'/auth/login'}
-        prefetch
-        scroll={false}
-      >
+      <Link className="text-sm mt-3" href={'/auth/login'} scroll={false}>
         Already have an account?{' '}
         <span className="underline text-primary_b font-bold">Login</span>
       </Link>

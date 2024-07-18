@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function SeeMyPrevias() {
   return (
-    <Link href="/dashboard/previas/my-previas" prefetch scroll={false}>
+    <Link href="/dashboard/previas/my-previas" scroll={false}>
       <Card
         placeholder={undefined}
         onPointerEnterCapture={undefined}

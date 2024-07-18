@@ -1,11 +1,7 @@
 'use client'
-import { upload } from '@/lib/upload'
-import { Checkbox, Input, Select, Option } from '@material-tailwind/react'
-import React, { Suspense, useState } from 'react'
-import { FaUpload } from 'react-icons/fa'
+
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import { ClipLoader } from 'react-spinners'
 import Image from 'next/image'
 import { auth } from '@/auth'
 import { useFormState } from 'react-dom'
@@ -205,14 +201,10 @@ export default function NewPreviaForm() {
 
   const [errorMessage, dispatch] = useFormState(createPrevia, undefined)
 
-  const Loader = () => (
-    <div className="flex justify-center items-center align-center">
-      <ClipLoader color="white" size={50} />{' '}
-    </div>
-  )
+
+  
 
   return (
-    <Suspense fallback={<Loader />}>
       <form className="grid grid-cols-3 gap-3" action={dispatch}>
         <div className="col-span-3 lg:col-span-2">
           <div className="my-2">
@@ -288,6 +280,5 @@ export default function NewPreviaForm() {
         )}
         <CustomButton text="Create Previa" notify={notify} />
       </form>
-    </Suspense>
   )
 }

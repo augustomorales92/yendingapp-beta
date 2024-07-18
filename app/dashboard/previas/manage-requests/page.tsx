@@ -1,8 +1,6 @@
 import PreviaManageRequestsButtons from '@/components/buttons/PreviaManageRequestsButtons'
 import { baseUrl } from '@/lib/constants'
 import { Previas } from '@/types/data'
-import React, { Suspense } from 'react'
-import { ClipLoader } from 'react-spinners'
 
 const fetchData = async () => {
   try {
@@ -27,15 +25,7 @@ export default async function Page() {
 
   const myPrevias: Previas[] = await fetchData()
 
-
-  const Loader = () => (
-    <div className="flex justify-center m-auto">
-      <ClipLoader color="white" size={50} />
-    </div>
-  )
-
   return (
-    <Suspense fallback={<Loader />}>
       <div className="px-12 py-16 md:py-6 min-h-screen">
         <div className="grid grid-cols-3 gap-4">
           {myPrevias?.map((previa, index) => (
@@ -80,6 +70,5 @@ export default async function Page() {
         <StatusRequests />
       </div> */}
       </div>
-    </Suspense>
   )
 }

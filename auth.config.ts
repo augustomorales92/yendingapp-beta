@@ -11,20 +11,20 @@ export const authConfig = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/'
+    signIn: '/auth/login',
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user
-      const isOnOnboarding = nextUrl.pathname.startsWith('/dashboard')
-      if (isOnOnboarding) {
-        if (isLoggedIn) return true
-        return Response.redirect(new URL('/', nextUrl))
+      const isLoggedIn = !!auth?.user;
+      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+      if (isOnDashboard) {
+        if (isLoggedIn) return true;
+        return false;
       } else if (isLoggedIn) {
-        return Response.redirect(new URL('/dashboard', nextUrl))
+        return Response.redirect(new URL('/dashboard', nextUrl));
       }
-      return true
-    }
+      return true;
+    },
   },
   providers: []
 } satisfies NextAuthConfig
