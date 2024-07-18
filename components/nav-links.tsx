@@ -70,8 +70,6 @@ export default function NavLinks({ logged }: LoggedProps) {
             className={`flex mb-2 justify-start items-center gap-4 pl-5 p-2 rounded-md group cursor-pointer hover:bg-primary_b hover:shadow-lg m-auto ${
               pathname === link.href ? 'bg-primary_b' : ''
             }`}
-            prefetch
-            scroll={false}
           >
             <LinkIcon
               className={`text-2xl ${

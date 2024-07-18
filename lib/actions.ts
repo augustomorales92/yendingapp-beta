@@ -26,7 +26,6 @@ export async function authenticate(
     }
     throw error
   }
-  redirect('/dashboard?criteria=date')
 }
 
 const CreateLoginSchema = z.object({
@@ -92,7 +91,6 @@ export async function fetchUser() {
   }
   const queryString = new URLSearchParams(params).toString()
   try {
-    console.log('yyyyyy')
 
     const response = await fetch(`${baseUrl}/api/user?${queryString}`, {
       method: 'GET',
