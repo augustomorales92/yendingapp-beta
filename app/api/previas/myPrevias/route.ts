@@ -5,13 +5,17 @@ import {  NextResponse } from 'next/server'
 
 export async function GET() {
   const session = await auth()
-  const emailWanted = session?.user.email
+  const emailWanted = session?.user?.email || ""
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    const previas = await prisma.previa.find({ creator: emailWanted })
+    const previas = await prisma.previas.findMany({ where:{
+      creator: {
+        equals:emailWanted
+      }
+    }  })
 
     return NextResponse.json({ previas }, { status: 200 })
   } catch (error) {

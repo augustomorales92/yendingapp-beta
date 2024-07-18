@@ -10,7 +10,13 @@ export async function GET() {
   }
 
   try {
-    const previas = await prisma.previa.find({ creator: session.user.email })
+    const previas = await prisma.previas.findMany({
+      where: {
+        creator:{
+          equals:session?.user?.email || ''
+        } 
+      }
+    })
 
     const acceptedRequests = []
     const rejectedRequests = []
