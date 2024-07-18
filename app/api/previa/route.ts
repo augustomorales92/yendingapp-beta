@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
+  console.log(session)
   const creator_email = session?.user?.email
 
   if (!session) {
@@ -11,10 +12,21 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 
   try {
+
+    const user = await prisma.users.findUnique({ where: { email: creator_email } })
+    if(!user){
+      return NextResponse.json({ message: 'User not found' }, { status: 404 })
+    }
+    const creatorData = {
+      user_id: user?.user_id,
+      photo: user?.url_img,
+      name: user?.name,
+  };
+
     const { formData } = await req.json()
     const generated_previa_id = uuidv4()
     const generated_pass_code = uuidv4()
-    const creator = creator_email
+    const creator = creatorData
 
     // Crear un objeto updatedData combinando formData y age
     const updatedData = {

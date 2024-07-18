@@ -7,6 +7,12 @@ datasource db {
   url      = env("MONGODB_URI")
 }
 
+type Creator {
+  user_id String
+  name String
+  photo String 
+}
+
 type PreviasJoinRequests {
   id         String   @map("_id") @db.ObjectId
   attendands Int
@@ -33,12 +39,12 @@ model previas {
   id                String                @id @default(auto()) @map("_id") @db.ObjectId
   v                 Int                   @map("__v")
   createdAt         DateTime              @db.Date
-  creator           String?
+  creator           Creator
   date              DateTime              @db.Date
   description       String
   images_previa_url String[]
   join_requests     PreviasJoinRequests[]
-  location          String?
+  location          String
   participants      String?
   pass_code         String                @unique(map: "pass_code_1")
   place_details     String
