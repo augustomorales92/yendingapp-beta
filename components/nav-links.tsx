@@ -42,14 +42,13 @@ const links = [
     href: '/dashboard/settings',
     icon: MdOutlineSettings
   }
-];
+]
 
 type LoggedProps = {
-  logged: string;
+  logged: string
 }
 
-export default function NavLinks({logged}:LoggedProps) {
-
+export default function NavLinks({ logged }: LoggedProps) {
   const pathname = usePathname()
 
   const pathValue = () => {
@@ -71,6 +70,8 @@ export default function NavLinks({logged}:LoggedProps) {
             className={`flex mb-2 justify-start items-center gap-4 pl-5 p-2 rounded-md group cursor-pointer hover:bg-primary_b hover:shadow-lg m-auto ${
               pathname === link.href ? 'bg-primary_b' : ''
             }`}
+            prefetch
+            scroll={false}
           >
             <LinkIcon
               className={`text-2xl ${
@@ -101,7 +102,7 @@ export default function NavLinks({logged}:LoggedProps) {
       >
         <MdOutlineLogout className="text-2xl  group-hover:text-white " />
         <h3 className="text-base  group-hover:text-white font-semibold ">
-          { logged ? 'Logout' : 'Sign in'}
+          {logged ? 'Logout' : 'Sign in'}
         </h3>
       </div>
       <Link

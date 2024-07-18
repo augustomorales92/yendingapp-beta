@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function CreateNew() {
   return (
-    <Link href="/dashboard/previas/new">
+    <Link href="/dashboard/previas/new" prefetch scroll={false}>
       <Card
         className="bg-primary_b hover:bg-primary_b/60 text-secondary_b"
         placeholder={undefined}
