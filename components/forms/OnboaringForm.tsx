@@ -211,6 +211,8 @@ export default function OnboardingForm({ user, session }: OnboardingFormProps) {
     </div>
   )
 
+  console.log(user)
+
   return (
     <Suspense fallback={loader}>
       <form className="grid grid-cols-3 gap-3 text-white" action={dispatch}>

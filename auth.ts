@@ -13,18 +13,21 @@ export const {
   ...authConfig,
   providers: [
     Credentials({
-      async authorize(credentials) {
-        const { email, password } = credentials
-          const user = await prisma.users.findUnique({ where: { email: email } })
-          if (!user) {
-            return null
-          }
-          const passwordMatch = await bcrypt.compare(password, user.password)
+      async authorize(credentials: Partial<Record<string, unknown>>) {
+        const { email, password } = credentials as {
+          email: string
+          password: string
+        }
+        const user = await prisma.users.findUnique({ where: { email: email } })
+
+        if (user) {
+          const passwordMatch = await bcrypt.compare(password, user.password || '')
           if (!passwordMatch) {
             return null
           }
           return user
-        
+        }
+        return null
       }
     }),
     GoogleProvider({

@@ -1,15 +1,15 @@
-import { auth } from '@/auth'
 import { prisma } from '@/auth.config'
 import { NextRequest, NextResponse } from 'next/server'
 import { v4 as uuidv4 } from 'uuid'
 
 export async function PUT(req: NextRequest) {
-  const session = await auth()
+  const session = JSON.parse(req.headers.get('Authorization') || '{}')
   const emailWanted = session?.user?.email || ''
+
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
-  }
+  } 
 
   try {
     const { updatedFormData, previaId } = await req.json()
@@ -25,7 +25,7 @@ export async function PUT(req: NextRequest) {
 
     // Crear updatedData dependiendo de si user_id ya existe o no
     let updatedData: any
-
+    console.log('user_data', user_data)
     // Verificar si user_id ya existe en user_data
     if (user_data.user_id === null) {
       updatedData = {
@@ -37,7 +37,7 @@ export async function PUT(req: NextRequest) {
         ...updatedFormData
       }
     }
-
+    console.log('updatedData', updatedData)
     // Actualizar el usuario en la base de datos
     await prisma.users.update({
       where: {

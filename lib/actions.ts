@@ -142,21 +142,22 @@ export async function updateUser(
 
     const calculatedAge = calculateAge({ dob_day, dob_month, dob_year })
     const newFormData = { ...formData, age: calculatedAge }
+    const session = await auth()
     const response = await fetch(`${baseUrl}/api/user`, {
       method: 'PUT',
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        Authorization: JSON.stringify(session)
       },
-      body: JSON.stringify({ newFormData })
+      body: JSON.stringify({ updatedFormData: newFormData })
     })
     if (response.status === 200) {
-      revalidatePath('/dashboard')
-      revalidatePath('/')
-      redirect('/dashboard')
     } else {
       console.error('Failed to update user:', response.status)
     }
   } catch (err) {
     console.log(err)
+    throw new Error('Error updating user')
   }
+  redirect('/dashboard')
 }
