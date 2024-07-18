@@ -27,7 +27,6 @@ export default async function Page() {
 
   const myPrevias: Previas[] = await fetchData()
 
-  console.log(myPrevias)
 
   const Loader = () => (
     <div className="flex justify-center m-auto">

@@ -15,7 +15,7 @@ export interface Previas {
   creator: string
   date: Date
   description: string
-  images_previa_url: string[]
+  images_previa_url: string[] | string | Record<string, unknown>
   location: string
   participants: number
   passCode: string

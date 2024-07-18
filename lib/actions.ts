@@ -184,3 +184,107 @@ export async function getMyPrevias() {
     console.error('Error fetching previas data:', error)
   }
 }
+
+const CreatePreviaSchema = z.object({
+  creator: z.string(),
+  date: z.string(),
+  description: z.string(),
+  location: z.string(),
+  images_previa_url: z.array(z.object({})),
+  participants: z.string(),
+  passCode: z.string(),
+  place_details: z.string(),
+  show_location: z.string(),
+  startTime: z.string(),
+  previa_id: z.string(),
+  v: z.number(),
+  createdAt: z.string(),
+  id: z.string(),
+  updatedAt: z.string(),
+})
+
+const CreatePreviaFromSchema = CreatePreviaSchema.omit({
+  previa_id: true,
+  updatedAt: true,
+  creator: true,
+  createdAt: true,
+  v: true,
+  id: true,
+  passCode: true,
+})
+
+export async function createPrevia(
+  prevState: void | undefined,
+  formData: FormData
+) {
+  try {
+    // Creamos la previa
+    const session = await auth()
+    const {
+      location,
+      date,
+      startTime,
+      participants,
+      description,
+      place_details,
+      show_location,
+      images_previa_url,
+    } = CreatePreviaFromSchema.parse({
+      location: formData.get('location'),
+      date: formData.get('date'),
+      startTime: formData.get('startTime'),
+      participants: formData.get('participants'),
+      description: formData.get('description'),
+      place_details: formData.get('place_details'),
+      show_location: formData.get('show_location'),
+      images_previa_url: formData.getAll('images_previa_url'),
+    })
+    const newFormData = {
+      location,
+      date,
+      startTime,
+      participants,
+      description,
+      place_details,
+      show_location: show_location === 'on',
+      images_previa_url,
+    }
+
+    const response = await fetch(`${baseUrl}/api/previa`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: JSON.stringify(session)
+      },
+      body: JSON.stringify({ formData: newFormData })
+    })
+    if (!response.ok) {
+      throw new Error('Error en la creación.')
+    }
+    // Extraemos la prop _id de la previa creada
+    const previaData = await response.json()
+    const previaId = previaData.newPrevia.previa_id
+
+    // enviamos el PUT pàra modificar el usuario
+    const userResponse = await fetch(`${baseUrl}/api/user`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: JSON.stringify(session)
+      },
+      body: JSON.stringify({
+        updatedFormData: {},
+        previaId
+      })
+    })
+
+    if (!userResponse.ok) {
+      throw new Error('Error updating user.')
+    }
+
+    redirect('/dashboard/previas')
+  } catch (err) {
+    console.log(err)
+    throw new Error('Error creating previa')
+  }
+}

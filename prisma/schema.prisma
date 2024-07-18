@@ -33,18 +33,18 @@ model previas {
   id                String                @id @default(auto()) @map("_id") @db.ObjectId
   v                 Int                   @map("__v")
   createdAt         DateTime              @db.Date
-  creator           String
+  creator           String?
   date              DateTime              @db.Date
   description       String
   images_previa_url String[]
   join_requests     PreviasJoinRequests[]
-  location          String
-  participants      Int
+  location          String?
+  participants      String?
   pass_code         String                @unique(map: "pass_code_1")
   place_details     String
   previa_id         String                @unique(map: "previa_id_1")
   show_location     Boolean
-  startTime         String
+  startTime         String?
   updatedAt         DateTime              @db.Date
 }
 
