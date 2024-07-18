@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+
     const previa_data = await prisma.previas.findMany({
       where: {
         previa_id: { in:previas_ids }

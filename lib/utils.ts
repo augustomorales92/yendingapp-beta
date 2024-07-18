@@ -1,6 +1,8 @@
 import { auth } from '@/auth'
 import { Previas } from '@/types/data'
-import { isBefore, isSameDay, parseISO, compareAsc } from 'date-fns'
+import { isBefore, isSameDay, format, compareAsc } from 'date-fns'
+import { es } from 'date-fns/locale'
+import {today} from '@/lib/constants'
 
 interface calculateAge {
   dob_day: string
@@ -33,7 +35,6 @@ type SortedPrevias = {
   previas: Previas[]
   sortCriteria?: string
 }
-const today = new Date()
 
 const previaValidation = async ({ previas }: SortedPrevias) => {
   const session = await auth()
@@ -69,3 +70,12 @@ export const getSortedPrevias = async ({
     return 0
   })
 }
+
+type FormattedDate = {
+  date?: Date | string | number
+  inputDate: Date
+
+}
+export const formattedDate = ({date, inputDate}: FormattedDate) => isSameDay(today, inputDate)
+? 'Today'
+: format(date as Date, "EEEE d 'de' MMMM", { locale: es });

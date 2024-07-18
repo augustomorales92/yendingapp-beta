@@ -9,12 +9,11 @@ import {
     Tooltip,
     Carousel,
 } from "@material-tailwind/react";
-import { format, isSameDay } from "date-fns";
-import { es } from 'date-fns/locale'
 import { useEffect, useState, useCallback } from "react";
 import { FaShare } from "react-icons/fa";
 import RequestJoinModal from "../forms/RequestJoinModal";
 import Image from "next/image";
+import { formattedDate } from "@/lib/utils";
 
 
 interface PreviaCardProps {
@@ -44,13 +43,13 @@ export default function PreviaCard({ previa_id, location, creator, date, startTi
     const creatorName = creatorData?.name
 
     // Handle date event
-    const today = new Date();
     const inputDate = new Date(date as Date);
 
 
     const fetchData = useCallback(async () => {
         const params = { email: creator };
         const queryString = new URLSearchParams(params as any).toString();
+
         try {
             const response = await fetch(`/api/user?${queryString}`, {
                 method: "GET",
@@ -68,14 +67,12 @@ export default function PreviaCard({ previa_id, location, creator, date, startTi
         }
     }, [creator]);
 
-    useEffect(() => {
+    /* useEffect(() => {
         fetchData();
-    }, [fetchData]);
+    }, []); */
 
     // Seteo el formato de fecha para que figure bien
-    const formattedDate = isSameDay(today, inputDate)
-        ? 'Today'
-        : format(date as Date, "EEEE d 'de' MMMM", { locale: es });
+
 
     // LOGICA DEL MODAL PARA SOLICITAR UNIRSE A PREVIA 
     const handleJoinClick = () => {
@@ -202,7 +199,7 @@ export default function PreviaCard({ previa_id, location, creator, date, startTi
                             placeholder={undefined}
                             onPointerEnterCapture={undefined}
                             onPointerLeaveCapture={undefined}
-                            className="text-primary_b text-sm">{formattedDate}</Typography>
+                            className="text-primary_b text-sm">{formattedDate({date, inputDate})}</Typography>
                     </div>
                     <Tooltip content="Share">
                         <span className="cursor-pointer rounded-full bg-primary_b p-3 text-primary transition-colors hover:bg-opacity-70 group-hover:bg-opacity-70">

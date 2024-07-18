@@ -92,6 +92,8 @@ export async function fetchUser() {
   }
   const queryString = new URLSearchParams(params).toString()
   try {
+    console.log('yyyyyy')
+
     const response = await fetch(`${baseUrl}/api/user?${queryString}`, {
       method: 'GET',
       headers: {
@@ -145,6 +147,8 @@ export async function updateUser(
     const calculatedAge = calculateAge({ dob_day, dob_month, dob_year })
     const newFormData = { ...formData, age: calculatedAge }
     const session = await auth()
+    console.log('cccccc')
+
     const response = await fetch(`${baseUrl}/api/user`, {
       method: 'PUT',
       headers: {
@@ -266,6 +270,8 @@ export async function createPrevia(
     const previaId = previaData.newPrevia.previa_id
 
     // enviamos el PUT pàra modificar el usuario
+    console.log('bbbbbb')
+
     const userResponse = await fetch(`${baseUrl}/api/user`, {
       method: 'PUT',
       headers: {
