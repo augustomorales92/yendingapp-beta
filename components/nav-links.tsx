@@ -1,13 +1,12 @@
 'use client'
 import {
   MdOutlineSpaceDashboard,
-  MdOutlineMoreHoriz,
   MdOutlineSettings,
   MdOutlineLogout
 } from 'react-icons/md'
 import { IoReturnDownBack } from 'react-icons/io5'
 import { CgProfile } from 'react-icons/cg'
-import { FaGlassCheers } from 'react-icons/fa'
+import { FaGlassCheers, FaMapMarkerAlt } from 'react-icons/fa'
 import { BiMessageSquareDots } from 'react-icons/bi'
 import Link from 'next/link'
 import { redirect, usePathname } from 'next/navigation'
@@ -33,9 +32,9 @@ const links = [
     icon: BiMessageSquareDots
   },
   {
-    name: 'More',
-    href: '',
-    icon: MdOutlineMoreHoriz
+    name: 'Map',
+    href: '/dashboard/map',
+    icon: FaMapMarkerAlt
   },
   {
     name: 'Settings',
