@@ -32,7 +32,7 @@ export function calculateAge({ dob_day, dob_month, dob_year }: calculateAge) {
 }
 
 type SortedPrevias = {
-  previas: Previas[]
+  previas?: Previas[]
   sortCriteria?: string
 }
 
@@ -52,6 +52,8 @@ const previaValidation = async ({ previas }: SortedPrevias) => {
   )
 }
 
+const parseDates = (date: string | number | Date) => new Date(date)
+
 // Ordenar validPrevias según el previas de ordenación
 export const getSortedPrevias = async ({
   previas,
@@ -61,8 +63,8 @@ export const getSortedPrevias = async ({
 
   return [...validPrevias]?.sort((a, b) => {
     if (sortCriteria === 'date') {
-      const dateA = a.date
-      const dateB = b.date
+      const dateA = parseDates(a.date)
+      const dateB = parseDates(b.date)
       return compareAsc(dateA, dateB)
     } else if (sortCriteria === 'participants') {
       return b.participants - a.participants

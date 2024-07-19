@@ -3,6 +3,8 @@ import { baseUrl } from '@/lib/constants'
 import { Previas } from '@/types/data'
 import { Session } from 'next-auth'
 import Image from 'next/image'
+import { Suspense } from 'react'
+import Loader from '@/components/Loader'
 
 const fetchData = async ({ session }: { session: Session | null }) => {
   const params = {
@@ -52,6 +54,7 @@ export default async function Page() {
   })
 
   return (
+    <Suspense fallback={<Loader />}>
     <div className="text-secondary px-12 py-16 md:py-6 min-h-screen">
       <p>Lista de las previas a las que solicite unirme...</p>
       {previasData?.length ? (
@@ -104,5 +107,6 @@ export default async function Page() {
         <p>No previas found.</p>
       )}
     </div>
+    </Suspense>
   )
 }

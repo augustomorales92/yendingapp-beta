@@ -19,9 +19,11 @@ export const {
           password: string
         }
         const user = await prisma.users.findUnique({ where: { email: email } })
-
         if (user) {
-          const passwordMatch = await bcrypt.compare(password, user.password || '')
+          const passwordMatch = await bcrypt.compare(
+            password,
+            user.password || ''
+          )
           if (!passwordMatch) {
             return null
           }

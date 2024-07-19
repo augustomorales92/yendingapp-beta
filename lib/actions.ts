@@ -91,7 +91,6 @@ export async function fetchUser() {
   }
   const queryString = new URLSearchParams(params).toString()
   try {
-
     const response = await fetch(`${baseUrl}/api/user?${queryString}`, {
       method: 'GET',
       headers: {
@@ -202,7 +201,7 @@ const CreatePreviaSchema = z.object({
   v: z.number(),
   createdAt: z.string(),
   id: z.string(),
-  updatedAt: z.string(),
+  updatedAt: z.string()
 })
 
 const CreatePreviaFromSchema = CreatePreviaSchema.omit({
@@ -212,7 +211,7 @@ const CreatePreviaFromSchema = CreatePreviaSchema.omit({
   createdAt: true,
   v: true,
   id: true,
-  passCode: true,
+  passCode: true
 })
 
 export async function createPrevia(
@@ -230,7 +229,7 @@ export async function createPrevia(
       description,
       place_details,
       show_location,
-      images_previa_url,
+      images_previa_url
     } = CreatePreviaFromSchema.parse({
       location: formData.get('location'),
       date: formData.get('date'),
@@ -239,7 +238,7 @@ export async function createPrevia(
       description: formData.get('description'),
       place_details: formData.get('place_details'),
       show_location: formData.get('show_location'),
-      images_previa_url: formData.getAll('images_previa_url'),
+      images_previa_url: formData.getAll('images_previa_url')
     })
     const newFormData = {
       location,
@@ -249,9 +248,10 @@ export async function createPrevia(
       description,
       place_details,
       show_location: show_location === 'on',
-      images_previa_url,
+      images_previa_url
     }
 
+    console.log(JSON.stringify(session))
     const response = await fetch(`${baseUrl}/api/previa`, {
       method: 'POST',
       headers: {
@@ -266,29 +266,11 @@ export async function createPrevia(
     // Extraemos la prop _id de la previa creada
     const previaData = await response.json()
     const previaId = previaData.newPrevia.previa_id
-
-    // enviamos el PUT pàra modificar el usuario
-    console.log('bbbbbb')
-
-    const userResponse = await fetch(`${baseUrl}/api/user`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: JSON.stringify(session)
-      },
-      body: JSON.stringify({
-        updatedFormData: {},
-        previaId
-      })
-    })
-
-    if (!userResponse.ok) {
-      throw new Error('Error updating user.')
-    }
-
-    redirect('/dashboard/previas')
+    console.info(previaId)
   } catch (err) {
     console.log(err)
     throw new Error('Error creating previa')
   }
+  revalidatePath('/dashboard/previas')
+  redirect('/dashboard/previas')
 }

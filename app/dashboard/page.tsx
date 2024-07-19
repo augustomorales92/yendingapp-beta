@@ -1,7 +1,8 @@
 import GroupBtn from '@/components/buttons/GroupBtn'
 import PreviaCard from '@/components/cards/PreviaCard'
-import { CardsSkeleton } from '@/components/skeletons/CardSkeleton'
 import { getSortedPrevias } from '@/lib/utils'
+import { Suspense } from 'react'
+import Loader from '@/components/Loader'
 
 const fetchData = async () => {
   try {
@@ -31,6 +32,7 @@ export default async function Page({
   const sortedPrevias = await getSortedPrevias({ previas, sortCriteria: searchParams.sortCriteria })
 
   return (
+    <Suspense fallback={<Loader />}>
       <div className="px-12 py-16 md:py-6 min-h-screen">
         <div>
           <GroupBtn />
@@ -53,5 +55,6 @@ export default async function Page({
           ))}
         </div>
       </div>
+      </Suspense>
   )
 }

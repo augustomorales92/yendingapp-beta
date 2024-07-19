@@ -25,6 +25,7 @@ import { auth } from '@/auth'
 import CustomTextArea from '../customComponents/CustomTextArea'
 import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
 import { Session } from 'next-auth'
+import { useEffect } from 'react'
 
 const dob_month_values = [
   { label: 'January', value: '01' },
@@ -92,6 +93,9 @@ export default function OnboardingForm({ user }: OnboardingFormProps) {
   }
   const [errorMessage, dispatch] = useFormState(updateUser, undefined)
 
+  useEffect(() => {
+    fetchUser()
+  },[])
   /*   const { data: session, status } = useSession()
   const [isLoading, setIsLoading] = useState(false)
 

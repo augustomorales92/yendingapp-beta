@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/auth.config'
+import { auth } from '@/auth'
 
-export async function GET(req: NextRequest) {
+export const GET = auth(async function (req) {
+  console.log(req.auth)
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
-  const emailWanted = session?.user?.email || ''
+  const email = session?.user?.email || ''
+
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
@@ -12,7 +15,9 @@ export async function GET(req: NextRequest) {
     const previas = await prisma.previas.findMany({
       where: {
         creator: {
-          equals: emailWanted
+          is: {
+            email: email,
+          }
         }
       }
     })
@@ -25,4 +30,4 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     )
   }
-}
+})

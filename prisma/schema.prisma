@@ -8,6 +8,7 @@ datasource db {
 }
 
 type Creator {
+  email String
   user_id String
   name String
   photo String 
@@ -37,8 +38,8 @@ model accounts {
 
 model previas {
   id                String                @id @default(auto()) @map("_id") @db.ObjectId
-  v                 Int                   @map("__v")
-  createdAt         DateTime              @db.Date
+  v                 Int?                   @map("__v")
+  createdAt         DateTime?              @db.Date
   creator           Creator
   date              DateTime              @db.Date
   description       String
@@ -51,7 +52,7 @@ model previas {
   previa_id         String                @unique(map: "previa_id_1")
   show_location     Boolean
   startTime         String?
-  updatedAt         DateTime              @db.Date
+  updatedAt         DateTime?              @db.Date
 }
 
 model previausers {

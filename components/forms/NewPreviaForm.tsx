@@ -42,8 +42,9 @@ const place_details = [
 ]
 
 export default function NewPreviaForm() {
+  /*   
   const router = useRouter()
-  /*   const [error, setError] = useState('')
+  const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [previaImage, setPreviaImage] = useState(null)
 

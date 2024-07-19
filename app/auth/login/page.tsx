@@ -2,9 +2,12 @@ import LoginGoogle from '@/components/buttons/LoginGoogle'
 import Image from 'next/image'
 import Link from 'next/link'
 import CredentialLogin from '@/components/CredentialLogin'
+import { Suspense } from 'react'
+import Loader from '@/components/Loader'
 
 export default async function LoginPage() {
   return (
+    <Suspense fallback={<Loader />}>
     <div className="grid place-items-center h-screen mx-2 ">
       <div className="bg-secondary_b shadow-lg text-black rounded-lg border-t-4">
         <div className="relative mb-6">
@@ -37,5 +40,6 @@ export default async function LoginPage() {
         </div>
       </div>
     </div>
+  </Suspense>
   )
 }

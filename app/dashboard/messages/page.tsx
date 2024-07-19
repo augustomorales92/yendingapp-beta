@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <Suspense fallback={<Loader />}>
     <div>
-      <h1>Settings</h1>
+      <h1>Messages</h1>
     </div>
     </Suspense>
   );

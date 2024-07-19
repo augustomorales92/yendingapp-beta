@@ -15,7 +15,8 @@ import toast from "react-hot-toast";
 import Swal from 'sweetalert2';
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-
+import { Previas } from "@/types/data";
+import { revalidatePath } from "next/cache";
 interface PreviaCardProps {
     previa_id: string;
     location: string;
@@ -26,11 +27,10 @@ interface PreviaCardProps {
     place_details?: string;
     images_previa_url?: string[];
     description?: string;
-    fetchData: () => Promise<void>;
     join_requests:Object[]
   }
 
-export default function MyPreviasCard({ previa_id, location, date, startTime, participants, place_details, description, images_previa_url, join_requests, fetchData } : PreviaCardProps) {
+export default function MyPreviasCard({ previa_id, location, date, startTime, participants, place_details, description, images_previa_url, join_requests } : PreviaCardProps) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +79,7 @@ export default function MyPreviasCard({ previa_id, location, date, startTime, pa
                 const data = await response.json();
                 console.log('Updated previa:', data);
                 toast.dismiss(toastId);
-                fetchData(); // Actualiza los datos después de editar
+                revalidatePath('/dashboard/previas/my-previas');
                 setIsLoading(false);
             } else {
                 console.error('Failed to update previa');
@@ -119,7 +119,7 @@ export default function MyPreviasCard({ previa_id, location, date, startTime, pa
                     if (response.ok) {
                         console.log('Previa deleted:', result);
                         toast.dismiss(toastId);
-                        fetchData();
+                        revalidatePath('/dashboard/previas/my-previas');
                         setIsModalOpen(false);
                         toast.success('Previa deleted!')
                     } else {
