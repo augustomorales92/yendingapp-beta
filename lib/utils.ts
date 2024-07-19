@@ -81,3 +81,5 @@ type FormattedDate = {
 export const formattedDate = ({date, inputDate}: FormattedDate) => isSameDay(today, inputDate)
 ? 'Today'
 : format(date as Date, "EEEE d 'de' MMMM", { locale: es });
+
+export const sanitizeImages = (images?: string[]) => images?.filter(image => image)
