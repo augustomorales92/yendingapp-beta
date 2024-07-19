@@ -7,7 +7,7 @@ export function CustomButton({notify, text}: {notify: (isPending: boolean,) => v
     const { pending } = useFormStatus();
   
     return (
-        <button className="btn-primary" onClick={() => notify(pending)}>
+        <button className="btn-primary" onClick={()=> notify(pending)}>
         <span>{pending ? <BeatLoader color="white" /> : text}</span>
       </button>
     );

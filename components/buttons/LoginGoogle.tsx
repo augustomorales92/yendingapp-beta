@@ -4,7 +4,7 @@ import { FaGoogle } from 'react-icons/fa'
 
 export default function LoginGoogle() {
   const handleGoogleSignIn = async () => {
-    signIn('google', { redirectTo: '/dashboard' })
+    await signIn('google', { redirectTo: '/dashboard' })
   }
 
   return (

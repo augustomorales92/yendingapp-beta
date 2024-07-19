@@ -48,7 +48,6 @@ export default function MyPreviasCard({
   const [isModalOpen, setIsModalOpen] = useState(false)
   // Handle date event
   const inputDate = new Date(date as Date)
-
   const formattedDate = isSameDay(today, inputDate)
     ? 'Today'
     : isBefore(inputDate, today)
@@ -159,7 +158,7 @@ export default function MyPreviasCard({
             height={600}
             src={images?.[0] || '/images/placeholder.jpg'}
             alt="image 1"
-            className=" w-full  h-fullaspect-square"
+            className=" w-full  h-fullaspect-square object-contain"
           />
         </CardHeader>
         <CardBody

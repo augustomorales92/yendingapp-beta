@@ -6,55 +6,35 @@ import Image from 'next/image'
 import { Suspense } from 'react'
 import Loader from '@/components/Loader'
 
-const fetchData = async ({ session }: { session: Session | null }) => {
-  const params = {
-    email: session?.user?.email || ''
-  }
-  const queryString = new URLSearchParams(params).toString()
+const fetchPreviaData = async ({ session }: { session: Session | null }) => {
   try {
-    const response = await fetch(`${baseUrl}/api/user?${queryString}`, {
-      method: 'GET',
+    const response = await fetch(`${baseUrl}/api/previas`, {
+      method: 'POST',
       headers: {
-        'Content-type': 'application/json',
+        'Content-Type': 'application/json',
         Authorization: JSON.stringify(session)
-      }
+      },
+      body: JSON.stringify({})
     })
-    if (!response.ok) {
-      throw new Error('Error al obtener datos del usuario')
-    }
+
     const data = await response.json()
-    return data.user_data
+    return { previas_data: data.previa_data, user_id: data.user_id }
   } catch (error) {
-    console.error('Error fetching user data:', error)
+    console.error('Error fetching previa data:', error)
+    return { previas_data: [], user_id: '' }
   }
 }
 
-const fetchPreviaData = async ({ previas_ids }: { previas_ids: string[] }) => {
-  const response = await fetch(`${baseUrl}/api/previas`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ previas_ids })
-  })
-
-  if (!response.ok) {
-    throw new Error('Error fetching previa data')
-  }
-
-  const data = await response.json()
-  return data.previa_data
-}
-
-export default async function Page() {
+async function MyRequestContent() {
   const session = await auth()
-  const userData = await fetchData({ session })
-  const previasData: Previas[] = await fetchPreviaData({
-    previas_ids: userData.previas_requests
+  const {
+    previas_data: previasData,
+    user_id
+  }: { previas_data: Previas[]; user_id: string } = await fetchPreviaData({
+    session
   })
 
   return (
-    <Suspense fallback={<Loader />}>
     <div className="text-secondary px-12 py-16 md:py-6 min-h-screen">
       <p>Lista de las previas a las que solicite unirme...</p>
       {previasData?.length ? (
@@ -78,7 +58,7 @@ export default async function Page() {
               <div>
                 <h4>Join Requests:</h4>
                 {previa.join_requests
-                  .filter((request) => request.user_id === userData.user_id) // Filtrar por user_id
+                  .filter((request) => request.user_id === user_id) // Filtrar por user_id
                   .map((request, i) => (
                     <div key={i}>
                       <p>User ID: {request.user_id}</p>
@@ -107,6 +87,13 @@ export default async function Page() {
         <p>No previas found.</p>
       )}
     </div>
+  )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <MyRequestContent />
     </Suspense>
   )
 }

@@ -37,9 +37,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       creator: creator,
       pass_code: generated_pass_code,
       date: new Date(formData.date),
-      images_previa_url: formData.images_previa_url.map(
-        (values: Record<string, string>) => values?.url || ''
-      )
+      join_requests: [],
     }
 
     const newPrevia = await prisma.previas.create({ data: updatedData })

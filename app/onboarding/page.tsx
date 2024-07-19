@@ -1,7 +1,6 @@
 import OnboardingForm from '@/components/forms/OnboaringForm';
 import { Suspense } from 'react';
 import Loader from '@/components/Loader';
-
 export default function onboarding() {
 
     return (

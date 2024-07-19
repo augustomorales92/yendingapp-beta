@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 import { z } from 'zod'
 import { baseUrl } from '@/lib/constants'
 import { calculateAge } from '@/lib/utils'
+import toastNotify from '@/components/toastNotify'
 
 const CreateLoginSchema = z.object({
   email: z.string(),
@@ -44,23 +45,6 @@ export async function signup(prevState: void | undefined, formData: FormData) {
       email: formData.get('email'),
       password: formData.get('password')
     })
-    const res = await fetch(`${baseUrl}/api/user/userExists`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email })
-    })
-    if (!res.ok) {
-      throw new Error('Error verificando el usuario.')
-    }
-
-    //  VALIDAMOS USUARIO
-    const { user } = await res.json()
-    if (user) {
-      toast.error('Usuario existente')
-      return
-    }
 
     const response = await fetch(`${baseUrl}/api/auth/signup`, {
       method: 'POST',
@@ -73,19 +57,22 @@ export async function signup(prevState: void | undefined, formData: FormData) {
     if (!response.ok) {
       throw new Error('Error en el registro.')
     }
-    // Iniciar sesión automáticamente después del registro
-    const result = await signIn('credentials', {
-      redirect: false,
+    await signIn('credentials', {
       email,
-      password
+      password,
+      redirectTo: '/onboarding'
     })
-    if (result.error) {
-      throw new Error('Error iniciando sesión.')
-    }
-
-    redirect('/onboarding')
   } catch (error) {
-    console.error('Error:', error)
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          throw new Error('Invalid credentials.')
+        default:
+          throw new Error('Something went wrong.')
+      }
+    }
+    console.error(error)
+    throw error
   }
 }
 
@@ -120,19 +107,20 @@ const CreateUserSchema = z.object({
   dob_year: z.string(),
   about: z.string(),
   age: z.number(),
-  show_interest: z.boolean(),
+  show_interest: z.string().transform((e) => e === 'on'),
   gender_identity: z.string(),
   previas_interest: z.string(),
   previas_requests: z.array(z.string()),
   previas_created: z.array(z.string()),
-  url_img: z.string(),
+  url_img: z.string().optional(),
   previas: z.array(z.string())
 })
 
-const CreateUserFromSchema = CreateUserSchema.pick({
-  dob_day: true,
-  dob_month: true,
-  dob_year: true
+const CreateUserFromSchema = CreateUserSchema.omit({
+  age: true,
+  previas: true,
+  previas_requests: true,
+  previas_created: true
 })
 
 export async function updateUser(
@@ -140,17 +128,42 @@ export async function updateUser(
   formData: FormData
 ) {
   try {
-    const { dob_day, dob_month, dob_year } = CreateUserFromSchema.parse({
+    const {
+      dob_day,
+      dob_month,
+      dob_year,
+      name,
+      about,
+      show_interest,
+      gender_identity,
+      url_img,
+      previas_interest
+    } = CreateUserFromSchema.parse({
       dob_day: formData.get('dob_day'),
       dob_month: formData.get('dob_month'),
-      dob_year: formData.get('dob_year')
+      dob_year: formData.get('dob_year'),
+      name: formData.get('name'),
+      about: formData.get('about'),
+      show_interest: formData.get('show_interest'),
+      gender_identity: formData.get('gender_identity'),
+      url_img: formData.get('url_img'),
+      previas_interest: formData.get('previas_interest')
     })
 
     const calculatedAge = calculateAge({ dob_day, dob_month, dob_year })
-    const newFormData = { ...formData, age: calculatedAge }
+    const newFormData = {
+      name,
+      about,
+      show_interest,
+      gender_identity,
+      url_img,
+      dob_day,
+      dob_month,
+      dob_year,
+      previas_interest,
+      age: calculatedAge
+    }
     const session = await auth()
-    console.log('cccccc')
-
     const response = await fetch(`${baseUrl}/api/user`, {
       method: 'PUT',
       headers: {
@@ -196,11 +209,11 @@ const CreatePreviaSchema = z.object({
   date: z.string(),
   description: z.string(),
   location: z.string(),
-  images_previa_url: z.array(z.object({})),
+  images_previa_url: z.union([z.string(), z.array(z.string())]),
   participants: z.string(),
   passCode: z.string(),
   place_details: z.string(),
-  show_location: z.string(),
+  show_location: z.string().transform((e) => e === 'on'),
   startTime: z.string(),
   previa_id: z.string(),
   v: z.number(),
@@ -223,6 +236,8 @@ export async function createPrevia(
   prevState: void | undefined,
   formData: FormData
 ) {
+
+  console.log('formData', formData)
   try {
     // Creamos la previa
     const session = await auth()
@@ -243,8 +258,9 @@ export async function createPrevia(
       description: formData.get('description'),
       place_details: formData.get('place_details'),
       show_location: formData.get('show_location'),
-      images_previa_url: formData.getAll('images_previa_url')
+      images_previa_url: formData.get('images_previa_url')
     })
+
     const newFormData = {
       location,
       date,
@@ -252,11 +268,10 @@ export async function createPrevia(
       participants,
       description,
       place_details,
-      show_location: show_location === 'on',
-      images_previa_url
+      show_location,
+      images_previa_url: Array.isArray(images_previa_url) ? images_previa_url : [images_previa_url]
     }
 
-    console.log(JSON.stringify(session))
     const response = await fetch(`${baseUrl}/api/previa`, {
       method: 'POST',
       headers: {
@@ -271,7 +286,6 @@ export async function createPrevia(
     // Extraemos la prop _id de la previa creada
     const previaData = await response.json()
     const previaId = previaData.newPrevia.previa_id
-    console.info(previaId)
   } catch (err) {
     console.log(err)
     throw new Error('Error creating previa')

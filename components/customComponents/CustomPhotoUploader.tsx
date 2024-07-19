@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { FaUpload } from 'react-icons/fa'
+import { upload } from '@/lib/upload'
 
 type CustomPhotoUploaderProps = {
   name: string
@@ -14,10 +15,12 @@ const CustomPhotoUploader = ({
   initialValue
 }: CustomPhotoUploaderProps) => {
   const [value, setValue] = useState(initialValue)
-const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    setValue(e.target.value)
-}
+
+  async function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    await upload(event, (link) => {
+      setValue(link)
+    })
+  }
   return (
     <>
       <div>
@@ -37,13 +40,13 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         <div>{label}</div>
         <input
           type="file"
-          name={name}
           id={name}
           className="hidden"
           onChange={handleChange}
           value={''}
         />
       </label>
+      <input type="hidden" name={name} value={value} />
     </>
   )
 }
