@@ -54,7 +54,6 @@ export default function NavLinks({ logged }: LoggedProps) {
   const pathValue = () => {
     if (logged) {
       signOut()
-      redirect('/')
     }
     redirect('/auth/login')
   }

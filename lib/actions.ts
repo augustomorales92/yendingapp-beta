@@ -9,12 +9,22 @@ import { z } from 'zod'
 import { baseUrl } from '@/lib/constants'
 import { calculateAge } from '@/lib/utils'
 
+const CreateLoginSchema = z.object({
+  email: z.string(),
+  password: z.string()
+})
+
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData
 ) {
   try {
-    await signIn('credentials', formData)
+    const { email, password } = CreateLoginSchema.parse({
+      email: formData.get('email'),
+      password: formData.get('password')
+    })
+
+    await signIn('credentials', { email, password, redirectTo: '/dashboard' })
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -27,11 +37,6 @@ export async function authenticate(
     throw error
   }
 }
-
-const CreateLoginSchema = z.object({
-  email: z.string(),
-  password: z.string()
-})
 
 export async function signup(prevState: void | undefined, formData: FormData) {
   try {

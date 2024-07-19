@@ -3,7 +3,6 @@ import { prisma } from '@/auth.config'
 import { auth } from '@/auth'
 
 export const GET = auth(async function (req) {
-  console.log(req.auth)
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
   const email = session?.user?.email || ''
 

@@ -11,9 +11,17 @@ export const {
   signOut
 } = NextAuth({
   ...authConfig,
+  callbacks: {
+    async jwt({ token }) {
+      return token
+    },
+    async session({ session, token }) {
+      return session
+    }
+  },
   providers: [
     Credentials({
-      async authorize(credentials: Partial<Record<string, unknown>>) {
+      async authorize(credentials) {
         const { email, password } = credentials as {
           email: string
           password: string

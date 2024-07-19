@@ -24,7 +24,6 @@ const fetchData = async (): Promise<Previas[] |undefined> => {
             throw new Error('Error al obtener datos del usuario');
         }
         const data = await response.json();
-        console.log('aaaa', data)
         return data.previas
     } catch (error) {
         console.error('Error fetching user data:', error);
