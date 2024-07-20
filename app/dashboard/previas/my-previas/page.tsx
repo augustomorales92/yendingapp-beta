@@ -1,34 +1,10 @@
 import GroupBtn from '@/components/buttons/GroupBtn';
 import MyPreviasCard from '@/components/cards/MyPreviasCard';
-import { baseUrl } from '@/lib/constants';
 import { getSortedPrevias } from '@/lib/utils';
 import React, {Suspense} from 'react'
 import Loader from '@/components/Loader';
-import { auth } from '@/auth';
-import { Previas } from '@/types/data';
+import { getCreatedPrevias } from '@/services/previas';
 
-const fetchData = async (): Promise<Previas[] |undefined> => {
-    try {
-        const session = await auth();
-
-        // ruta que trae las previas creadas por el usuario logeado
-        const response = await fetch(`${baseUrl}/api/previas/myPrevias`, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json",
-                Authorization: JSON.stringify(session),
-
-            },
-        })
-        if (!response.ok) {
-            throw new Error('Error al obtener datos del usuario');
-        }
-        const data = await response.json();
-        return data.previas
-    } catch (error) {
-        console.error('Error fetching user data:', error);
-    }
-};
 
 type MyPreviasContentProps = {
     searchParams: { sortCriteria: string };
@@ -36,7 +12,7 @@ type MyPreviasContentProps = {
 }
 
 async function MyPreviasContent ({searchParams}:MyPreviasContentProps) {
-    const previas = await fetchData();
+    const previas = await getCreatedPrevias();
     const sortedPrevias = await getSortedPrevias({ previas, sortCriteria: searchParams.sortCriteria })
     return (
         <div className='px-12 py-16 md:py-6 min-h-screen'>
@@ -47,10 +23,10 @@ async function MyPreviasContent ({searchParams}:MyPreviasContentProps) {
             {sortedPrevias?.map((previa, index) => (
                 <div className='col-span-3 lg:col-span-1' key={index}>
                     <MyPreviasCard
-                        previa_id={previa.previa_id}
+                        previa_id={previa?.previa_id}
                         location={previa.location}
                         date={previa.date}
-                        join_requests={previa.join_requests}
+                        join_requests={previa?.join_requests}
                         startTime={previa.startTime}
                         participants={previa.participants}
                         place_details={previa.place_details}

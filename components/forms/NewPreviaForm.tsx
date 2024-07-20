@@ -1,9 +1,6 @@
 'use client'
 
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import { auth } from '@/auth'
 import { useFormState } from 'react-dom'
 import { createPrevia } from '@/lib/actions'
 import CustomInput from '../customComponents/CustomInput'
@@ -12,7 +9,7 @@ import { CustomButton } from '../buttons/CustomButton'
 import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
 import CustomDropDowns from '../customComponents/CustomDropDown'
 
-type Validations = {
+/* type Validations = {
   date?: string
   participants?: string
   location?: string
@@ -21,7 +18,7 @@ type Validations = {
   startTime?: string
   images_previa_url?: string
 }
-
+ */
 const place_details = [
   {
     label: 'In a bar',
@@ -42,154 +39,6 @@ const place_details = [
 ]
 
 export default function NewPreviaForm() {
-  /*   
-  const router = useRouter()
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [previaImage, setPreviaImage] = useState(null)
-
-  const [validations, setValidations] = useState<Validations>({})
-
-  // seteo el estatus inicial del form y con cookies, llamo a la propuedad UserId guardada en el cookies despues de un login
-  const [formData, setFormData] = useState({
-    location: '',
-    date: '',
-    startTime: '',
-    participants: 0,
-    description: '',
-    place_details: '',
-    show_location: false,
-    images_previa_url: '',
-    about: ''
-  })
-
-  const handleChange = (e) => {
-    // desesctructuro el target para trabajarlo
-    const { name, type, value, checked } = e.target
-
-    const fieldValue = type === 'checkbox' ? checked : value
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: fieldValue
-    }))
-  }
-
-  async function handlePreviaChange(ev) {
-    await upload(ev, (link) => {
-      setPreviaImage(link)
-      setFormData((prevState) => ({
-        ...prevState,
-        images_previa_url: link
-      }))
-    })
-  }
-
-  type Error = {
-    date?: string
-    participants?: string
-    location?: string
-    place_details?: string
-    description?: string
-    startTime?: string
-    images_previa_url?: string
-  }
-
-  const validateForm = () => {
-    const newErrors: Error = {}
-    const today = new Date().toISOString().split('T')[0]
-
-    if (!formData.date || formData.date < today) {
-      newErrors.date = 'The date cannot be in the past'
-    }
-
-    const participants = Number(formData.participants)
-    if (isNaN(participants) || participants < 2 || participants > 30) {
-      newErrors.participants = 'Participants must be between 2 and 30'
-    }
-
-    if (!formData.location) {
-      newErrors.location = 'Location is mandatory'
-    }
-
-    // Validar campo place_details
-    if (!formData.place_details) {
-      newErrors.place_details = 'Please select a place'
-    }
-
-    // Validar campo description
-    if (!formData.description) {
-      newErrors.description = 'Description cannot be empty'
-    }
-
-    // Validar campos vacíos
-    if (!formData.startTime) {
-      newErrors.startTime = 'Start time cannot be empty'
-    }
-
-    if (formData.images_previa_url.length === 0) {
-      newErrors.images_previa_url = 'Please upload an image'
-    }
-
-    return newErrors
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const newErrors = validateForm()
-    if (Object.keys(newErrors).length > 0) {
-      setValidations(newErrors)
-    } else {
-      setValidations({})
-      setIsLoading(true)
-      let toastId
-      try {
-        toastId = toast.loading("We're creating a new previa... pleas wait")
-        // Creamos la previa
-        const response = await fetch('/api/previa', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ formData })
-        })
-        if (!response.ok) {
-          throw new Error('Error en la creación.')
-        }
-        // Extraemos la prop _id de la previa creada
-        const previaData = await response.json()
-        const previaId = previaData.newPrevia.previa_id
-
-        // enviamos el PUT pàra modificar el usuario
-        const userResponse = await fetch('/api/user', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            updatedFormData: {},
-            previaId
-          })
-        })
-
-        if (!userResponse.ok) {
-          throw new Error('Error updating user.')
-        }
-
-        const form = e.target
-        form.reset()
-        toast.dismiss(toastId)
-        setIsLoading(false)
-        router.push('/dashboard/previas')
-      } catch (err) {
-        console.log(err)
-        setError('Ocurrió un error. Inténtalo de nuevo.')
-        setIsLoading(false)
-        if (toastId) {
-          toast.dismiss(toastId)
-        }
-      }
-    }
-  } */
 
   const notify = (isPending: boolean) => {
     if (isPending) {

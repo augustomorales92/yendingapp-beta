@@ -3,31 +3,14 @@ import PreviaCard from '@/components/cards/PreviaCard'
 import { getSortedPrevias } from '@/lib/utils'
 import { Suspense } from 'react'
 import Loader from '@/components/Loader'
-
-const fetchData = async () => {
-  try {
-    const response = await fetch(`http://localhost:3000/api/previas`, {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-    if (!response.ok) {
-      throw new Error('Error al obtener datos del usuario')
-    }
-    const data = await response.json()
-    return data.previas
-  } catch (error) {
-    console.error('Error fetching user data:', error)
-  }
-}
+import { getPrevias } from '@/services/previas'
 
 export default async function Page({
   searchParams
 }: {
   searchParams: { sortCriteria: string }
 }) {
-  const previas = await fetchData()
+  const previas = await getPrevias()
 
   const sortedPrevias = await getSortedPrevias({ previas, sortCriteria: searchParams.sortCriteria })
 
@@ -41,9 +24,9 @@ export default async function Page({
           {sortedPrevias?.map((previa, index) => (
             <div className="col-span-3 lg:col-span-1" key={index}>
               <PreviaCard
-                previa_id={previa.previa_id}
+                previa_id={previa?.previa_id}
                 location={previa.location}
-                creator={previa.creator}
+                creator={previa?.creator}
                 date={previa.date}
                 startTime={previa.startTime}
                 participants={previa.participants}

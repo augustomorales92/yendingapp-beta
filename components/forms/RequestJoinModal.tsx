@@ -1,3 +1,4 @@
+import { auth } from '@/auth'
 import { upload } from '@/lib/upload'
 import { Input, Option, Select } from '@material-tailwind/react'
 import Image from 'next/image'
@@ -59,11 +60,13 @@ export default function RequestJoinModal({ previa, onClose, setIsModalOpen }) {
     try {
       setIsLoading(true)
       toastId = toast.loading("We're sending the request...")
-
+      const session = await auth()
       const res = await fetch('/api/previaUsers', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: JSON.stringify(session)
+
         },
         body: JSON.stringify({ attendands, photos, intentions, previa_id })
       })

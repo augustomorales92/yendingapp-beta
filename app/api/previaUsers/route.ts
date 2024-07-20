@@ -5,7 +5,7 @@ import { prisma } from '@/auth.config'
 // Ruta para crear un nuevo Usuario de la previa-
 export async function POST(req: NextRequest, res: NextResponse) {
   // necesito el dato del usuario que esta solicitando para enviarlo a la db como user_id del solicitante
-  const session = await auth()
+  const session = JSON.parse(req.headers.get('Authorization') || '{}')
   const emailWanted = session?.user?.email || ""
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
@@ -62,8 +62,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
 }
 
 //  Trae las solicitudes de union que hizo el usuario que esta logeado
-export async function GET() {
-  const session = await auth()
+export async function GET(req: NextRequest) {
+  const session = JSON.parse(req.headers.get('Authorization') || '{}')
   const emailWanted = session?.user?.email || ""
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
@@ -88,7 +88,7 @@ export async function GET() {
 
 //  modifico el status de PreviaUsers cuando el dueño de la previa cambia el mismo
 export async function PUT(req: NextRequest, ) {
-  const session = await auth()
+  const session = JSON.parse(req.headers.get('Authorization') || '{}')
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })

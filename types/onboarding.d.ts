@@ -8,8 +8,8 @@ export interface FormState {
     show_interest:    boolean;
     gender_identity:  string;
     previas_interest: string;
-    previas_requests: string[];
-    previas_created:  string[];
-    url_img:          string;
-    previas:         string[];
+    previas_requests?: string[];
+    previas_created?:  string[];
+    url_img?:          string;
+    previas?:         string[];
 }

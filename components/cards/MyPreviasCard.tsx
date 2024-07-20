@@ -15,23 +15,23 @@ import toast from 'react-hot-toast'
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { Previas } from '@/types/data'
+import { Creator, Previas } from '@/types/data'
 import { revalidatePath } from 'next/cache'
 import { today } from '@/lib/constants'
 import Loader from '../Loader'
 import { Suspense } from 'react'
 import { sanitizeImages } from '@/lib/utils'
 interface PreviaCardProps {
-  previa_id: string
+  previa_id?: string
   location: string
-  creator?: string
+  creator?: Creator
   date?: Date
   startTime?: string
-  participants?: number
+  participants?: string
   place_details?: string
   images_previa_url?: string[]
   description?: string
-  join_requests: Object[]
+  join_requests?: Object[]
 }
 
 export default function MyPreviasCard({

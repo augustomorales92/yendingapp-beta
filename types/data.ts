@@ -7,21 +7,28 @@ export interface JoinRequest {
   user_id: string
 }
 
-export interface Previas {
-  join_requests: JoinRequest[]
+export interface Creator {
   id: string
-  v: number
-  createdAt: Date
-  creator: string
+  name: string
+  email: string
+  photo: string
+}
+
+export interface Previas {
+  join_requests?: JoinRequest[]
+  id?: string
+  v?: number
+  createdAt?: Date
+  creator?: Creator
   date: Date
   description: string
   images_previa_url: string[]
   location: string
-  participants: number
-  passCode: string
+  participants: string
+  passCode?: string
   place_details: string
-  previa_id: string
+  previa_id?: string
   show_location: boolean
   startTime: string
-  updatedAt: Date
+  updatedAt?: Date
 }

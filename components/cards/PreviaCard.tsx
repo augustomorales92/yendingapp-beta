@@ -15,14 +15,15 @@ import RequestJoinModal from '../forms/RequestJoinModal'
 import Image from 'next/image'
 import { formattedDate, sanitizeImages } from '@/lib/utils'
 import Loader from '../Loader'
-4
+import { Creator } from '@/types/data'
+
 interface PreviaCardProps {
-  previa_id: string
+  previa_id?: string
   location: string
-  creator?: string
+  creator?: Creator
   date?: Date
   startTime?: string
-  participants?: number
+  participants?: string
   place_details?: string
   images_previa_url?: string[]
   description?: string
@@ -53,30 +54,6 @@ export default function PreviaCard({
   // Handle date event
   const inputDate = new Date(date as Date)
 
-  const fetchData = useCallback(async () => {
-    const params = { email: creator }
-    const queryString = new URLSearchParams(params as any).toString()
-
-    try {
-      const response = await fetch(`/api/user?${queryString}`, {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json'
-        }
-      })
-      if (!response.ok) {
-        throw new Error('Error al obtener datos del usuario')
-      }
-      const data = await response.json()
-      setCreatorData(data.user_data)
-    } catch (error) {
-      console.error('Error fetching user data:', error)
-    }
-  }, [creator])
-
-  /* useEffect(() => {
-        fetchData();
-    }, []); */
 
   // Seteo el formato de fecha para que figure bien
 

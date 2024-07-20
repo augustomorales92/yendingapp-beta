@@ -3,14 +3,15 @@ import React from 'react'
 import toast from 'react-hot-toast'
 import { baseUrl } from '@/lib/constants'
 import { revalidatePath } from 'next/cache'
+import { auth } from '@/auth'
 
 type PreviaManageRequestsButtonsProps = {
-  previaId: string
+  previaId?: string
   userId: string
 }
 
 type UpdateJoinRequestStatusProps = {
-  previaId: string
+  previaId?: string
   userId: string
   status: 'accepted' | 'rejected'
 }
@@ -27,12 +28,14 @@ const PreviaManageRequestsButtons = ({
     let toastId
     try {
       toastId = toast.loading("We're attending your requests...")
+      const session = await auth()
       const responsePrevia = await fetch(
         `${baseUrl}/api/previa/updateJoinReq`,
         {
           method: 'PUT',
           headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization': JSON.stringify(session)
           },
           body: JSON.stringify({ previaId, userId, status })
         }

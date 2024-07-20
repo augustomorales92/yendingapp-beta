@@ -16,6 +16,9 @@ export const {
       return token
     },
     async session({ session, token }) {
+      if(token.sub && session.user){
+        session.user.id = token.sub
+      }
       return session
     }
   },
