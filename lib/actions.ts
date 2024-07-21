@@ -1,6 +1,6 @@
 'use server'
 
-import { auth, signIn } from '@/auth'
+import { auth, signIn, update } from '@/auth'
 import { AuthError } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
@@ -78,8 +78,11 @@ export async function updateUser(
   prevState: void | undefined,
   formData: FormData,
 ) {
+  const session = await auth()
+  const user = session?.user
   const newFormData = getUserValues(formData)
   await updatedUser(newFormData)
+  await update({...user, userData: newFormData})
   revalidatePath('/dashboard/profile')
   redirect('/dashboard')
 }
