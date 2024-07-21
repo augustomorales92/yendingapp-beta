@@ -23,6 +23,7 @@ export const getMyPrevias = async () => {
       withCredentials: true
     })
     const data = await response.json()
+    console.log(data)
     return { previas_data: data.previa_data, user_id: data.user_id }
   } catch (error) {
     console.error('Error fetching user data:', error)

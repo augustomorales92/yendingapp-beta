@@ -9,7 +9,7 @@ import {
   Tooltip,
   Carousel
 } from '@material-tailwind/react'
-import { Suspense, useState, useCallback } from 'react'
+import { Suspense, useState } from 'react'
 import { FaShare } from 'react-icons/fa'
 import RequestJoinModal from '../forms/RequestJoinModal'
 import Image from 'next/image'
@@ -29,11 +29,6 @@ interface PreviaCardProps {
   description?: string
 }
 
-interface CreatorData {
-  name: string
-  url_img: string
-}
-
 export default function PreviaCard({
   previa_id,
   location,
@@ -45,15 +40,10 @@ export default function PreviaCard({
   description,
   images_previa_url
 }: PreviaCardProps) {
-  const [creatorData, setCreatorData] = useState<CreatorData | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  // Creo variable para enviar al modal
-  const creatorName = creatorData?.name
 
   // Handle date event
   const inputDate = new Date(date as Date)
-
 
   // Seteo el formato de fecha para que figure bien
 
@@ -121,7 +111,7 @@ export default function PreviaCard({
           onPointerLeaveCapture={undefined}
         >
           <div className="flex items-center gap-2 ">
-            <Tooltip content={creatorData?.name}>
+            <Tooltip content={creator?.name}>
               <Avatar
                 placeholder={undefined}
                 onPointerEnterCapture={undefined}
@@ -129,7 +119,7 @@ export default function PreviaCard({
                 size="sm"
                 variant="circular"
                 alt="natali craig"
-                src={creatorData?.url_img}
+                src={creator?.photo}
                 className="border-2 border-secondary_b hover:z-10"
               />
             </Tooltip>
@@ -210,7 +200,12 @@ export default function PreviaCard({
             onClick={(e) => e.stopPropagation()}
           >
             <RequestJoinModal
-              previa={{ previa_id, creatorName, location, startTime }}
+              previa={{
+                previa_id,
+                creatorName: creator?.name,
+                location,
+                startTime
+              }}
               onClose={handleModalClose}
               setIsModalOpen={setIsModalOpen}
             />

@@ -39,37 +39,18 @@ const place_details = [
 ]
 
 export default function NewPreviaForm() {
-
-  const notify = (isPending: boolean) => {
-    if (isPending) {
-      toast.loading("We're creating a new previa... pleas wait")
-    }
-    if (errorMessage) {
-      toast.error(errorMessage)
-    }
-  }
-
   const [errorMessage, dispatch] = useFormState(createPrevia, undefined)
 
-
-  
-
   return (
-      <form className="grid grid-cols-3 gap-3" action={dispatch}>
-        <div className="col-span-3 lg:col-span-2">
-          <div className="my-2">
-            <CustomInput label="Location" name="location" required={true} />
-          </div>
+    <form className="grid grid-cols-3 gap-3" action={dispatch}>
+      <div className="col-span-3 lg:col-span-2">
+        <div className="my-2">
+          <CustomInput label="Location" name="location" required={true} />
+        </div>
 
-          <div className="flex flex-wrap justify-start gap-3  ">
-            <div className="w-50 my-3">
-              <CustomInput
-                label="Date"
-                name="date"
-                type="date"
-                required={true}
-              />
-            </div>
+        <div className="flex flex-wrap justify-start gap-3  ">
+          <div className="w-50 my-3">
+            <CustomInput label="Date" name="date" type="date" required={true} />
           </div>
 
           <div className="w-50 my-3">
@@ -81,54 +62,55 @@ export default function NewPreviaForm() {
             />
           </div>
         </div>
-        <div className="flex flex-wrap justify-start gap-3">
-          <div className="w-50 my-3">
-            <CustomInput
-              label="How many are there?"
-              name="participants"
-              type="number"
-              required={true}
-            />
-          </div>
-          <div className="w-50 my-3">
-            <CustomDropDowns
-              name="place_details"
-              label="Where is it?"
-              values={place_details}
-              type="select"
-            />
-          </div>
-        </div>
-        <div className="flex items-center text-secondary gap-3 border-b-2 border-t-2 border-primary_b m-2">
-          <CustomDropDowns
-            name="show_location"
-            label="Show location"
-            type="checkbox"
-          />
-        </div>
-        <div className="my-2">
-          <CustomTextArea
-            label="Description"
-            name="description"
+      </div>
+      <div className="flex flex-wrap justify-start gap-3">
+        <div className="w-50 my-3">
+          <CustomInput
+            label="How many are there?"
+            name="participants"
+            type="number"
             required={true}
           />
         </div>
-        <div className="col-span-3 lg:col-span-1">
-          <div className="flex flex-wrap justify-center items-center gap-2">
-            <div className="text-secondary">
-              <CustomPhotoUploader
-                label="Upload photo"
-                name="images_previa_url"
-              />
-            </div>
+        <div className="w-50 my-3">
+          <CustomDropDowns
+            name="place_details"
+            label="Where is it?"
+            values={place_details}
+            type="select"
+          />
+        </div>
+      </div>
+      <div className="flex items-center text-secondary gap-3 border-b-2 border-t-2 border-primary_b m-2">
+        <CustomDropDowns
+          name="show_location"
+          label="Show location"
+          type="checkbox"
+        />
+      </div>
+      <div className="my-2">
+        <CustomTextArea
+          label="Description"
+          name="description"
+          required={true}
+        />
+      </div>
+      <div className="col-span-3 lg:col-span-1">
+        <div className="flex flex-wrap justify-center items-center gap-2">
+          <div className="text-secondary">
+            <CustomPhotoUploader
+              label="Upload photo"
+              name="images_previa_url"
+            />
           </div>
         </div>
-        {!!errorMessage && (
-          <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
-            {errorMessage}
-          </div>
-        )}
-        <CustomButton text="Create Previa" errorMessage={errorMessage || ''} />
-      </form>
+      </div>
+      {!!errorMessage && (
+        <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+          {errorMessage}
+        </div>
+      )}
+      <CustomButton text="Create Previa" errorMessage={errorMessage || ''} />
+    </form>
   )
 }
