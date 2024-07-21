@@ -128,7 +128,7 @@ export default function NewPreviaForm() {
             {errorMessage}
           </div>
         )}
-        <CustomButton text="Create Previa" notify={notify} />
+        <CustomButton text="Create Previa" errorMessage={errorMessage || ''} />
       </form>
   )
 }

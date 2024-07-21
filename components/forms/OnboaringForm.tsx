@@ -2,7 +2,6 @@
 import GenderSelect from '@/components/forms/GenderSelected'
 import InterestSelected from '@/components/forms/InterestSelected'
 import {  updateUser } from '@/lib/actions'
-import { toast } from 'react-hot-toast'
 import { useFormState } from 'react-dom'
 import { FormState } from '@/types/onboarding'
 import { CustomButton } from '../buttons/CustomButton'
@@ -11,21 +10,8 @@ import CustomInput from '../customComponents/CustomInput'
 import CustomTextArea from '../customComponents/CustomTextArea'
 import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
 import { dob_day_values, dob_month_values } from '@/lib/data'
-import { useFormStatus } from "react-dom";
 
 export default function OnboardingForm({ user }: { user?: FormState }) {
-  const { pending } = useFormStatus();
-  const notify = () => {
-    let toastId = ''
-    if (pending) {
-      toastId = toast.loading(
-        "We're registering the user... you'll be redirected soon..."
-      )
-    }
-    if (errorMessage) {
-      toastId = toast.error(errorMessage)
-    }
-  }
   const [errorMessage, dispatch] = useFormState(updateUser, undefined)
 
   return (
@@ -121,7 +107,7 @@ export default function OnboardingForm({ user }: { user?: FormState }) {
         </div>
       </div>
 
-      <CustomButton notify={notify} text="Save" />
+      <CustomButton errorMessage={errorMessage || ''} text="Save" />
     </form>
   )
 }

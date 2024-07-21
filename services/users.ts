@@ -22,12 +22,12 @@ export const signUp = async ({ email, password }: SignUp) => {
   }
 }
 
-export const getUser = async (queryString: string) => {
+export const getUser = async () => {
   try {
     const response = await customFetch({
-      path: `/api/user${queryString}`,
+      path: `/api/user`,
       method: 'GET',
-      withCredentials: false
+      withCredentials: true
     })
     const data = await response.json()
     return data?.user_data
@@ -43,7 +43,7 @@ export const updatedUser = async (formData: FormState) => {
       path: `/api/user`,
       method: 'PUT',
       withCredentials: true,
-      body: formData
+      body: { updatedFormData: formData }
     })
     if (response.status === 200) {
     } else {

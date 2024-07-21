@@ -1,5 +1,5 @@
 
-import SideNavbar from "@/components/SideNavbar";
+import SideNavbar from "@/components/navs/SideNavbar";
 import { ReactNode } from 'react';
 
 interface DashboardLayoutProps {
@@ -7,7 +7,6 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children }:DashboardLayoutProps) {
-
 
   return (
     <div className="relative flex">

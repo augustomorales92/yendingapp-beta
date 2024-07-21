@@ -71,8 +71,8 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const email = searchParams.get('email')
+ const session = JSON.parse(req.headers.get('Authorization') || '{}')
+  const email = session?.user?.email || ''
 
   if (!email) {
     return NextResponse.json({ message: 'Email is required' }, { status: 400 })

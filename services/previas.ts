@@ -46,6 +46,7 @@ export const postPrevia = async (formData: Previas) => {
     return response
     } catch (error) {
     console.error('Error fetching user data:', error)
+    return 'Error creating previa'
     }
 }
 

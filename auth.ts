@@ -12,12 +12,18 @@ export const {
 } = NextAuth({
   ...authConfig,
   callbacks: {
-    async jwt({ token }) {
+    async jwt({ token, user }) {
+      if(user && token){
+        token.userData = user
+      }
       return token
     },
     async session({ session, token }) {
       if(token.sub && session.user){
         session.user.id = token.sub
+      }
+      if(token.userData && session.user){
+        session.user.userData = token.userData
       }
       return session
     }

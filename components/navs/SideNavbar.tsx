@@ -1,15 +1,9 @@
-import React from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { Disclosure, DisclosureButton } from "@headlessui/react";
-import { auth } from "@/auth";
-import NavLinks from "./nav-links";
+import React from 'react'
+import { GiHamburgerMenu } from 'react-icons/gi'
+import { Disclosure, DisclosureButton } from '@headlessui/react'
+import NavLinks from './nav-links'
 
-
-async function SideNavbar() {
-
-  const session = await auth();
-  const logged = session?.user?.email || "";
-
+function SideNavbar() {
   return (
     <div>
       <Disclosure as="nav">
@@ -25,13 +19,13 @@ async function SideNavbar() {
               Yending App Dashboard
             </h1>
             <div className=" my-4 border-b border-primary_b pb-4">
-              <NavLinks logged={logged}/>
+              <NavLinks />
             </div>
           </div>
         </div>
       </Disclosure>
     </div>
-  );
+  )
 }
 
-export default SideNavbar;
+export default SideNavbar

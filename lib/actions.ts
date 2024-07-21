@@ -5,9 +5,10 @@ import { AuthError } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { calculateAge } from '@/lib/utils'
+import { calculateAge, getUserValues } from '@/lib/utils'
 import { getUser, signUp, updatedUser } from '@/services/users'
 import { postPrevia } from '@/services/previas'
+import { UpdateSession } from 'next-auth/react'
 
 const CreateLoginSchema = z.object({
   email: z.string(),
@@ -67,77 +68,19 @@ export async function signup(prevState: void | undefined, formData: FormData) {
 }
 
 export async function fetchUser() {
-  const session = await auth()
-  const params = {
-    email: session?.user?.email || ''
-  }
-  const queryString = new URLSearchParams(params).toString()
-  await getUser(queryString)
+ const res = await getUser()
+ return res
 }
 
-const CreateUserSchema = z.object({
-  name: z.string(),
-  dob_day: z.string(),
-  dob_month: z.string(),
-  dob_year: z.string(),
-  about: z.string(),
-  age: z.number(),
-  show_interest: z.string().transform((e) => e === 'on'),
-  gender_identity: z.string(),
-  previas_interest: z.string(),
-  previas_requests: z.array(z.string()),
-  previas_created: z.array(z.string()),
-  url_img: z.string().optional(),
-  previas: z.array(z.string())
-})
 
-const CreateUserFromSchema = CreateUserSchema.omit({
-  age: true,
-  previas: true,
-  previas_requests: true,
-  previas_created: true
-})
 
 export async function updateUser(
   prevState: void | undefined,
-  formData: FormData
+  formData: FormData,
 ) {
-  const {
-    dob_day,
-    dob_month,
-    dob_year,
-    name,
-    about,
-    show_interest,
-    gender_identity,
-    url_img,
-    previas_interest
-  } = CreateUserFromSchema.parse({
-    dob_day: formData.get('dob_day'),
-    dob_month: formData.get('dob_month'),
-    dob_year: formData.get('dob_year'),
-    name: formData.get('name'),
-    about: formData.get('about'),
-    show_interest: formData.get('show_interest'),
-    gender_identity: formData.get('gender_identity'),
-    url_img: formData.get('url_img'),
-    previas_interest: formData.get('previas_interest')
-  })
-
-  const calculatedAge = calculateAge({ dob_day, dob_month, dob_year })
-  const newFormData = {
-    name,
-    about,
-    show_interest,
-    gender_identity,
-    url_img,
-    dob_day,
-    dob_month,
-    dob_year,
-    previas_interest,
-    age: calculatedAge
-  }
+  const newFormData = getUserValues(formData)
   await updatedUser(newFormData)
+  revalidatePath('/dashboard/profile')
   redirect('/dashboard')
 }
 
@@ -173,8 +116,6 @@ export async function createPrevia(
   prevState: void | undefined,
   formData: FormData
 ) {
-  console.log('formData', formData)
-
   const {
     location,
     date,
