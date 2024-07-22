@@ -62,38 +62,39 @@ export default function NewPreviaForm() {
             />
           </div>
         </div>
-      </div>
-      <div className="flex flex-wrap justify-start gap-3">
-        <div className="w-50 my-3">
-          <CustomInput
-            label="How many are there?"
-            name="participants"
-            type="number"
+
+        <div className="flex flex-wrap justify-start gap-3">
+          <div className="w-50 my-3">
+            <CustomInput
+              label="How many are there?"
+              name="participants"
+              type="number"
+              required={true}
+            />
+          </div>
+          <div className="w-50 my-3">
+            <CustomDropDowns
+              name="place_details"
+              label="Where is it?"
+              values={place_details}
+              type="select"
+            />
+          </div>
+        </div>
+        <div className="flex items-center text-secondary gap-3 border-b-2 border-t-2 border-primary_b m-2">
+          <CustomDropDowns
+            name="show_location"
+            label="Show location"
+            type="checkbox"
+          />
+        </div>
+        <div className="my-2">
+          <CustomTextArea
+            label="Description"
+            name="description"
             required={true}
           />
         </div>
-        <div className="w-50 my-3">
-          <CustomDropDowns
-            name="place_details"
-            label="Where is it?"
-            values={place_details}
-            type="select"
-          />
-        </div>
-      </div>
-      <div className="flex items-center text-secondary gap-3 border-b-2 border-t-2 border-primary_b m-2">
-        <CustomDropDowns
-          name="show_location"
-          label="Show location"
-          type="checkbox"
-        />
-      </div>
-      <div className="my-2">
-        <CustomTextArea
-          label="Description"
-          name="description"
-          required={true}
-        />
       </div>
       <div className="col-span-3 lg:col-span-1">
         <div className="flex flex-wrap justify-center items-center gap-2">
@@ -110,7 +111,10 @@ export default function NewPreviaForm() {
           {errorMessage}
         </div>
       )}
+      <div className="col-span-3 lg:col-span-1 mt-3">
       <CustomButton text="Create Previa" errorMessage={errorMessage || ''} />
+      </div>
+      
     </form>
   )
 }

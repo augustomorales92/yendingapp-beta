@@ -128,8 +128,8 @@ export default function RequestJoinModal({ previa, onClose, setIsModalOpen }) {
         <b className="text-secondary_b">{startTime}</b>
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 px-6">
-        <Input
-          label="How many are there?"
+        <label className='text-white'>How many are there?</label>
+        <input
           id="attendands"
           color="white"
           type="number"
@@ -137,31 +137,25 @@ export default function RequestJoinModal({ previa, onClose, setIsModalOpen }) {
           value={attendands}
           onChange={(e) => handleAttendans(e)}
           className={`${attendands ? 'text-white' : 'text-white'}`}
-          crossOrigin={undefined}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
         />
-        <div className="w-50 my-3">
-          <Select
-            label="What are you looking for?"
+        <div className="w-50 my-3 flex flex-col">
+          <label className='text-white' >What are you looking for?</label>
+          <select
             color="gray"
             id="intentions"
             name="intentions"
             value={intentions}
             className={`${intentions ? 'text-white' : 'text-white'}`}
             onChange={(value) => handleIntentions(value)}
-            placeholder={undefined}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
           >
-            <Option value="Let it flow">Let it flow</Option>
-            <Option value="Drink and have fun">Drink and have fun</Option>
-            <Option value="Go to a disco">Go to a disco</Option>
-            <Option value="Meet fun people">Meet fun people</Option>
-            <Option value="Flirting and casual encounters">
+            <option value="Let it flow">Let it flow</option>
+            <option value="Drink and have fun">Drink and have fun</option>
+            <option value="Go to a disco">Go to a disco</option>
+            <option value="Meet fun people">Meet fun people</option>
+            <option value="Flirting and casual encounters">
               Flirting and casual encounters
-            </Option>
-          </Select>
+            </option>
+          </select>
         </div>
         <div className="col-span-3 lg:col-span-1">
           <div className="flex flex-wrap justify-center items-center gap-2">

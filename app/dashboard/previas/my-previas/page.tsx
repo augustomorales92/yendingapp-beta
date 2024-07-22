@@ -19,9 +19,9 @@ async function MyPreviasContent ({searchParams}:MyPreviasContentProps) {
         <div>
             <GroupBtn />
         </div>
-        <div className='grid grid-cols-3 gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
             {sortedPrevias?.map((previa, index) => (
-                <div className='col-span-3 lg:col-span-1' key={index}>
+                <div className='flex justify-center items-center' key={index}>
                     <MyPreviasCard
                         previa_id={previa?.previa_id}
                         location={previa.location}

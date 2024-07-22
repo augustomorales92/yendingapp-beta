@@ -37,7 +37,6 @@ const CustomDropDowns = ({ name, label, values, type, initialValue }: CustomDrop
               {label}
             </Typography>
           }
-          id="show_interest"
           color="gray"
           type="checkbox"
           name={name}

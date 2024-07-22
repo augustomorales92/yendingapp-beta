@@ -14,8 +14,8 @@ body{
   @apply mt-6 bottom-0 w-full font-bold text-sm shadow-lg
 }
 
-input {
-  @apply text-white  text-2xl border rounded-md 
+input, select {
+  @apply  bg-transparent py-2 border rounded-md 
 }
 
 .btn-primary {
@@ -23,7 +23,7 @@ input {
 }
 
 .btn-secondary {
-  @apply bg-secondary px-6 py-2 rounded-md text-white font-bold hover:bg-secondary/60 transition duration-300;
+  @apply bg-secondary px-6 py-2 rounded-md text-white font-bold  hover:bg-secondary/60 transition duration-300;
 }
 
 .btn-login {

@@ -3,7 +3,6 @@ import Image from 'next/image'
 import React from 'react'
 import { Creator } from '@/types/data'
 import { formattedDate, sanitizeImages } from '@/lib/utils'
-import { Tooltip } from '@material-tailwind/react'
 import Loader from '../Loader'
 import { FaShare } from 'react-icons/fa'
 import RequestJoinModal from '../forms/RequestJoinModal'
@@ -75,7 +74,7 @@ const NewPreviaCard = ({
         <div className="p-5">
           <div className="mb-4 flex items-center justify-around lg:h-24">
             <div className="flex-shrink-0 mr-2">
-              <Tooltip content={creator?.name}>
+              <div className="group relative w-max">
                 <Image
                   className="w-8 h-8 rounded-full"
                   src={creator?.photo || '/images/placeholder.jpg'}
@@ -83,7 +82,10 @@ const NewPreviaCard = ({
                   width={32}
                   height={32}
                 />
-              </Tooltip>
+                <span className="pointer-events-none absolute -top-9 left-0 w-max rounded bg-gray-900 px-2 py-1 my-1 text-sm font-medium text-gray-50 opacity-0 shadow transition-opacity group-hover:opacity-100">
+                  {creator?.name}
+                </span>
+              </div>
             </div>
             <div className="flex flex-col ">
               <div className="flex flex-row text-xl tracking-tight dark:text-white text-secondary_b">
@@ -98,16 +100,22 @@ const NewPreviaCard = ({
             {description}
           </p>
           <div className="flex flex-wrap gap-2 ">
-            <Tooltip content="Participants">
-              <span className="cursor-pointer me-2 px-2.5 py-0.5 rounded bg-primary_b p-3 text-white transition-colors hover:bg-opacity-70 group-hover:bg-opacity-70">
+            <div className="group relative w-max">
+              <button className='cursor-pointer me-2 px-2.5 py-0.5 rounded bg-primary_b p-3 text-white transition-colors hover:bg-opacity-70 group-hover:bg-opacity-70'>
                 + {participants}
+              </button>
+              <span className="pointer-events-none absolute -top-9 left-0 w-max rounded bg-gray-900 px-2 py-1 my-1 text-sm font-medium text-gray-50 opacity-0 shadow transition-opacity group-hover:opacity-100">
+                Participants
               </span>
-            </Tooltip>
-            <Tooltip content="Where">
-              <span className="cursor-pointer me-2 px-2.5 py-0.5 rounded  bg-primary_b p-3 text-white transition-colors hover:bg-opacity-70 group-hover:bg-opacity-70">
+            </div>
+            <div className="group relative w-max">
+              <button className='cursor-pointer me-2 px-2.5 py-0.5 rounded bg-primary_b p-3 text-white transition-colors hover:bg-opacity-70 group-hover:bg-opacity-70'>
                 {place_details}
+              </button>
+              <span className="pointer-events-none absolute -top-9 left-0 w-max rounded bg-gray-900 px-2 py-1 my-1 text-sm font-medium text-gray-50 opacity-0 shadow transition-opacity group-hover:opacity-100">
+                Where
               </span>
-            </Tooltip>
+            </div>
           </div>
           <div className="flex flex-row justify-between mt-3 items-center">
             <button
@@ -116,11 +124,14 @@ const NewPreviaCard = ({
             >
               Join
             </button>
-            <Tooltip content="Share">
-              <span className="cursor-pointer rounded-full bg-primary_b p-3 text-primary transition-colors hover:bg-opacity-70 group-hover:bg-opacity-70">
+            <div className="group relative w-max">
+              <button className='cursor-pointer rounded-full bg-primary_b p-3 text-primary transition-colors hover:bg-opacity-70 group-hover:bg-opacity-70'>
                 <FaShare />
+              </button>
+              <span className="pointer-events-none absolute -top-9 left-0 w-max rounded bg-gray-900 px-2 py-1 my-1 text-sm font-medium text-gray-50 opacity-0 shadow transition-opacity group-hover:opacity-100">
+                Share
               </span>
-            </Tooltip>
+            </div>
           </div>
         </div>
       </div>

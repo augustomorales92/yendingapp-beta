@@ -96,7 +96,7 @@ const CreatePreviaSchema = z.object({
   participants: z.string(),
   passCode: z.string(),
   place_details: z.string(),
-  show_location: z.string().transform((e) => e === 'on'),
+  show_location: z.preprocess(value => value === 'on', z.boolean()),
   startTime: z.string(),
   previa_id: z.string(),
   v: z.number(),

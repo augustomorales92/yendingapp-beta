@@ -11,6 +11,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 
   try {
+    const { newFormData } = await req.json();
     const user = await prisma.users.findUnique({
       where: { email: creator_email }
     })
@@ -23,23 +24,22 @@ export async function POST(req: NextRequest, res: NextResponse) {
       name: user?.name,
       email: user?.email
     }
-
-    const { formData } = await req.json()
+    
     const generated_previa_id = uuidv4()
     const generated_pass_code = uuidv4()
     const creator = creatorData
 
-    console.log('formData:', formData)
+    console.log('formData:', newFormData)
     // Crear un objeto updatedData combinando formData y age
     const updatedData = {
-      ...formData,
+      ...newFormData,
       previa_id: generated_previa_id,
       creator: creator,
       pass_code: generated_pass_code,
-      date: new Date(formData.date),
+      date: new Date(newFormData.date),
       join_requests: [],
     }
-
+ console.log(updatedData)
     const newPrevia = await prisma.previas.create({ data: updatedData })
     console.log('previa:', newPrevia)
     //update user with previa_id

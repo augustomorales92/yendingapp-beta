@@ -1,4 +1,4 @@
-import { Input, Option, Select } from '@material-tailwind/react'
+
 import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 
@@ -39,25 +39,21 @@ function EditPreviaModal({ previa, onClose, onSave }) {
         className="flex flex-wrap gap-3 md:grid md:grid-rows-3 md:gap-2"
         onSubmit={handleSubmit}
       >
-        <Input
+        <label className='text-white'>Location</label>
+        <input
           color="white"
-          label="Location"
           id="location"
           type="text"
           name="location"
           value={formData.location || ' '}
           onChange={handleChange}
           className={`${formData.location ? 'text-white' : 'text-white'}`}
-          crossOrigin={undefined}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
         />
         <div className="flex flex-wrap justify-start gap-3 ">
-          <div className="w-50">
-            <Input
-              label="Date"
+          <div className="w-50 flex flex-col">
+            <label className='text-white'>Date</label>
+            <input
               id="date"
-              color="white"
               type="date"
               name="date"
               value={
@@ -67,14 +63,11 @@ function EditPreviaModal({ previa, onClose, onSave }) {
               }
               onChange={handleChange}
               className={` ${formData.date ? 'text-white' : 'text-white'}`}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-              crossOrigin={undefined}
             />
           </div>
-          <div className="w-50">
-            <Input
-              label="Start Time"
+          <div className="w-50 flex flex-col">
+            <label className='text-white'>Start time?</label>
+            <input
               id="startTime"
               color="white"
               type="time"
@@ -82,64 +75,53 @@ function EditPreviaModal({ previa, onClose, onSave }) {
               value={formData.startTime}
               onChange={handleChange}
               className={`${formData.startTime ? 'text-white' : 'text-white'}`}
-              crossOrigin={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
             />
           </div>
         </div>
         <div className="flex flex-wrap justify-start gap-2">
-          <div className="w-50">
-            <Input
-              label="How many are there?"
+          <div className="w-50 flex flex-col">
+            <label className='text-white'>How many are there?</label>
+            <input
               id="participants"
               color="white"
               type="number"
               name="participants"
               value={formData.participants}
               onChange={handleChange}
-              className={`${
-                formData.participants ? 'text-white' : 'text-white'
-              }`}
-              crossOrigin={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
+              className={`${formData.participants ? 'text-white' : 'text-white'
+                }`}
             />
           </div>
-          <div className="w-50">
-            <Select
-              label="Where is it?"
+          <div className="w-50 flex flex-col">
+            <label className='text-white'>Where?</label>
+            <select
               color="gray"
               id="place_details"
               name="place_details"
               value={formData.place_details}
-              className={`${
-                formData.place_details ? 'text-white' : 'text-white'
-              }`}
+              className={`${formData.place_details ? 'text-white' : 'text-white'
+                }`}
               onChange={(value) =>
                 handleChange({ target: { name: 'place_details', value } })
               }
-              placeholder={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
             >
-              <Option value="In a bar">In a bar</Option>
-              <Option value="In a house">In a house</Option>
-              <Option value="On the beach">On the beach</Option>
-              <Option value="We'll move">{`We'll move`}</Option>
-            </Select>
+              <option value="In a bar">In a bar</option>
+              <option value="In a house">In a house</option>
+              <option value="On the beach">On the beach</option>
+              <option value="We'll move">{`We'll move`}</option>
+            </select>
           </div>
         </div>
         <div>
+          <label className='text-white'>Description</label>
           <textarea
             color="white"
             id="description"
             name="description"
             value={formData.description || ''}
             onChange={handleChange}
-            className={`bg-transparent border border-white rounded-2 my-2 w-full ${
-              formData.about ? 'text-white' : 'text-white'
-            }`}
+            className={`bg-transparent border border-white rounded-2 my-2 w-full ${formData.about ? 'text-white' : 'text-white'
+              }`}
           />
           <button className="btn-secondary" type="submit">
             Save

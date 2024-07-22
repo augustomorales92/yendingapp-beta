@@ -51,8 +51,8 @@ export default function MyPreviasCard({
   const formattedDate = isSameDay(today, inputDate)
     ? 'Today'
     : isBefore(inputDate, today)
-    ? 'Due'
-    : format(inputDate, "EEEE d 'de' MMMM", { locale: es })
+      ? 'Due'
+      : format(inputDate, "EEEE d 'de' MMMM", { locale: es })
 
   const handleEditClick = () => {
     setIsModalOpen(true)
@@ -138,111 +138,55 @@ export default function MyPreviasCard({
 
   return (
     <Suspense fallback={<Loader />}>
-      <Card
-        className="bg-secondary max-w-[24rem]  h-[30rem] flex flex-col justify-between overflow-hidden mt-3 "
-        placeholder={undefined}
-        onPointerEnterCapture={undefined}
-        onPointerLeaveCapture={undefined}
-      >
-        <CardHeader
-          floated={false}
-          shadow={false}
-          color="transparent"
-          className="m-0 rounded-none p-2 h-full"
-          placeholder={undefined}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-        >
+      <div className=" bg-secondary border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[24rem] h-[40rem]">
+        <div className="flex justify-center">
           <Image
             width={300}
             height={600}
             src={images?.[0] || '/images/placeholder.jpg'}
             alt="image 1"
-            className=" w-full  h-fullaspect-square object-contain"
+            className="rounded-t-lg h-80 w-auto flex items-center justify-center p-2 lg:h-64"
           />
-        </CardHeader>
-        <CardBody
-          placeholder={undefined}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-        >
+        </div>
+        <div className="p-5">
           <div className="flex flex-wrap items-center gap-2 ">
-            <Typography
-              placeholder={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-              variant="h6"
-              className="text-secondary_b"
-            >
+            <p className='text-secondary'>
               {location} - {place_details}
-            </Typography>
+            </p>
           </div>
           <div className="flex flex-wrap gap-2 ">
-            <Typography
-              variant="h6"
-              placeholder={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-              className={`mt-3 ${
-                formattedDate === 'Due' ? 'text-red-500' : 'text-primary_b'
-              }`}
+            <p
+              className={`mt-3 ${formattedDate === 'Due' ? 'text-red-500' : 'text-primary_b'
+                }`}
             >
               {formattedDate}
-            </Typography>
-            <Typography
-              placeholder={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-              variant="h6"
-              className="mt-3 text-primary_b"
-            >
+            </p>
+            <p className="mt-3 text-primary_b">
               At: {startTime}
-            </Typography>
+            </p>
           </div>
-          <Typography
-            placeholder={undefined}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
-            variant="lead"
-            className="mt-3 font-normal text-primary_b"
-          >
+          <p className="mt-3 font-normal text-primary_b">
             {description}
-          </Typography>
-          <Typography
-            placeholder={undefined}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
-            variant="h6"
-            className="mt-3 text-primary_b"
-          >
+          </p>
+          <p className="mt-3 text-primary_b">
             Participants: {participants}
-          </Typography>
-          <Typography
-            placeholder={undefined}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
-            variant="h6"
-            className="mt-3 text-primary_b"
-          >
+          </p>
+          <p className="mt-3 text-primary_b">
             Requests: {join_requests?.length}
-          </Typography>
-        </CardBody>
-        <CardFooter
-          placeholder={undefined}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-          className="flex items-center justify-between"
-        >
-          <div className="flex items-center gap-2">
-            <button className="btn-primary" onClick={handleEditClick}>
-              {/* isLoading ? <BeatLoader color="white" /> : */ 'Edit'}
-            </button>
-            <button className="btn-primary" onClick={handleDelete}>
-              Delete
-            </button>
+          </p>
+
+          <div className="flex flex-row justify-between mt-3 items-center">
+            <div className="flex items-center gap-2">
+              <button className="btn-primary" onClick={handleEditClick}>
+                Edit
+              </button>
+              <button className="btn-primary" onClick={handleDelete}>
+                Delete
+              </button>
+            </div>
           </div>
-        </CardFooter>
-      </Card>
+        </div>
+      </div>
       {isModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"

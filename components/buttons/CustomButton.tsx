@@ -14,7 +14,7 @@ export function CustomButton({
   const { pending } = useFormStatus()
 
   return (
-    <button className="btn-primary">
+    <button className="btn-login">
       <span>{pending ? <BeatLoader color="white" /> : text}</span>
     </button>
   )

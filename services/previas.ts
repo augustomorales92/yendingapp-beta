@@ -41,9 +41,10 @@ export const getCreatedPrevias = async () => {
   }
 }
 
-export const postPrevia = async (formData: Previas) => {
+export const postPrevia = async (newFormData: Previas) => {
+
   try {
-    const response = await customFetch({ path: `/api/previa`, method: 'POST', withCredentials: true, body: formData })
+    const response = await customFetch({ path: `/api/previa`, method: 'POST', withCredentials: true, body: newFormData })
     return response
     } catch (error) {
     console.error('Error fetching user data:', error)
