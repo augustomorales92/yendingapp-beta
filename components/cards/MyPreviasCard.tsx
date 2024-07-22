@@ -1,11 +1,5 @@
 'use client'
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography
-} from '@material-tailwind/react'
+
 import { format, isBefore, isSameDay } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { useState } from 'react'

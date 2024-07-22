@@ -26,24 +26,25 @@ export default function GroupBtn() {
     return (
         <div className="flex justify-end space-x-4 mb-4">
             <div className="hidden md:flex space-x-4">
-                <ButtonGroup className='justify-start' placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
-                    <Button
-                        placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}
-                        onClick={() => handleSearch('date')} className='flex text-xl text-secondary_b hover:bg-secondary/80  focus:bg-secondary/80 '><FaSortNumericDownAlt /> Sort by date</Button>
-                    <Button placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}
-                        onClick={() => handleSearch('participants')} className='flex text-xl text-secondary_b hover:bg-secondary/80   focus:bg-secondary/80 '><MdGroupAdd /> Sort by participants</Button>
-                </ButtonGroup>
+                <div className='justify-start bg-black  flex items-center border rounded-md border-none gap-3' >
+                    <button
+                        onClick={() => handleSearch('date')} className='flex text-xl text-secondary_b hover:bg-secondary/80 rounded-md p-3  focus:bg-secondary/80'><FaSortNumericDownAlt />
+                        Sort by date
+                    </button>
+                    <button
+                        onClick={() => handleSearch('participants')} className='flex text-xl text-secondary_b hover:bg-secondary/80 rounded-md p-3  focus:bg-secondary/80 '><MdGroupAdd />
+                        Sort by participants
+                    </button>
+                </div>
             </div>
-            <div className="md:hidden w-full">
-                <Select
-                    placeholder={undefined}
-                    onPointerEnterCapture={undefined}
-                    onPointerLeaveCapture={undefined}
-                    label="Sort By"
-                    onChange={(value) => handleSearch(value)}>
-                    <Option value="date">Date</Option>
-                    <Option value="participants">Participants</Option>
-                </Select>
+            <div className="md:hidden w-full flex flex-col">
+                <label className='text-secondary'>Sort By</label>
+                <select
+                    className='text-secondary'
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleSearch(e.target.value)}>
+                    <option value="date">Date</option>
+                    <option value="participants">Participants</option>
+                </select>
             </div>
 
         </div>

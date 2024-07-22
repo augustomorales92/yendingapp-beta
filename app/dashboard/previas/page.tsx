@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <Suspense fallback={<Loader />}>
     <div className="px-12 py-16 md:py-6 min-h-screen">
-      <div className="flex flex-wrap justify-center items-center gap-3">
+      <div className="grid grid-cols-1 gap-4">
         <CreateNew />
         <SeeMyPrevias />
         <MyPreviasReq />

@@ -45,3 +45,7 @@ input, select {
 input[type="radio"] {
   @apply hidden;
 }
+
+.previas-card-link{
+  @apply  shadow-md p-6 border border-none rounded-md text-center cursor-pointer bg-primary_b hover:bg-primary_b/60 text-secondary_b;
+}
