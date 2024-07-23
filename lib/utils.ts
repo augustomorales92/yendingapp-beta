@@ -3,7 +3,7 @@ import { Creator, Previas } from '@/types/data'
 import { isBefore, isSameDay, format, compareAsc } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { today } from '@/lib/constants'
-import { z } from 'zod'
+import { CreateUserFromSchema } from './schemas'
 
 interface calculateAge {
   dob_day: string
@@ -59,7 +59,9 @@ export const getSortedPrevias = async ({
   sortCriteria = 'date',
   needsToValidate = true
 }: SortedPrevias) => {
-  const validPrevias = needsToValidate ? await previaValidation({ previas }) : previas
+  const validPrevias = needsToValidate
+    ? await previaValidation({ previas })
+    : previas
 
   return [...validPrevias]?.sort((a, b) => {
     if (sortCriteria === 'date') {
@@ -83,30 +85,7 @@ export const formattedDate = ({ date, inputDate }: FormattedDate) =>
     : format(date as Date, "EEEE d 'de' MMMM", { locale: es })
 
 export const sanitizeImages = (images?: string[] | string) =>
-  Array.isArray(images) && images?.filter((image) => image) || []
-
-const CreateUserSchema = z.object({
-  name: z.string(),
-  dob_day: z.string(),
-  dob_month: z.string(),
-  dob_year: z.string(),
-  about: z.string(),
-  age: z.number(),
-  show_interest: z.string().transform((e) => e === 'on'),
-  gender_identity: z.string(),
-  previas_interest: z.string(),
-  previas_requests: z.array(z.string()),
-  previas_created: z.array(z.string()),
-  url_img: z.string().optional(),
-  previas: z.array(z.string())
-})
-
-const CreateUserFromSchema = CreateUserSchema.omit({
-  age: true,
-  previas: true,
-  previas_requests: true,
-  previas_created: true
-})
+  (Array.isArray(images) && images?.filter((image) => image)) || []
 
 export const getUserValues = (formData: FormData) => {
   const {

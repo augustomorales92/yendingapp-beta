@@ -1,5 +1,4 @@
 import OnboardingForm from '@/components/forms/OnboaringForm'
-import { fetchUser } from '@/lib/actions'
 import { Suspense } from 'react'
 import Loader from '@/components/Loader'
 import { auth } from '@/auth'

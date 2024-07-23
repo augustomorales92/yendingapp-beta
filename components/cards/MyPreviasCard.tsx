@@ -78,30 +78,6 @@ export default function MyPreviasCard({
     }).then(async (result) => {
       if (result.isConfirmed) {
         await deletePrevia(previa_id)
-        /*   
-        try {
-        const toastId = toast.loading('Deleting Previa...')
-          const response = await fetch('/api/previa', {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ previa_id })
-          })
-          const result = await response.json()
-          if (response.ok) {
-            console.log('Previa deleted:', result)
-            toast.dismiss(toastId)
-            //revalidatePath('/dashboard/previas/my-previas')
-            setIsModalOpen(false)
-            toast.success('Previa deleted!')
-          } else {
-            console.error('Error deleting previa:', result)
-            toast.dismiss(toastId)
-          }
-        } catch (error) {
-          console.error('Error:', error)
-        } */
       }
     })
   }

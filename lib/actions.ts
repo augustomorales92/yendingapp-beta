@@ -16,11 +16,9 @@ import {
   putPrevia
 } from '@/services/previas'
 import type { UpdateJoinRequest, Previas } from '@/types/data'
+import { CreateLoginSchema, CreatePreviaFromSchema, CreateRequestJoinSchema, UpdatePreviaFromSchema } from './schemas'
 
-const CreateLoginSchema = z.object({
-  email: z.string(),
-  password: z.string()
-})
+
 
 export async function authenticate(
   prevState: string | undefined,
@@ -74,11 +72,6 @@ export async function signup(prevState: void | undefined, formData: FormData) {
   }
 }
 
-export async function fetchUser() {
-  const res = await getUser()
-  return res
-}
-
 export async function updateUser(
   prevState: void | undefined,
   formData: FormData
@@ -92,33 +85,6 @@ export async function updateUser(
   redirect('/dashboard')
 }
 
-const CreatePreviaSchema = z.object({
-  creator: z.string(),
-  date: z.string().transform((e) => new Date(e)),
-  description: z.string(),
-  location: z.string(),
-  images_previa_url: z.union([z.string(), z.array(z.string())]),
-  participants: z.string(),
-  passCode: z.string(),
-  place_details: z.string(),
-  show_location: z.preprocess((value) => value === 'on', z.boolean()),
-  startTime: z.string(),
-  previa_id: z.string(),
-  v: z.number(),
-  createdAt: z.string(),
-  id: z.string(),
-  updatedAt: z.string()
-})
-
-const CreatePreviaFromSchema = CreatePreviaSchema.omit({
-  previa_id: true,
-  updatedAt: true,
-  creator: true,
-  createdAt: true,
-  v: true,
-  id: true,
-  passCode: true
-})
 
 export async function createPrevia(
   prevState: void | undefined,
@@ -162,11 +128,7 @@ export async function createPrevia(
   redirect('/dashboard/previas')
 }
 
-const CreateRequestJoinSchema = z.object({
-  intentions: z.string(),
-  url_img: z.union([z.string(), z.array(z.string())]),
-  attendands: z.string()
-})
+
 
 export async function requestJoin(
   previaId: string,
@@ -209,16 +171,7 @@ export async function updateJoinRequestStatus({
 }
 
 
-const UpdatePreviaFromSchema = CreatePreviaSchema.omit({
-  previa_id: true,
-  updatedAt: true,
-  creator: true,
-  createdAt: true,
-  v: true,
-  id: true,
-  passCode: true,
-  images_previa_url: true
-})
+
 
 export async function updatePrevia(
   previaId: string,

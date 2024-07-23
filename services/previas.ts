@@ -6,7 +6,7 @@ export const getPrevias = async () => {
     const response = await customFetch({
       path: `/api/previas`,
       method: 'GET',
-      withCredentials: false
+      withCredentials: true
     })
     const data = await response.json()
     return data.previas

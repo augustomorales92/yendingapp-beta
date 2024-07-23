@@ -11,13 +11,13 @@ import { useState, Suspense } from 'react'
 interface PreviaCardProps {
   index?: number
   previa_id?: string
-  location: string
+  location?: string
   creator?: Creator
   date?: Date
   startTime?: string
   participants?: string
   place_details?: string
-  images_previa_url?: string[]
+  images_previa_url?: string[] | string
   description?: string
 }
 
@@ -147,12 +147,11 @@ const NewPreviaCard = ({
             <RequestJoinModal
               previa={{
                 previa_id,
-                creatorName: creator?.name,
+                creator,
                 location,
                 startTime
               }}
               onClose={handleModalClose}
-              setIsModalOpen={setIsModalOpen}
             />
           </div>
         </div>

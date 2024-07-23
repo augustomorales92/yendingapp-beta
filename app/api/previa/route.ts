@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
-  const creator_email = session?.user?.email
+  const user = session?.user?.userData
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
@@ -12,9 +12,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   try {
     const { newFormData } = await req.json();
-    const user = await prisma.users.findUnique({
-      where: { email: creator_email }
-    })
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }

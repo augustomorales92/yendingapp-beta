@@ -1,5 +1,5 @@
 import GroupBtn from '@/components/buttons/GroupBtn'
-import PreviaCard from '@/components/cards/PreviaCard'
+//import PreviaCard from '@/components/cards/PreviaCard'
 import { getSortedPrevias } from '@/lib/utils'
 import { Suspense } from 'react'
 import Loader from '@/components/Loader'
@@ -65,21 +65,27 @@ async function DashboardContent({
           description={previas?.[0].description}
         /> */}
 
-        {sortedPrevias?.map((previa, index) => (
-          <div key={index} className='flex justify-center items-center '>
-            <NewPreviaCard
-              previa_id={previa?.previa_id}
-              location={previa.location}
-              creator={previa?.creator}
-              date={previa.date}
-              startTime={previa.startTime}
-              participants={previa.participants}
-              place_details={previa.place_details}
-              images_previa_url={previa.images_previa_url}
-              description={previa.description}
-            />
+        {sortedPrevias.length ? (
+          sortedPrevias?.map((previa, index) => (
+            <div key={index} className="flex justify-center items-center ">
+              <NewPreviaCard
+                previa_id={previa?.previa_id}
+                location={previa?.location}
+                creator={previa?.creator}
+                date={previa.date}
+                startTime={previa.startTime}
+                participants={previa.participants}
+                place_details={previa.place_details}
+                images_previa_url={previa?.images_previa_url}
+                description={previa.description}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="text-md text-secondary md:text-xl">
+            {`No Previas available nearby`}{' '}
           </div>
-        ))}
+        )}
       </div>
     </div>
   )
