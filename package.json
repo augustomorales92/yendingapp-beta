@@ -15,7 +15,6 @@
     "@capacitor/android": "^6.1.0",
     "@capacitor/core": "^6.1.0",
     "@capacitor/ios": "^6.1.0",
-    "@headlessui/react": "^2.1.2",
     "@heroicons/react": "^2.1.4",
     "@prisma/client": "^5.17.0",
     "@types/mongoose": "^5.11.97",

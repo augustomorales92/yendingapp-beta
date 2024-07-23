@@ -1,6 +1,6 @@
 
 import SideNavbar from "@/components/navs/SideNavbar";
-import { ReactNode } from 'react';
+import { ReactNode} from 'react';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -8,10 +8,12 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }:DashboardLayoutProps) {
 
+
+
   return (
     <div className="relative flex md:flex-row flex-col">
-      <SideNavbar/>
-      <div className="flex-1 ml-0 lg:ml-60 transition-all duration-200">
+      <SideNavbar />
+      <div className="flex-1 ml-0 lg:ml-20 transition-all duration-200">
         {children}
       </div>
     </div>
