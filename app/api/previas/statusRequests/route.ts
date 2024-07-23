@@ -3,7 +3,7 @@ import { prisma } from '@/auth.config'
 
 interface Requests {
   user_id: string
-  attendands: number
+  attendants: number
   intentions: string
   photos: string[]
   status: string
@@ -38,7 +38,7 @@ export async function GET(req: Request) {
         previa.join_requests.forEach((joinReq) => {
           const request: Requests = {
             user_id: joinReq.user_id,
-            attendands: joinReq.attendands,
+            attendants: joinReq.attendants,
             intentions: joinReq.intentions,
             photos: joinReq.photos,
             status: joinReq.status,

@@ -30,7 +30,7 @@ export default async function StatusRequests() {
                     {new Date(request.date).toLocaleDateString()}
                   </div>
                   <div>
-                    <strong>Attendands:</strong> {request.attendands}
+                    <strong>attendants:</strong> {request.attendants}
                   </div>
                   <div>
                     <strong>Intentions:</strong> {request.intentions}
@@ -63,7 +63,7 @@ export default async function StatusRequests() {
                     {new Date(request.date).toLocaleDateString()}
                   </div>
                   <div>
-                    <strong>Attendands:</strong> {request.attendands}
+                    <strong>attendants:</strong> {request.attendants}
                   </div>
                   <div>
                     <strong>Intentions:</strong> {request.intentions}

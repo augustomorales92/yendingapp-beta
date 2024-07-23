@@ -1,6 +1,6 @@
 export interface JoinRequest {
   id: string
-  attendands: number
+  attendants: number
   intentions: string
   photos: string[]
   status: string

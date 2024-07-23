@@ -27,7 +27,7 @@ async function ManageRequestContent() {
             {previa?.join_requests?.map((joinReq, jIndex) => (
               <div key={jIndex} className="p-4 border">
                 <div>
-                  <strong>Attendands:</strong> {joinReq.attendands}
+                  <strong>attendants:</strong> {joinReq.attendants}
                 </div>
                 <div>
                   <strong>Intentions:</strong> {joinReq.intentions}

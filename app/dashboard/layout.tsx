@@ -9,7 +9,7 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }:DashboardLayoutProps) {
 
   return (
-    <div className="relative flex">
+    <div className="relative flex md:flex-row flex-col">
       <SideNavbar/>
       <div className="flex-1 ml-0 lg:ml-60 transition-all duration-200">
         {children}

@@ -4,13 +4,12 @@ import { Suspense } from 'react'
 import Loader from '@/components/Loader'
 import { getMyPrevias } from '@/services/previas'
 
-
 async function MyRequestContent() {
   const {
     previas_data: previasData,
     user_id
   }: { previas_data: Previas[]; user_id: string } = await getMyPrevias()
-  
+
   return (
     <div className="text-secondary px-12 py-16 md:py-6 min-h-screen">
       <p>Lista de las previas a las que solicite unirme...</p>
@@ -41,7 +40,7 @@ async function MyRequestContent() {
                       <p>User ID: {request.user_id}</p>
                       <p>Intentions: {request.intentions}</p>
                       <p>Status: {request.status}</p>
-                      <p>Attendees: {request.attendands}</p>
+                      <p>Attendees: {request.attendants}</p>
                       <div>
                         <h5>Photos:</h5>
                         {request.photos.map((photo, j) => (

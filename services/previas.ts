@@ -111,16 +111,18 @@ export const getStatusRequests = async () => {
 type RequestJoin = {
   previaId: string
   intentions: string
-  url_img: string | string[]
-  attendands: string
+  url_img?: string | string[]
+  attendants: string
 }
+
 export const postRequestJoin = async (body: RequestJoin) => {
+  console.log('body:', body)
   try {
     const response = await customFetch({
       path: `/api/previa/joinRequest`,
-      method: 'POST',
+      method: 'PUT',
       withCredentials: true,
-      body
+      body: body
     })
     return response.json()
   } catch (error) {
@@ -128,6 +130,7 @@ export const postRequestJoin = async (body: RequestJoin) => {
     return 'Error joining previa'
   }
 }
+
 export const putJoinRequest = async ({
   previaId,
   userId,

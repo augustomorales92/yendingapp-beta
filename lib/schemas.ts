@@ -58,17 +58,17 @@ export const CreatePreviaFromSchema = CreatePreviaSchema.omit({
 
 export const CreateRequestJoinSchema = z.object({
   intentions: z.string(),
-  url_img: z.union([z.string(), z.array(z.string())]),
-  attendands: z.string()
+  url_img: z.union([z.string(), z.array(z.string())]).optional(),
+  attendants: z.string()
 })
 
 export const UpdatePreviaFromSchema = CreatePreviaSchema.omit({
-    previa_id: true,
-    updatedAt: true,
-    creator: true,
-    createdAt: true,
-    v: true,
-    id: true,
-    passCode: true,
-    images_previa_url: true
-  })
+  previa_id: true,
+  updatedAt: true,
+  creator: true,
+  createdAt: true,
+  v: true,
+  id: true,
+  passCode: true,
+  images_previa_url: true
+})

@@ -30,11 +30,16 @@ type RequestJoinModalProps = {
 
 export default function RequestJoinModal({
   previa,
-  onClose,
+  onClose
 }: RequestJoinModalProps) {
   const { creator, previa_id, location, startTime } = previa
   const requestJoinWithId = requestJoin.bind(null, previa_id || '')
   const [errorMessage, dispatch] = useFormState(requestJoinWithId, undefined)
+
+  const handleRequestJoin = (formData: FormData) => {
+    dispatch(formData)
+    onClose()
+  }
 
   return (
     <div className="bg-primary_b max-w-full min-h-full my-4 px-8 py-4 mx-auto rounded-md">
@@ -49,9 +54,9 @@ export default function RequestJoinModal({
         {`'s Previa in`} <b className="text-secondary_b">{location}</b> at{' '}
         <b className="text-secondary_b">{startTime}</b>
       </div>
-      <form action={dispatch} className="flex flex-col gap-3 px-6">
+      <form action={handleRequestJoin} className="flex flex-col gap-3 px-6">
         <CustomInput
-          name="attendands"
+          name="attendants"
           label="How many are there?"
           type="number"
           required

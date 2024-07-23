@@ -16,9 +16,12 @@ import {
   putPrevia
 } from '@/services/previas'
 import type { UpdateJoinRequest, Previas } from '@/types/data'
-import { CreateLoginSchema, CreatePreviaFromSchema, CreateRequestJoinSchema, UpdatePreviaFromSchema } from './schemas'
-
-
+import {
+  CreateLoginSchema,
+  CreatePreviaFromSchema,
+  CreateRequestJoinSchema,
+  UpdatePreviaFromSchema
+} from './schemas'
 
 export async function authenticate(
   prevState: string | undefined,
@@ -85,7 +88,6 @@ export async function updateUser(
   redirect('/dashboard')
 }
 
-
 export async function createPrevia(
   prevState: void | undefined,
   formData: FormData
@@ -128,22 +130,19 @@ export async function createPrevia(
   redirect('/dashboard/previas')
 }
 
-
-
 export async function requestJoin(
   previaId: string,
   prevState: void | undefined,
   formData: FormData
 ) {
-  const { intentions, url_img, attendands } = CreateRequestJoinSchema.parse({
+  const { intentions, url_img, attendants } = CreateRequestJoinSchema.parse({
     intentions: formData.get('intentions'),
     url_img: formData.get('url_img'),
-    attendands: formData.get('attendands')
+    attendants: formData.get('attendants')
   })
 
-  await postRequestJoin({ intentions, url_img, attendands, previaId })
-  /* revalidatePath('/dashboard/profile')
-  redirect('/dashboard') */
+  await postRequestJoin({ intentions, url_img, attendants, previaId })
+  revalidatePath('/dashboard/previas/my-requests')
 }
 
 type StatusRequests = {
@@ -170,9 +169,6 @@ export async function updateJoinRequestStatus({
   revalidatePath('/dashboard/previas/manage-requests')
 }
 
-
-
-
 export async function updatePrevia(
   previaId: string,
   prevState: void | undefined,
@@ -185,7 +181,7 @@ export async function updatePrevia(
     participants,
     description,
     place_details,
-    show_location,
+    show_location
   } = UpdatePreviaFromSchema.parse({
     location: formData.get('location'),
     date: formData.get('date'),
@@ -193,9 +189,18 @@ export async function updatePrevia(
     participants: formData.get('participants'),
     description: formData.get('description'),
     place_details: formData.get('place_details'),
-    show_location: formData.get('show_location'),
+    show_location: formData.get('show_location')
   })
-  await putPrevia({location, date, startTime, participants, description, place_details, show_location, previaId})
+  await putPrevia({
+    location,
+    date,
+    startTime,
+    participants,
+    description,
+    place_details,
+    show_location,
+    previaId
+  })
   revalidatePath('/dashboard/previas/my-previas')
 }
 

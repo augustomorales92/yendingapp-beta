@@ -12,10 +12,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 
   try {
-    const { attendands, photos, intentions, previa_id } = await req.json()
+    const { attendants, photos, intentions, previa_id } = await req.json()
 
     // Validaciones adicionales
-    // if (typeof attendands !== 'number' || !Array.isArray(photos) || typeof intentions !== 'string' || typeof previa_id !== 'string') {
+    // if (typeof attendants !== 'number' || !Array.isArray(photos) || typeof intentions !== 'string' || typeof previa_id !== 'string') {
     //     return NextResponse.json(
     //         { message: "Invalid data types" },
     //         { status: 400 }
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     // con estos datos ya es suficiente para la creación PreviaUser
     const updatedData = {
-      attendands: attendands,
+      attendants: attendants,
       photos: photos,
       previa_id: previa_id,
       intentions: intentions,
@@ -118,10 +118,8 @@ export async function PUT(req: NextRequest) {
   const userId = session?.user?.id as string
 
   try {
-    const {
-      previaId,
-      status
-    }: { previaId: string; status: string } = await req.json()
+    const { previaId, status }: { previaId: string; status: string } =
+      await req.json()
 
     const previaUser = await prisma.previausers.findUnique({
       where: {
@@ -135,7 +133,7 @@ export async function PUT(req: NextRequest) {
 
     const updatedStatusPrev = await prisma.previausers.update({
       where: {
-        user_id: userId,
+        user_id: userId
       },
       data: {
         status: status
