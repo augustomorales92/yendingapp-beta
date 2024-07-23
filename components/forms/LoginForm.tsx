@@ -9,23 +9,19 @@ export default function LoginForm() {
 
   return (
     <form action={dispatch} className="flex flex-col mt-3 gap-3">
-      <Input
+      <label className='text-primary font-bold'>Email</label>
+      <input
+        className='border-primary'
         id="email"
         type="email"
         name="email"
-        label="Email"
-        onPointerLeaveCapture={undefined}
-        onPointerEnterCapture={undefined}
-        crossOrigin={undefined}
       />
-      <Input
+      <label className='text-primary font-bold'>Password</label>
+      <input
+        className='border-primary'
         id="password"
         type="password"
-        label="Password"
         name="password"
-        onPointerLeaveCapture={undefined}
-        onPointerEnterCapture={undefined}
-        crossOrigin={undefined}
       />
       <CustomButton errorMessage={errorMessage} text="login" />
       {errorMessage && (

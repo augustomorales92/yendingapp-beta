@@ -25,49 +25,33 @@ const CustomDropDowns = ({ name, label, values, type, initialValue }: CustomDrop
   return (
     <>
       {type === 'checkbox' ? (
-        <Checkbox
-          label={
-            <Typography
-              color="blue-gray"
-              className="flex font-medium text-white"
-              placeholder={undefined}
-              onPointerEnterCapture={undefined}
-              onPointerLeaveCapture={undefined}
-            >
-              {label}
-            </Typography>
-          }
-          color="gray"
-          type="checkbox"
-          name={name}
-          onChange={handleChange}
-          checked={value as boolean}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
-          crossOrigin={undefined}
-        />
-      ) : (<>
+        <div className='py-2 flex flex-wrap gap-3'>
+          <label className="flex font-medium text-white" > {label}</label>
+          <input
+            type="checkbox"
+            name={name}
+            onChange={handleChange}
+            checked={value as boolean}
+          />
+        </div>
 
-        <Select
-          label={label}
-          color="gray"
+      ) : (<div className='flex flex-col'>
+        <label className='text-white'>{label}</label>
+        <select
           id={name}
           name={name}
           value={value as string}
-          className={`${value ? 'text-white' : 'text-secondary'}`}
+          className={`w-full ${value ? 'text-secondary' : 'text-secondary'}`}
           onChange={(value) => handleChange({ target: { name, value } })}
-          placeholder={undefined}
-          onPointerEnterCapture={undefined}
-          onPointerLeaveCapture={undefined}
         >
           {values?.map((value, i) => (
-            <Option key={`value_${i}`} value={value.value}>
+            <option key={`value_${i}`} value={value.value}>
               {value.label}
-            </Option>
+            </option>
           ))}
-        </Select>
+        </select>
         <input type="hidden" name={name} value={value as string} />
-        </>
+      </div>
       )}
     </>
   )

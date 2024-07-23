@@ -47,3 +47,45 @@ export const dob_month_values = [
     { label: '31', value: '31' }
   ]
   
+
+  export const place_details = [
+    {
+      label: 'In a bar',
+      value: 'In a bar'
+    },
+    {
+      label: 'In a house',
+      value: 'In a house'
+    },
+    {
+      label: 'On the beach',
+      value: 'On the beach'
+    },
+    {
+      label: `We'll move`,
+      value: `We'll move`
+    }
+  ]
+
+  export const intentions_on_previa = [
+    {
+      label: 'Let it flow',
+      value: 'Let it flow'
+    },
+    {
+      label: 'Drink and have fun',
+      value: 'Drink and have fun'
+    },
+    {
+      label: 'Go to a disco',
+      value: 'Go to a disco'
+    },
+    {
+      label: `Meet fun people`,
+      value: `Meet fun people`
+    },
+    {
+      label: `Flirting and casual encounters`,
+      value: `Flirting and casual encounters`
+    }
+  ]

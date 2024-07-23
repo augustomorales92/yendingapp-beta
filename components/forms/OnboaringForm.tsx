@@ -68,7 +68,7 @@ export default function OnboardingForm({ user }: { user?: FormState }) {
           <label>Show Me</label>
           <InterestSelected initialValue={user?.previas_interest} />
         </div>
-        <div className="my-3">
+        <div className="flex items-center text-secondary gap-3 border-b-2 border-t-2 border-primary_b m-2">
           <CustomDropDowns
             name="show_interest"
             label="Show interest"

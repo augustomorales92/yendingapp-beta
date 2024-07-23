@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
-import { Input } from '@material-tailwind/react'
 import { useFormState } from 'react-dom'
 import { signup } from '@/lib/actions'
 import { CustomButton } from '../buttons/CustomButton'
@@ -21,29 +20,21 @@ export default function RegisterForm() {
   }
   return (
     <form action={dispatch} className="flex flex-col gap-3 px-6">
-      <Input
+      <label>Put your email</label>
+      <input
         type="email"
         name="email"
         color="white"
-        label="Put your email"
-        error={!!errorMessage}
         aria-errormessage={errorMessage ? 'This field is required' : ''}
         className={errorMessage ? 'border-red-500 text-white' : ''}
-        crossOrigin={undefined}
-        onPointerEnterCapture={undefined}
-        onPointerLeaveCapture={undefined}
       />
-      <Input
+      <label>Choose your password</label>
+      <input
         type="password"
         name="password"
         color="white"
-        label="Choose your password"
-        error={!!errorMessage}
         aria-errormessage={errorMessage ? 'This field is required' : ''}
         className={errorMessage ? 'border-red-500 text-white' : ''}
-        crossOrigin={undefined}
-        onPointerEnterCapture={undefined}
-        onPointerLeaveCapture={undefined}
       />
       <CustomButton errorMessage={errorMessage || ''} text="Register" />
       <Link className="text-sm mt-3" href={'/auth/login'} scroll={false}>

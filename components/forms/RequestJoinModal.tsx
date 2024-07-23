@@ -1,10 +1,13 @@
 import { auth } from '@/auth'
 import { upload } from '@/lib/upload'
-import { Input, Option, Select } from '@material-tailwind/react'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaTimes, FaUpload } from 'react-icons/fa'
+import CustomInput from '../customComponents/CustomInput'
+import CustomDropDowns from '../customComponents/CustomDropDown'
+import { intentions_on_previa } from '@/lib/data'
+import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
 
 export default function RequestJoinModal({ previa, onClose, setIsModalOpen }) {
   const { creatorName, previa_id, location, startTime } = previa
@@ -12,7 +15,7 @@ export default function RequestJoinModal({ previa, onClose, setIsModalOpen }) {
 
   const [attendands, setAttendands] = useState('')
   const [intentions, setIntentions] = useState('')
-  const [photos, setPhotos] = useState(null)
+  const [photos, setPhotos] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   async function handlePhoto(ev) {
@@ -128,65 +131,31 @@ export default function RequestJoinModal({ previa, onClose, setIsModalOpen }) {
         <b className="text-secondary_b">{startTime}</b>
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 px-6">
-        <label className='text-white'>How many are there?</label>
-        <input
-          id="attendands"
-          color="white"
-          type="number"
+        <CustomInput
+          label="How many are there?"
           name="attendands"
-          value={attendands}
-          onChange={(e) => handleAttendans(e)}
-          className={`${attendands ? 'text-white' : 'text-white'}`}
-        />
+          required={true}
+          type="number"
+          hasMin={false}
+          hasMax={false}
+          initialValue={attendands} />
         <div className="w-50 my-3 flex flex-col">
-          <label className='text-white' >What are you looking for?</label>
-          <select
-            color="gray"
-            id="intentions"
+          <CustomDropDowns
             name="intentions"
-            value={intentions}
-            className={`${intentions ? 'text-white' : 'text-white'}`}
-            onChange={(value) => handleIntentions(value)}
-          >
-            <option value="Let it flow">Let it flow</option>
-            <option value="Drink and have fun">Drink and have fun</option>
-            <option value="Go to a disco">Go to a disco</option>
-            <option value="Meet fun people">Meet fun people</option>
-            <option value="Flirting and casual encounters">
-              Flirting and casual encounters
-            </option>
-          </select>
+            label="What are you looking for?"
+            values={intentions_on_previa}
+            type="select"
+            initialValue={intentions}
+          />
         </div>
         <div className="col-span-3 lg:col-span-1">
           <div className="flex flex-wrap justify-center items-center gap-2">
-            <div className="text-secondary">
-              {photos ? (
-                <Image
-                  width={300}
-                  height={300}
-                  className="max-w-full max-h-80 object-contain"
-                  src={photos}
-                  alt="profile pic preview"
-                />
-              ) : (
-                <Image
-                  width={300}
-                  height={300}
-                  src=""
-                  alt="pic preview" />
-              )}
-            </div>
-            <label className="w-full btn-secondary flex flex-col items-center justify-center gap-1 ">
-              <FaUpload />
-              <div>Take a photo</div>
-              <input
-                type="file"
-                name="url_img"
-                id="url_img"
-                className="hidden"
-                onChange={handlePhoto}
-              />
-            </label>
+            <CustomPhotoUploader
+              label="Take a photo"
+              name="photos"
+              initialValue={photos}
+            />
+            
           </div>
         </div>
         <button className="btn-secondary mt-4 col-span-3" type="submit">

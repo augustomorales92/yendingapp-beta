@@ -1,5 +1,4 @@
 'use client'
-import { Card, CardBody, Typography } from '@material-tailwind/react'
 import Link from 'next/link'
 
 export default function MyPreviasReq() {

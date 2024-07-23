@@ -8,6 +8,7 @@ import CustomTextArea from '../customComponents/CustomTextArea'
 import { CustomButton } from '../buttons/CustomButton'
 import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
 import CustomDropDowns from '../customComponents/CustomDropDown'
+import { place_details } from '@/lib/data'
 
 /* type Validations = {
   date?: string
@@ -19,24 +20,7 @@ import CustomDropDowns from '../customComponents/CustomDropDown'
   images_previa_url?: string
 }
  */
-const place_details = [
-  {
-    label: 'In a bar',
-    value: 'In a bar'
-  },
-  {
-    label: 'In a house',
-    value: 'In a house'
-  },
-  {
-    label: 'On the beach',
-    value: 'On the beach'
-  },
-  {
-    label: `We'll move`,
-    value: `We'll move`
-  }
-]
+
 
 export default function NewPreviaForm() {
   const [errorMessage, dispatch] = useFormState(createPrevia, undefined)

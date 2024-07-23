@@ -1,6 +1,10 @@
 
 import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
+import CustomInput from '../customComponents/CustomInput'
+import CustomDropDowns from '../customComponents/CustomDropDown'
+import { place_details } from '@/lib/data'
+import CustomTextArea from '../customComponents/CustomTextArea'
 
 function EditPreviaModal({ previa, onClose, onSave }) {
   const [formData, setFormData] = useState({
@@ -39,89 +43,70 @@ function EditPreviaModal({ previa, onClose, onSave }) {
         className="flex flex-wrap gap-3 md:grid md:grid-rows-3 md:gap-2"
         onSubmit={handleSubmit}
       >
-        <label className='text-white'>Location</label>
-        <input
-          color="white"
-          id="location"
-          type="text"
+        <CustomInput
+          label="Location"
           name="location"
-          value={formData.location || ' '}
-          onChange={handleChange}
-          className={`${formData.location ? 'text-white' : 'text-white'}`}
-        />
+          placeholder="Location"
+          required={true}
+          type="text"
+          hasMin={false}
+          hasMax={false}
+          initialValue={formData.location} />
+
         <div className="flex flex-wrap justify-start gap-3 ">
           <div className="w-50 flex flex-col">
-            <label className='text-white'>Date</label>
-            <input
-              id="date"
-              type="date"
+            <CustomInput
+              label="Date"
               name="date"
-              value={
+              required={true}
+              type="date"
+              hasMin={false}
+              hasMax={false}
+              initialValue={
                 formData.date
                   ? new Date(formData.date).toISOString().slice(0, 10)
                   : formData.date
-              }
-              onChange={handleChange}
-              className={` ${formData.date ? 'text-white' : 'text-white'}`}
-            />
+              } />
+
           </div>
           <div className="w-50 flex flex-col">
-            <label className='text-white'>Start time?</label>
-            <input
-              id="startTime"
-              color="white"
-              type="time"
+            <CustomInput
+              label="Start time?"
               name="startTime"
-              value={formData.startTime}
-              onChange={handleChange}
-              className={`${formData.startTime ? 'text-white' : 'text-white'}`}
-            />
+              required={true}
+              type="time"
+              hasMin={false}
+              hasMax={false}
+              initialValue={formData.startTime} />
           </div>
         </div>
         <div className="flex flex-wrap justify-start gap-2">
           <div className="w-50 flex flex-col">
-            <label className='text-white'>How many are there?</label>
-            <input
-              id="participants"
-              color="white"
-              type="number"
+            <CustomInput
+              label="How many are there?"
               name="participants"
-              value={formData.participants}
-              onChange={handleChange}
-              className={`${formData.participants ? 'text-white' : 'text-white'
-                }`}
-            />
+              required={true}
+              type="number"
+              hasMin={false}
+              hasMax={false}
+              initialValue={formData.participants} />
           </div>
           <div className="w-50 flex flex-col">
-            <label className='text-white'>Where?</label>
-            <select
-              color="gray"
-              id="place_details"
+            <CustomDropDowns
               name="place_details"
-              value={formData.place_details}
-              className={`${formData.place_details ? 'text-white' : 'text-white'
-                }`}
-              onChange={(value) =>
-                handleChange({ target: { name: 'place_details', value } })
-              }
-            >
-              <option value="In a bar">In a bar</option>
-              <option value="In a house">In a house</option>
-              <option value="On the beach">On the beach</option>
-              <option value="We'll move">{`We'll move`}</option>
-            </select>
+              label="Where?"
+              values={place_details}
+              type="select"
+              initialValue={formData.place_details}
+            />
+
           </div>
         </div>
         <div>
-          <label className='text-white'>Description</label>
-          <textarea
-            color="white"
-            id="description"
+          <CustomTextArea
             name="description"
-            value={formData.description || ''}
-            onChange={handleChange}
-            className={`bg-transparent border border-white rounded-2 my-2 w-full ${formData.about ? 'text-white' : 'text-white'
-              }`}
+            label="Description"
+            initialValue={formData.description}
           />
           <button className="btn-secondary" type="submit">
             Save
