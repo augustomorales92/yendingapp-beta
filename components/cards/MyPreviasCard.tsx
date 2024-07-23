@@ -15,15 +15,16 @@ import { today } from '@/lib/constants'
 import Loader from '../Loader'
 import { Suspense } from 'react'
 import { sanitizeImages } from '@/lib/utils'
+import { deletePrevia } from '@/lib/actions'
 interface PreviaCardProps {
   previa_id?: string
-  location: string
+  location?: string
   creator?: Creator
   date?: Date
   startTime?: string
   participants?: string
   place_details?: string
-  images_previa_url?: string[]
+  images_previa_url?: string[] | string
   description?: string
   join_requests?: Object[]
 }
@@ -63,32 +64,6 @@ export default function MyPreviasCard({
     }
   }
 
-  // Logica para el envio y petición del backend para generar una nueva previa
-  const handleSave = async (updatedData: any) => {
-    let toastId: string
-    try {
-      toastId = toast.loading('Changing data...')
-      const response = await fetch('/api/previa', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ formData: { ...updatedData, previa_id } })
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        console.log('Updated previa:', data)
-        toast.dismiss(toastId)
-        revalidatePath('/dashboard/previas/my-previas')
-      } else {
-        console.error('Failed to update previa')
-      }
-      setIsModalOpen(false)
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   const handleDelete = async () => {
     Swal.fire({
@@ -101,8 +76,10 @@ export default function MyPreviasCard({
       confirmButtonText: 'Yes, delete it!'
     }).then(async (result) => {
       if (result.isConfirmed) {
+        await deletePrevia(previa_id)
+        /*   
         try {
-          const toastId = toast.loading('Deleting Previa...')
+        const toastId = toast.loading('Deleting Previa...')
           const response = await fetch('/api/previa', {
             method: 'DELETE',
             headers: {
@@ -114,7 +91,7 @@ export default function MyPreviasCard({
           if (response.ok) {
             console.log('Previa deleted:', result)
             toast.dismiss(toastId)
-            revalidatePath('/dashboard/previas/my-previas')
+            //revalidatePath('/dashboard/previas/my-previas')
             setIsModalOpen(false)
             toast.success('Previa deleted!')
           } else {
@@ -123,7 +100,8 @@ export default function MyPreviasCard({
           }
         } catch (error) {
           console.error('Error:', error)
-        }
+        } */
+
       }
     })
   }
@@ -202,7 +180,7 @@ export default function MyPreviasCard({
                 images_previa_url
               }}
               onClose={handleModalClose}
-              onSave={handleSave}
+             // onSave={handleSave}
             />
           </div>
         </div>

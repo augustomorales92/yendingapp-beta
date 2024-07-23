@@ -1,34 +1,26 @@
-
 import { useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import CustomInput from '../customComponents/CustomInput'
 import CustomDropDowns from '../customComponents/CustomDropDown'
 import { place_details } from '@/lib/data'
 import CustomTextArea from '../customComponents/CustomTextArea'
+import { useFormState } from 'react-dom'
+import { updatePrevia } from '@/lib/actions'
+import type { Previas } from '@/types/data'
+import { CustomButton } from '../buttons/CustomButton'
 
-function EditPreviaModal({ previa, onClose, onSave }) {
-  const [formData, setFormData] = useState({
-    location: previa.location,
-    date: previa.date,
-    startTime: previa.startTime,
-    participants: previa.participants,
-    description: previa.description,
-    place_details: previa.place_details,
-    images_previa_url: previa.images_previa_url,
-    about: previa.about
-  })
+type EditPreviaModalProps = {
+  previa: Previas
+  onClose: () => void
+}
+function EditPreviaModal({ previa, onClose }: EditPreviaModalProps) {
+  const updatePreviaWithId = updatePrevia.bind(null, previa?.previa_id || '')
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value
-    })
-  }
+  const [errorMessage, dispatch] = useFormState(updatePreviaWithId, undefined)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    onSave(formData)
+  const handleEdit = (formData: FormData) => {
+    dispatch(formData)
+    onClose()
   }
 
   return (
@@ -41,7 +33,7 @@ function EditPreviaModal({ previa, onClose, onSave }) {
       </span>
       <form
         className="flex flex-wrap gap-3 md:grid md:grid-rows-3 md:gap-2"
-        onSubmit={handleSubmit}
+        action={handleEdit}
       >
         <CustomInput
           label="Location"
@@ -51,7 +43,8 @@ function EditPreviaModal({ previa, onClose, onSave }) {
           type="text"
           hasMin={false}
           hasMax={false}
-          initialValue={formData.location} />
+          initialValue={previa.location}
+        />
 
         <div className="flex flex-wrap justify-start gap-3 ">
           <div className="w-50 flex flex-col">
@@ -63,11 +56,11 @@ function EditPreviaModal({ previa, onClose, onSave }) {
               hasMin={false}
               hasMax={false}
               initialValue={
-                formData.date
-                  ? new Date(formData.date).toISOString().slice(0, 10)
-                  : formData.date
-              } />
-
+                previa.date
+                  ? new Date(previa.date).toISOString().slice(0, 10)
+                  : previa.date
+              }
+            />
           </div>
           <div className="w-50 flex flex-col">
             <CustomInput
@@ -77,7 +70,8 @@ function EditPreviaModal({ previa, onClose, onSave }) {
               type="time"
               hasMin={false}
               hasMax={false}
-              initialValue={formData.startTime} />
+              initialValue={previa.startTime}
+            />
           </div>
         </div>
         <div className="flex flex-wrap justify-start gap-2">
@@ -89,7 +83,8 @@ function EditPreviaModal({ previa, onClose, onSave }) {
               type="number"
               hasMin={false}
               hasMax={false}
-              initialValue={formData.participants} />
+              initialValue={previa.participants}
+            />
           </div>
           <div className="w-50 flex flex-col">
             <CustomDropDowns
@@ -97,20 +92,17 @@ function EditPreviaModal({ previa, onClose, onSave }) {
               label="Where?"
               values={place_details}
               type="select"
-              initialValue={formData.place_details}
+              initialValue={previa.place_details}
             />
-
           </div>
         </div>
         <div>
           <CustomTextArea
             name="description"
             label="Description"
-            initialValue={formData.description}
+            initialValue={previa.description}
           />
-          <button className="btn-secondary" type="submit">
-            Save
-          </button>
+          <CustomButton text="submit" />
         </div>
       </form>
     </div>

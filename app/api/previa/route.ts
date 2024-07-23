@@ -102,17 +102,17 @@ export async function PUT(req: NextRequest, res: NextResponse) {
 
   try {
     const { formData } = await req.json()
-    const { previa_id } = formData
+    const { previaId,... rest } = formData
+    console.log('previa_data:', formData)
     // Actualizamos los datos de la DB con previa_id
     const previa_data = await prisma.previas.update({
-      where: { previa_id },
-      data: formData
+      where: { previa_id: previaId },
+      data: rest
     })
 
     if (!previa_data) {
       return NextResponse.json({ message: 'Previa not found' }, { status: 404 })
     }
-    console.log('previa_data:', previa_data)
 
     return NextResponse.json({ previa_data })
   } catch (error) {

@@ -1,4 +1,3 @@
-import { baseUrl } from '@/lib/constants'
 import { FormState } from '@/types/onboarding'
 import customFetch from './customFetch'
 
@@ -10,7 +9,7 @@ type SignUp = {
 export const signUp = async ({ email, password }: SignUp) => {
   try {
     const response = await customFetch({
-      path: `/api/signup`,
+      path: `/api/auth/signup`,
       method: 'POST',
       withCredentials: false,
       body: { email, password }

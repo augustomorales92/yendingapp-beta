@@ -2,7 +2,7 @@ import { auth } from '@/auth'
 import { Creator, Previas } from '@/types/data'
 import { isBefore, isSameDay, format, compareAsc } from 'date-fns'
 import { es } from 'date-fns/locale'
-import {today} from '@/lib/constants'
+import { today } from '@/lib/constants'
 import { z } from 'zod'
 
 interface calculateAge {
@@ -40,11 +40,8 @@ type SortedPrevias = {
 const previaValidation = async ({ previas }: SortedPrevias) => {
   const session = await auth()
   return (previas || [])?.filter(
-    (previa: {
-      date: string | number | Date
-      creator?: Creator | null
-    }) => {
-      const previaDate = new Date(previa.date)
+    (previa: { date?: Date; creator?: Creator | null }) => {
+      const previaDate = new Date(previa?.date || '')
       const isSameDayToday = isSameDay(previaDate, today)
       const isExpired = isBefore(previaDate, today)
       const isCreator = session?.user?.email === previa.creator
@@ -64,8 +61,8 @@ export const getSortedPrevias = async ({
 
   return [...validPrevias]?.sort((a, b) => {
     if (sortCriteria === 'date') {
-      const dateA = parseDates(a.date)
-      const dateB = parseDates(b.date)
+      const dateA = parseDates(a?.date || '')
+      const dateB = parseDates(b?.date || '')
       return compareAsc(dateA, dateB)
     } else if (sortCriteria === 'participants') {
       return Number(b.participants) - Number(a.participants)
@@ -77,13 +74,14 @@ export const getSortedPrevias = async ({
 type FormattedDate = {
   date?: Date | string | number
   inputDate: Date
-
 }
-export const formattedDate = ({date, inputDate}: FormattedDate) => isSameDay(today, inputDate)
-? 'Today'
-: format(date as Date, "EEEE d 'de' MMMM", { locale: es });
+export const formattedDate = ({ date, inputDate }: FormattedDate) =>
+  isSameDay(today, inputDate)
+    ? 'Today'
+    : format(date as Date, "EEEE d 'de' MMMM", { locale: es })
 
-export const sanitizeImages = (images?: string[]) => images?.filter(image => image)
+export const sanitizeImages = (images?: string[] | string) =>
+  Array.isArray(images) && images?.filter((image) => image) || []
 
 const CreateUserSchema = z.object({
   name: z.string(),

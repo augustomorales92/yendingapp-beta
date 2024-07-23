@@ -1,5 +1,5 @@
 import { prisma } from '@/auth.config'
-import {  NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 // Trae todas las previas que estan registradas
 export async function GET() {

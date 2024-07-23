@@ -1,6 +1,5 @@
 import { Previas, UpdateJoinRequest } from '@/types/data'
 import customFetch from './customFetch'
-import { revalidatePath } from 'next/cache'
 
 export const getPrevias = async () => {
   try {
@@ -61,27 +60,35 @@ export const postPrevia = async (newFormData: Previas) => {
   }
 }
 
-export const putPrevia = async (updatedData: Previas) => {
-  try {
-    const response = await customFetch({ path: `/api/previa`, method: 'PUT', withCredentials: true, body: { formData: updatedData } })
-    //revalidatePath('/dashboard/previas/my-previas')
-    return response.json()
+type UpdatePreviaProps = Previas & { previaId: string }
 
+export const putPrevia = async (updatedData: UpdatePreviaProps) => {
+  try {
+    const response = await customFetch({
+      path: `/api/previa`,
+      method: 'PUT',
+      withCredentials: true,
+      body: { formData: updatedData }
+    })
+    return response.json()
   } catch (error) {
     console.error('Error updating previa:', error)
     return 'Error updating previa'
-  
-}
+  }
 }
 export const deletedPrevia = async (previa_id?: string) => {
   try {
-    const response = await customFetch({ path: `/api/previa`, method: 'DELETE', withCredentials: true, body: { previa_id } })
+    const response = await customFetch({
+      path: `/api/previa`,
+      method: 'DELETE',
+      withCredentials: true,
+      body: { previa_id }
+    })
     return response.json()
   } catch (error) {
     console.error('Error deleting previa:', error)
     return 'Error deleting previa'
-  
-}
+  }
 }
 
 export const getStatusRequests = async () => {
@@ -139,6 +146,3 @@ export const putJoinRequest = async ({
     return 'Error updating join request'
   }
 }
-
-
-

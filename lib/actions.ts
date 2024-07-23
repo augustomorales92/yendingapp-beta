@@ -199,7 +199,6 @@ export async function statusRequests(): Promise<StatusRequests> {
   }
 }
 
-
 export async function updateJoinRequestStatus({
   previaId,
   userId,
@@ -209,12 +208,45 @@ export async function updateJoinRequestStatus({
   revalidatePath('/dashboard/previas/manage-requests')
 }
 
-export async function updatePrevia (data: Previas) {
-  await putPrevia(data)
+
+const UpdatePreviaFromSchema = CreatePreviaSchema.omit({
+  previa_id: true,
+  updatedAt: true,
+  creator: true,
+  createdAt: true,
+  v: true,
+  id: true,
+  passCode: true,
+  images_previa_url: true
+})
+
+export async function updatePrevia(
+  previaId: string,
+  prevState: void | undefined,
+  formData: FormData
+) {
+  const {
+    location,
+    date,
+    startTime,
+    participants,
+    description,
+    place_details,
+    show_location,
+  } = UpdatePreviaFromSchema.parse({
+    location: formData.get('location'),
+    date: formData.get('date'),
+    startTime: formData.get('startTime'),
+    participants: formData.get('participants'),
+    description: formData.get('description'),
+    place_details: formData.get('place_details'),
+    show_location: formData.get('show_location'),
+  })
+  await putPrevia({location, date, startTime, participants, description, place_details, show_location, previaId})
   revalidatePath('/dashboard/previas/my-previas')
 }
 
-export async function deletePrevia (previa_id?: string) {
+export async function deletePrevia(previa_id?: string) {
   await deletedPrevia(previa_id)
   revalidatePath('/dashboard/previas/my-previas')
 }

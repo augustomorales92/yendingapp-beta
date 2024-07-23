@@ -24,13 +24,13 @@ async function MyPreviasContent ({searchParams}:MyPreviasContentProps) {
                 <div className='flex justify-center items-center' key={index}>
                     <MyPreviasCard
                         previa_id={previa?.previa_id}
-                        location={previa.location}
+                        location={previa?.location}
                         date={previa.date}
                         join_requests={previa?.join_requests}
                         startTime={previa.startTime}
                         participants={previa.participants}
                         place_details={previa.place_details}
-                        images_previa_url={previa.images_previa_url}
+                        images_previa_url={previa?.images_previa_url}
                         description={previa.description}
                     />
                 </div>

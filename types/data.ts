@@ -20,19 +20,18 @@ export interface Previas {
   v?: number
   createdAt?: Date
   creator?: Creator
-  date: Date
-  description: string
-  images_previa_url: string[]
-  location: string
-  participants: string
+  date?: Date
+  description?: string
+  images_previa_url?: string[] | string
+  location?: string
+  participants?: string
   passCode?: string
-  place_details: string
+  place_details?: string
   previa_id?: string
-  show_location: boolean
-  startTime: string
+  show_location?: boolean
+  startTime?: string
   updatedAt?: Date
 }
-
 
 export type UpdateJoinRequest = {
   previaId?: string
