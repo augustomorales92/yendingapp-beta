@@ -1,24 +1,19 @@
 import { NextResponse } from 'next/server'
-import { auth } from '@/auth'
 import { prisma } from '@/auth.config'
 
-
-interface AcceptedRequest {
-  user_id: string;
-  attendands: number;
-  intentions: string;
-  photos: string[];
-  status: string;
-  previa_id: string;
-  location: string;
-  date: Date;
+interface Requests {
+  user_id: string
+  attendands: number
+  intentions: string
+  photos: string[]
+  status: string
+  previa_id: string
+  location: string
+  date: Date
 }
 
-interface RejectedRequest extends AcceptedRequest {}
-
-export async function GET() {
-  const session = await auth()
-
+export async function GET(req: Request) {
+  const session = JSON.parse(req.headers.get('Authorization') || '{}')
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
@@ -26,55 +21,45 @@ export async function GET() {
   try {
     const previas = await prisma.previas.findMany({
       where: {
-        creator:{
-          equals:session?.user?.email || ''
-        } 
+        creator: {
+          equals: session?.user?.email || ''
+        }
       }
     })
 
-    const acceptedRequests: AcceptedRequest[] = [];
-    const rejectedRequests: RejectedRequest[] = [];
+    const {
+      acceptedRequests,
+      rejectedRequests
+    }: {
+      acceptedRequests: Requests[]
+      rejectedRequests: Requests[]
+    } = previas.reduce(
+      (acc, previa) => {
+        previa.join_requests.forEach((joinReq) => {
+          const request: Requests = {
+            user_id: joinReq.user_id,
+            attendands: joinReq.attendands,
+            intentions: joinReq.intentions,
+            photos: joinReq.photos,
+            status: joinReq.status,
+            previa_id: previa.previa_id,
+            location: previa.location,
+            date: previa.date
+          }
 
-    previas.forEach((previa) => {
-      previa.join_requests.forEach((joinReq) => {
-        const request = {
-          user_id: joinReq.user_id,
-          attendands: joinReq.attendands,
-          intentions: joinReq.intentions,
-          photos: joinReq.photos,
-          status: joinReq.status,
-          previa_id: previa.previa_id,
-          location: previa.location,
-          date: previa.date,
-        };
-
-        if (joinReq.status === 'accepted') {
-          acceptedRequests.push(request);
-        } else if (joinReq.status === 'rejected') {
-          rejectedRequests.push(request);
-        }
-      });
-    });
-
-    // previas.forEach((previa) => {
-    //   previa.join_requests.forEach((joinReq) => {
-    //     if (joinReq.status === 'accepted') {
-    //       acceptedRequests.push({
-    //         ...joinReq.toObject(),
-    //         previa_id: previa.previa_id,
-    //         location: previa.location,
-    //         date: previa.date
-    //       })
-    //     } else if (joinReq.status === 'rejected') {
-    //       rejectedRequests.push({
-    //         ...joinReq.toObject(),
-    //         previa_id: previa.previa_id,
-    //         location: previa.location,
-    //         date: previa.date
-    //       })
-    //     }
-    //   })
-    // })
+          if (joinReq.status === 'accepted') {
+            acc.acceptedRequests.push(request)
+          } else if (joinReq.status === 'rejected') {
+            acc.rejectedRequests.push(request)
+          }
+        })
+        return acc
+      },
+      { acceptedRequests: [], rejectedRequests: [] } as {
+        acceptedRequests: Requests[]
+        rejectedRequests: Requests[]
+      }
+    )
 
     return NextResponse.json({
       acceptedRequests,

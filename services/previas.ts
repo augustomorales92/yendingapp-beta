@@ -1,4 +1,4 @@
-import { Previas } from '@/types/data'
+import { Previas, UpdateJoinRequest } from '@/types/data'
 import customFetch from './customFetch'
 
 export const getPrevias = async () => {
@@ -57,5 +57,82 @@ export const postPrevia = async (newFormData: Previas) => {
   } catch (error) {
     console.error('Error fetching user data:', error)
     return 'Error creating previa'
+  }
+}
+
+export const putPrevia = async (updatedData: Previas) => {
+  try {
+    const response = await customFetch({ path: `/api/previa`, method: 'PUT', withCredentials: true, body: { updatedData } })
+    return response.json()
+  } catch (error) {
+    console.error('Error fetching user data:', error)
+    return 'Error updating previa'
+  
+}
+}
+export const deletedPrevia = async (previa_id?: string) => {
+  try {
+    const response = await customFetch({ path: `/api/previa`, method: 'DELETE', withCredentials: true, body: { previa_id } })
+    return response.json()
+  } catch (error) {
+    console.error('Error deleting previa:', error)
+    return 'Error deleting previa'
+  
+}
+}
+
+export const getStatusRequests = async () => {
+  try {
+    const response = await customFetch({
+      path: `/api/previas/statusRequests`,
+      method: 'GET',
+      withCredentials: true
+    })
+    const data = await response.json()
+    return {
+      acceptedRequests: data?.acceptedRequests,
+      rejectedRequests: data.rejectedRequests
+    }
+  } catch (error) {
+    console.error('Error fetching status requests:', error)
+    return { acceptedRequests: [], rejectedRequests: [] }
+  }
+}
+type RequestJoin = {
+  previaId: string
+  intentions: string
+  url_img: string | string[]
+  attendands: string
+}
+export const postRequestJoin = async (body: RequestJoin) => {
+  try {
+    const response = await customFetch({
+      path: `/api/previa/joinRequest`,
+      method: 'POST',
+      withCredentials: true,
+      body
+    })
+    return response.json()
+  } catch (error) {
+    console.error('Error fetching user data:', error)
+    return 'Error joining previa'
+  }
+}
+export const putJoinRequest = async ({
+  previaId,
+  userId,
+  status
+}: UpdateJoinRequest) => {
+  try {
+    const response = await customFetch({
+      path: `/api/previa/updateJoinReq`,
+      method: 'PUT',
+      withCredentials: true,
+      body: { previaId, userId, status }
+    })
+    return response.json()
+  } catch (error) {
+    console.error('Error fetching user data:', error)
+    return 'Error updating join request'
   }
 }
