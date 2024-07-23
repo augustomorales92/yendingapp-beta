@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Actualizacion de la propiedad join_request de Previa, cuando se hace una solicitud de union
 export async function PUT(req: NextRequest, res:NextResponse) {
-  const session = await auth()
+  const session = JSON.parse(req.headers.get('Authorization ') || '{}')
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })

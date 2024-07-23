@@ -1,5 +1,6 @@
 import { Previas, UpdateJoinRequest } from '@/types/data'
 import customFetch from './customFetch'
+import { revalidatePath } from 'next/cache'
 
 export const getPrevias = async () => {
   try {
@@ -62,10 +63,12 @@ export const postPrevia = async (newFormData: Previas) => {
 
 export const putPrevia = async (updatedData: Previas) => {
   try {
-    const response = await customFetch({ path: `/api/previa`, method: 'PUT', withCredentials: true, body: { updatedData } })
+    const response = await customFetch({ path: `/api/previa`, method: 'PUT', withCredentials: true, body: { formData: updatedData } })
+    //revalidatePath('/dashboard/previas/my-previas')
     return response.json()
+
   } catch (error) {
-    console.error('Error fetching user data:', error)
+    console.error('Error updating previa:', error)
     return 'Error updating previa'
   
 }
@@ -136,3 +139,6 @@ export const putJoinRequest = async ({
     return 'Error updating join request'
   }
 }
+
+
+

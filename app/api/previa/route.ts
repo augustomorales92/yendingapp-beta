@@ -96,7 +96,6 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest, res: NextResponse) {
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
-
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
@@ -113,6 +112,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
     if (!previa_data) {
       return NextResponse.json({ message: 'Previa not found' }, { status: 404 })
     }
+    console.log('previa_data:', previa_data)
 
     return NextResponse.json({ previa_data })
   } catch (error) {

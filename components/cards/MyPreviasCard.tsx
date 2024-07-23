@@ -15,7 +15,6 @@ import { today } from '@/lib/constants'
 import Loader from '../Loader'
 import { Suspense } from 'react'
 import { sanitizeImages } from '@/lib/utils'
-import { deletePrevia, updatePrevia } from '@/lib/actions'
 interface PreviaCardProps {
   previa_id?: string
   location: string
@@ -68,7 +67,7 @@ export default function MyPreviasCard({
   const handleSave = async (updatedData: any) => {
     let toastId: string
     try {
-      /* toastId = toast.loading('Changing data...')
+      toastId = toast.loading('Changing data...')
       const response = await fetch('/api/previa', {
         method: 'PUT',
         headers: {
@@ -84,8 +83,7 @@ export default function MyPreviasCard({
         revalidatePath('/dashboard/previas/my-previas')
       } else {
         console.error('Failed to update previa')
-      } */
-     await updatePrevia(updatedData)
+      }
       setIsModalOpen(false)
     } catch (err) {
       console.log(err)
@@ -103,7 +101,7 @@ export default function MyPreviasCard({
       confirmButtonText: 'Yes, delete it!'
     }).then(async (result) => {
       if (result.isConfirmed) {
-       /*  try {
+        try {
           const toastId = toast.loading('Deleting Previa...')
           const response = await fetch('/api/previa', {
             method: 'DELETE',
@@ -125,11 +123,11 @@ export default function MyPreviasCard({
           }
         } catch (error) {
           console.error('Error:', error)
-        } */
-       await deletePrevia(previa_id)
+        }
       }
     })
   }
+
   const images = sanitizeImages(images_previa_url)
 
   return (
