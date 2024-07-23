@@ -6,7 +6,7 @@ import { prisma } from '@/auth.config'
 export async function POST(req: NextRequest, res: NextResponse) {
   // necesito el dato del usuario que esta solicitando para enviarlo a la db como user_id del solicitante
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
-  const emailWanted = session?.user?.email || ""
+  const emailWanted = session?.user?.email || ''
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
@@ -48,13 +48,34 @@ export async function POST(req: NextRequest, res: NextResponse) {
       user_id: user_data?.user_id,
       createdAt: new Date(),
       updatedAt: new Date(),
-      // Puse estos dos nose que onda 
-      status: "sent",
-      v: 0,
+      // Puse estos dos nose que onda
+      status: 'sent',
+      v: 0
     }
 
     const newPreviaUser = await prisma.previausers.create({ data: updatedData })
     console.log('newReq:', newPreviaUser)
+
+    await prisma.users.update({
+      where: {
+        email: emailWanted
+      },
+      data: {
+        previas_requests: {
+          push: previa_id // hago el push a la prop previas_requests
+        }
+      }
+    })
+
+    await prisma.previas.update({
+      where: { previa_id },
+      data: {
+        join_requests: {
+          push: newPreviaUser
+        }
+      }
+    })
+
     return NextResponse.json({ newPreviaUser })
   } catch (error) {
     return NextResponse.json({ message: 'Error message' }, { status: 500 })
@@ -64,7 +85,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 //  Trae las solicitudes de union que hizo el usuario que esta logeado
 export async function GET(req: NextRequest) {
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
-  const emailWanted = session?.user?.email || ""
+  const emailWanted = session?.user?.email || ''
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
@@ -87,24 +108,29 @@ export async function GET(req: NextRequest) {
 }
 
 //  modifico el status de PreviaUsers cuando el dueño de la previa cambia el mismo
-export async function PUT(req: NextRequest, ) {
+export async function PUT(req: NextRequest) {
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
 
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   }
 
+  const userId = session?.user?.id as string
+
   try {
-    const { previaId, userId, status }: { previaId: string; userId: string; status: string } = await req.json();
+    const {
+      previaId,
+      status
+    }: { previaId: string; status: string } = await req.json()
 
     const previaUser = await prisma.previausers.findUnique({
       where: {
-        user_id: userId,
-      },
-    });
+        user_id: userId
+      }
+    })
 
     if (!previaUser) {
-      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+      return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
 
     const updatedStatusPrev = await prisma.previausers.update({
@@ -112,11 +138,11 @@ export async function PUT(req: NextRequest, ) {
         user_id: userId,
       },
       data: {
-        status: status,
-      },
-    });
+        status: status
+      }
+    })
 
-    // MONGO 
+    // MONGO
 
     // const previaUser = await prisma.previausers.findOne({
     //   previa_id: previaId,

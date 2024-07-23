@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import { baseUrl } from '@/lib/constants'
 import { revalidatePath } from 'next/cache'
 import { auth } from '@/auth'
+import { updateJoinRequestStatus } from '@/lib/actions'
 
 type PreviaManageRequestsButtonsProps = {
   previaId?: string
@@ -19,7 +20,7 @@ const PreviaManageRequestsButtons = ({
   previaId,
   userId
 }: PreviaManageRequestsButtonsProps) => {
-  const updateJoinRequestStatus = async ({
+ /*  const updateJoinRequestStatus = async ({
     previaId,
     userId,
     status
@@ -67,7 +68,7 @@ const PreviaManageRequestsButtons = ({
       console.error('Error updating join request status:', error)
       toast.dismiss(toastId)
     }
-  }
+  } */
   return (
     <div className="flex flex-wrap">
       <button

@@ -65,7 +65,7 @@ model previausers {
   previa_id  String
   status     String
   updatedAt  DateTime @db.Date
-  user_id    String
+  user_id    String   @unique  @map("user_id")
 }
 
 model users {

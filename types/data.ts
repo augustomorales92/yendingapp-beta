@@ -32,3 +32,10 @@ export interface Previas {
   startTime: string
   updatedAt?: Date
 }
+
+
+export type UpdateJoinRequest = {
+  previaId?: string
+  userId: string
+  status: 'accepted' | 'rejected'
+}

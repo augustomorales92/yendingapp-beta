@@ -7,8 +7,15 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { calculateAge, getUserValues } from '@/lib/utils'
 import { getUser, signUp, updatedUser } from '@/services/users'
-import { postPrevia } from '@/services/previas'
-import { UpdateSession } from 'next-auth/react'
+import {
+  deletedPrevia,
+  getStatusRequests,
+  postPrevia,
+  postRequestJoin,
+  putJoinRequest,
+  putPrevia
+} from '@/services/previas'
+import type { UpdateJoinRequest, Previas } from '@/types/data'
 
 const CreateLoginSchema = z.object({
   email: z.string(),
@@ -68,21 +75,19 @@ export async function signup(prevState: void | undefined, formData: FormData) {
 }
 
 export async function fetchUser() {
- const res = await getUser()
- return res
+  const res = await getUser()
+  return res
 }
-
-
 
 export async function updateUser(
   prevState: void | undefined,
-  formData: FormData,
+  formData: FormData
 ) {
   const session = await auth()
   const user = session?.user
   const newFormData = getUserValues(formData)
   await updatedUser(newFormData)
-  await update({...user, userData: newFormData})
+  await update({ ...user, userData: newFormData })
   revalidatePath('/dashboard/profile')
   redirect('/dashboard')
 }
@@ -96,7 +101,7 @@ const CreatePreviaSchema = z.object({
   participants: z.string(),
   passCode: z.string(),
   place_details: z.string(),
-  show_location: z.preprocess(value => value === 'on', z.boolean()),
+  show_location: z.preprocess((value) => value === 'on', z.boolean()),
   startTime: z.string(),
   previa_id: z.string(),
   v: z.number(),
@@ -155,4 +160,61 @@ export async function createPrevia(
   await postPrevia(newFormData)
   revalidatePath('/dashboard/previas')
   redirect('/dashboard/previas')
+}
+
+const CreateRequestJoinSchema = z.object({
+  intentions: z.string(),
+  url_img: z.union([z.string(), z.array(z.string())]),
+  attendands: z.string()
+})
+
+export async function requestJoin(
+  previaId: string,
+  prevState: void | undefined,
+  formData: FormData
+) {
+  const { intentions, url_img, attendands } = CreateRequestJoinSchema.parse({
+    intentions: formData.get('intentions'),
+    url_img: formData.get('url_img'),
+    attendands: formData.get('attendands')
+  })
+
+  await postRequestJoin({ intentions, url_img, attendands, previaId })
+  /* revalidatePath('/dashboard/profile')
+  redirect('/dashboard') */
+}
+
+type StatusRequests = {
+  acceptedRequests: any[]
+  rejectedRequests: any[]
+}
+
+export async function statusRequests(): Promise<StatusRequests> {
+  try {
+    const response = await getStatusRequests()
+    return response
+  } catch (error) {
+    console.error('Error fetching user data:', error)
+    return { acceptedRequests: [], rejectedRequests: [] }
+  }
+}
+
+
+export async function updateJoinRequestStatus({
+  previaId,
+  userId,
+  status
+}: UpdateJoinRequest) {
+  await putJoinRequest({ previaId, userId, status })
+  revalidatePath('/dashboard/previas/manage-requests')
+}
+
+export async function updatePrevia (data: Previas) {
+  await putPrevia(data)
+  revalidatePath('/dashboard/previas/my-previas')
+}
+
+export async function deletePrevia (previa_id?: string) {
+  await deletedPrevia(previa_id)
+  revalidatePath('/dashboard/previas/my-previas')
 }
