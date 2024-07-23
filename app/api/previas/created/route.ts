@@ -21,6 +21,7 @@ export const GET = auth(async function (req) {
       }
     })
 
+    
     return NextResponse.json({ previas }, { status: 200 })
   } catch (error) {
     console.log(error)

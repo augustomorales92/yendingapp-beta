@@ -13,7 +13,7 @@ type MyPreviasContentProps = {
 
 async function MyPreviasContent ({searchParams}:MyPreviasContentProps) {
     const previas = await getCreatedPrevias();
-    const sortedPrevias = await getSortedPrevias({ previas, sortCriteria: searchParams.sortCriteria })
+    const sortedPrevias = await getSortedPrevias({ previas, sortCriteria: searchParams.sortCriteria, needsToValidate: false });
     return (
         <div className='px-12 py-16 md:py-6 min-h-screen'>
         <div>

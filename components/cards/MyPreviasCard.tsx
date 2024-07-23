@@ -46,12 +46,14 @@ export default function MyPreviasCard({
   const formattedDate = isSameDay(today, inputDate)
     ? 'Today'
     : isBefore(inputDate, today)
-      ? 'Due'
-      : format(inputDate, "EEEE d 'de' MMMM", { locale: es })
+    ? 'Due'
+    : format(inputDate, "EEEE d 'de' MMMM", { locale: es })
 
   const handleEditClick = () => {
     setIsModalOpen(true)
   }
+
+  const editDisabled = isBefore(inputDate, today)
 
   const handleModalClose = () => {
     setIsModalOpen(false)
@@ -63,7 +65,6 @@ export default function MyPreviasCard({
       handleModalClose()
     }
   }
-
 
   const handleDelete = async () => {
     Swal.fire({
@@ -101,7 +102,6 @@ export default function MyPreviasCard({
         } catch (error) {
           console.error('Error:', error)
         } */
-
       }
     })
   }
@@ -122,34 +122,33 @@ export default function MyPreviasCard({
         </div>
         <div className="p-5">
           <div className="flex flex-wrap items-center gap-2 ">
-            <p className='text-secondary'>
+            <p className="text-secondary">
               {location} - {place_details}
             </p>
           </div>
           <div className="flex flex-wrap gap-2 ">
             <p
-              className={`mt-3 ${formattedDate === 'Due' ? 'text-red-500' : 'text-primary_b'
-                }`}
+              className={`mt-3 ${
+                formattedDate === 'Due' ? 'text-red-500' : 'text-primary_b'
+              }`}
             >
               {formattedDate}
             </p>
-            <p className="mt-3 text-primary_b">
-              At: {startTime}
-            </p>
+            <p className="mt-3 text-primary_b">At: {startTime}</p>
           </div>
-          <p className="mt-3 font-normal text-primary_b">
-            {description}
-          </p>
-          <p className="mt-3 text-primary_b">
-            Participants: {participants}
-          </p>
+          <p className="mt-3 font-normal text-primary_b">{description}</p>
+          <p className="mt-3 text-primary_b">Participants: {participants}</p>
           <p className="mt-3 text-primary_b">
             Requests: {join_requests?.length}
           </p>
 
           <div className="flex flex-row justify-between mt-3 items-center">
             <div className="flex items-center gap-2">
-              <button className="btn-primary" onClick={handleEditClick}>
+              <button
+                className={` ${editDisabled ? 'btn-secondary' : 'btn-primary'}`}
+                onClick={handleEditClick}
+                disabled={editDisabled}
+              >
                 Edit
               </button>
               <button className="btn-primary" onClick={handleDelete}>
@@ -180,7 +179,7 @@ export default function MyPreviasCard({
                 images_previa_url
               }}
               onClose={handleModalClose}
-             // onSave={handleSave}
+              // onSave={handleSave}
             />
           </div>
         </div>
