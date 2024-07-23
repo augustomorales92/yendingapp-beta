@@ -1,5 +1,6 @@
 import { auth } from '@/auth'
 import { upload } from '@/lib/upload'
+import { Input, Option, Select } from '@material-tailwind/react'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
@@ -49,63 +50,27 @@ export default function RequestJoinModal({
         {`'s Previa in`} <b className="text-secondary_b">{location}</b> at{' '}
         <b className="text-secondary_b">{startTime}</b>
       </div>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3 px-6">
-        <label className='text-white'>How many are there?</label>
-        <input
-          id="attendands"
-          color="white"
-          type="number"
+      <form action={dispatch} className="flex flex-col gap-3 px-6">
+        <CustomInput
           name="attendands"
-          value={attendands}
-          onChange={(e) => handleAttendans(e)}
-          className={`${attendands ? 'text-white' : 'text-white'}`}
+          label="How many are there?"
+          type="number"
+          required
         />
         <div className="w-50 my-3 flex flex-col">
           <CustomDropDowns
             name="intentions"
-            value={intentions}
-            className={`${intentions ? 'text-white' : 'text-white'}`}
-            onChange={(value) => handleIntentions(value)}
-          >
-            <option value="Let it flow">Let it flow</option>
-            <option value="Drink and have fun">Drink and have fun</option>
-            <option value="Go to a disco">Go to a disco</option>
-            <option value="Meet fun people">Meet fun people</option>
-            <option value="Flirting and casual encounters">
-              Flirting and casual encounters
-            </option>
-          </select>
+            label="What are you looking for?"
+            values={intentionsValues}
+            type="select"
+          />
         </div>
         <div className="col-span-3 lg:col-span-1">
           <div className="flex flex-wrap justify-center items-center gap-2">
             <div className="text-secondary">
-              {photos ? (
-                <Image
-                  width={300}
-                  height={300}
-                  className="max-w-full max-h-80 object-contain"
-                  src={photos}
-                  alt="profile pic preview"
-                />
-              ) : (
-                <Image
-                  width={300}
-                  height={300}
-                  src=""
-                  alt="pic preview" />
-              )}
+              =
+              <CustomPhotoUploader label="Take a photo" name="url_img" />
             </div>
-            <label className="w-full btn-secondary flex flex-col items-center justify-center gap-1 ">
-              <FaUpload />
-              <div>Take a photo</div>
-              <input
-                type="file"
-                name="url_img"
-                id="url_img"
-                className="hidden"
-                onChange={handlePhoto}
-              />
-            </label>
           </div>
         </div>
         <button className="btn-secondary mt-4 col-span-3" type="submit">
