@@ -1,6 +1,5 @@
 import { auth } from '@/auth'
 import { upload } from '@/lib/upload'
-import { Input, Option, Select } from '@material-tailwind/react'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'

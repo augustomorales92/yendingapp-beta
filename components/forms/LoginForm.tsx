@@ -1,5 +1,4 @@
 'use client'
-import { Input } from '@material-tailwind/react'
 import { useFormState } from 'react-dom'
 import { authenticate } from '@/lib/actions'
 import { CustomButton } from '@/components/buttons/CustomButton'

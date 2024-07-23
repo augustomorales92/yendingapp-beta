@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Input } from '@material-tailwind/react'
 
 type CustomInputProps = {
   name: string

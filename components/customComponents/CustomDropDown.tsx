@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Option, Select, Checkbox, Typography } from '@material-tailwind/react'
 
 interface Values {
   label: string
