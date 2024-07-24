@@ -15,31 +15,31 @@ body{
 }
 
 input, select {
-  @apply  bg-transparent py-2 border rounded-md 
+  @apply  bg-transparent py-2 border rounded-md border-secondary
 }
 
 .btn-primary {
-  @apply bg-primary px-6 py-2 rounded-md text-white font-bold  hover:bg-primary/60 transition duration-300 ;
+  @apply bg-primary px-6 py-2 rounded-md text-secondary font-bold  hover:bg-primary/60 transition duration-300 ;
 }
 
 .btn-secondary {
-  @apply bg-secondary px-6 py-2 rounded-md text-white font-bold  hover:bg-secondary/60 transition duration-300;
+  @apply bg-secondary px-6 py-2 rounded-md text-primary font-bold  hover:bg-secondary/60 transition duration-300;
 }
 
-.btn-login {
-  @apply bg-primary_b shadow rounded-md text-center text-secondary_b w-full py-4 flex gap-3 items-center justify-center hover:bg-primary_b/60 transition duration-300;
+.btn-primary-flex {
+  @apply bg-primary shadow rounded-md text-center text-secondary w-full py-4 flex gap-3 items-center justify-center hover:bg-primary/60 transition duration-300;
 }
-.btn-register {
-  @apply bg-secondary_b shadow rounded-md text-center text-primary w-full py-4 flex gap-3 items-center justify-center hover:bg-secondary_b/60 transition duration-300;
+.btn-secondary-flex {
+  @apply  bg-secondary shadow rounded-md text-center text-primary w-full py-4 flex gap-3 items-center justify-center hover:bg-secondary/60 transition duration-300;
 }
 
 /* estilos de los radio butons */
 .card {
-  @apply p-4 border text-white border-secondary rounded-lg cursor-pointer flex items-center justify-center hover:bg-secondary hover:text-white;
+  @apply p-4 border text-secondary border-secondary rounded-lg cursor-pointer flex items-center justify-center hover:bg-secondary hover:text-primary;
 }
 
 .card-selected {
-  @apply bg-secondary text-white;
+  @apply bg-secondary text-primary;
 }
 
 input[type="radio"] {
@@ -47,5 +47,5 @@ input[type="radio"] {
 }
 
 .previas-card-link{
-  @apply  shadow-md p-6 border border-none rounded-md text-center cursor-pointer bg-primary_b hover:bg-primary_b/60 text-secondary_b;
+  @apply  shadow-md p-6 border border-none rounded-md text-center cursor-pointer bg-secondary hover:bg-secondary/60 text-primary;
 }

@@ -67,8 +67,8 @@ export default function MyPreviasCard({
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#135D66',
-      cancelButtonColor: '#77B0AA',
+      confirmButtonColor: '#394867',
+      cancelButtonColor: '#9BA4B5',
       confirmButtonText: 'Yes, delete it!'
     }).then(async (result) => {
       if (result.isConfirmed) {

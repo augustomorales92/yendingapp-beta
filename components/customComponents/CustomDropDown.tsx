@@ -32,7 +32,7 @@ const CustomDropDowns = ({
     <>
       {type === 'checkbox' ? (
         <div className="py-2 flex flex-wrap gap-3">
-          <label className="flex font-medium text-white"> {label}</label>
+          <label className="flex font-medium text-secondary"> {label}</label>
           <input
             type="checkbox"
             name={name}
@@ -42,7 +42,7 @@ const CustomDropDowns = ({
         </div>
       ) : (
         <div className="flex flex-col">
-          <label className="text-white">{label}</label>
+          <label className="text-secondary">{label}</label>
           <select
             id={name}
             name={name}

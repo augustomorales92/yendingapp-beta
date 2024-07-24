@@ -7,7 +7,7 @@ export default function PreviasJoinRequests() {
       <div className="previas-card-link">
         <div>
           <h4
-            className="mb-2 text-secondary"
+            className="mb-2"
           >
            JOIN REQUESTS
           </h4>

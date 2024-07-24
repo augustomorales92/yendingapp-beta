@@ -37,7 +37,7 @@ export default function OnboardingForm({ user }: { user?: FormState }) {
   }
 
   return (
-    <form className="grid grid-cols-3 gap-3 text-white" action={handleForm}>
+    <form className="grid grid-cols-3 gap-3 text-secondary" action={handleForm}>
       <div className="col-span-3 lg:col-span-2">
         <CustomInput
           label="First name"
@@ -90,7 +90,7 @@ export default function OnboardingForm({ user }: { user?: FormState }) {
           <label>Show Me</label>
           <InterestSelected initialValue={user?.previas_interest} />
         </div>
-        <div className="flex items-center text-secondary gap-3 border-b-2 border-t-2 border-primary_b m-2">
+        <div className="flex items-center text-secondary gap-3 my-2">
           <CustomDropDowns
             name="show_interest"
             label="Show interest"

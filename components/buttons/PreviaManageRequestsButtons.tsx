@@ -72,7 +72,7 @@ const PreviaManageRequestsButtons = ({
   return (
     <div className="flex flex-wrap">
       <button
-        className="btn btn-secondary"
+        className="btn-secondary"
         onClick={() =>
           updateJoinRequestStatus({ previaId, userId, status: 'accepted' })
         }
@@ -80,7 +80,7 @@ const PreviaManageRequestsButtons = ({
         Accept
       </button>
       <button
-        className="btn btn-secondary"
+        className=" btn-secondary"
         onClick={() =>
           updateJoinRequestStatus({ previaId, userId, status: 'rejected' })
         }

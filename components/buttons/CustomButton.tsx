@@ -13,7 +13,7 @@ export function CustomButton({ text }: { text: string }) {
     }
   }, [pending])
   return (
-    <button className="btn-login">
+    <button className="btn-secondary-flex">
       <span>{pending ? <Spinner /> : text}</span>
     </button>
   )

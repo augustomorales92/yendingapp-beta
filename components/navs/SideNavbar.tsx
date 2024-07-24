@@ -20,13 +20,13 @@ function SideNavbar() {
       </div>
       <aside
         id="side-navbar"
-        className={`bg-white top-0 p-4 fixed h-full w-64 max-w-full md:static md:w-64 transition-all transform ${
+        className={`bg-primary_b top-0 p-4 fixed h-full w-64 max-w-full md:static md:w-64 transition-all transform ${
           open ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0 z-50 md:h-auto`}
       >
         <div className="flex flex-col justify-start items-center text-secondary h-full">
           <div className="flex justify-between items-center w-full">
-            <h1 className="text-base text-center cursor-pointer font-bold border-b border-primary_b pb-4 w-full">
+            <h1 className="text-base text-center cursor-pointer font-bold border-b border-secondary_b pb-4 w-full">
               Yending App Dashboard
             </h1>
             <button
@@ -36,7 +36,7 @@ function SideNavbar() {
               <AiOutlineClose className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <div className="my-4 border-b border-primary_b pb-4 w-full">
+          <div className="my-4 border-b border-secondary_b pb-4 w-full">
             <NavLinks />
           </div>
         </div>

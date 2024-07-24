@@ -7,7 +7,7 @@ export default function CreateNew() {
       <div className="previas-card-link">
         <div>
           <h4
-            className="mb-2 text-secondary"
+            className="mb-2"
           >
             CREATE A NEW PREVIA
           </h4>

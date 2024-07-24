@@ -9,10 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: 'rgb(0, 60, 67)',
-        secondary: 'rgb(119, 176, 170)',
-        primary_b: 'rgb(19, 93, 102)',
-        secondary_b: 'rgb(227, 254, 247)'
+        primary: 'rgb(241, 246, 249)', // Whitesmoke
+        secondary: 'rgb(57, 72, 103)', // blue-dark
+        primary_b: 'rgb(155, 164, 181)',// grey 
+        secondary_b: 'rgb(33, 42, 62)', // dark
       }
     }
   },

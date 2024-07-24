@@ -119,7 +119,7 @@ const NewPreviaCard = ({
           </div>
           <div className="flex flex-row justify-between mt-3 items-center">
             <button
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white  rounded-lg hover:btn-secondary focus:ring-4 focus:outline-none focus:btn-secondary  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 btn-primary"
+              className="btn-primary inline-flex items-center px-3 py-2 text-sm font-medium text-center rounded-lg "
               onClick={handleJoinClick}
             >
               Join

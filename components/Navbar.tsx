@@ -2,7 +2,7 @@ import { auth } from '@/auth'
 import Link from 'next/link'
 import React from 'react'
 import { FaGlassCheers } from 'react-icons/fa'
-import { MdDashboard, MdLogin } from 'react-icons/md'
+import { MdDashboard } from 'react-icons/md'
 
 export default async function Navbar() {
   const session = await auth()
@@ -12,12 +12,12 @@ export default async function Navbar() {
       <div className="flex justify-between items-center align-center m-2 px-6 py-3">
         <Link
           href="/"
-          className="text-secondary text-3xl hover:text-secondary_b"
+          className="text-primary_b text-3xl hover:text-secondary_b"
         >
           <FaGlassCheers />
         </Link>
         <ul className="">
-          <li className="text-3xl text-secondary text-center hover:text-secondary_b  ">
+          <li className="text-3xl text-primary_b text-center hover:text-secondary_b  ">
             {/* {!session &&
                             <Link href="/auth/login" >
                                 <div className="flex items-center">

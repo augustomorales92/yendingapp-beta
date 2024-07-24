@@ -73,7 +73,7 @@ export default function NewPreviaForm() {
             />
           </div>
         </div>
-        <div className="flex items-center text-secondary gap-3 border-b-2 border-t-2 border-primary_b m-2">
+        <div className="flex items-center text-secondary gap-3  my-2">
           <CustomDropDowns
             name="show_location"
             label="Show location"

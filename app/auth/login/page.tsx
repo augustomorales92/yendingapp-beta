@@ -1,15 +1,15 @@
 import LoginGoogle from '@/components/buttons/LoginGoogle'
 import Image from 'next/image'
 import Link from 'next/link'
-import CredentialLogin from '@/components/CredentialLogin'
 import { Suspense } from 'react'
 import Loader from '@/components/Loader'
+import CredentialLogin from '@/components/buttons/CredentialLogin'
 
 export default async function LoginPage() {
   return (
     <Suspense fallback={<Loader />}>
     <div className="grid place-items-center h-screen mx-2 ">
-      <div className="bg-secondary_b shadow-lg text-black rounded-lg border-t-4">
+      <div className="bg-primary_b shadow-lg text-black rounded-lg border-t-4">
         <div className="relative mb-6">
           <Image
             src="/images/celebrate.jpg"
@@ -24,15 +24,15 @@ export default async function LoginPage() {
           <h1 className=" text-4xl text-primary font-bold text-center mb-2">
             Sign in
           </h1>
-          <p className="text-center mb-6 text-secondary">
+          <p className="text-center mb-6 text-primary ">
             Sign in to your account using one of the methods below
           </p>
           <div className="flex flex-col gap-3 px-6">
             <LoginGoogle />
             <CredentialLogin />
-            <Link className="text-sm " href={'/auth/register'}>
+            <Link className="text-sm text-primary" href={'/auth/register'}>
               {`Don't have an account?`}{' '}
-              <span className="underline text-primary_b font-bold">
+              <span className="underline text-secondary font-bold">
                 Register
               </span>
             </Link>

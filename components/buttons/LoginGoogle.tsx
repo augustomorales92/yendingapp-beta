@@ -10,7 +10,7 @@ export default function LoginGoogle() {
   return (
     <button
       onClick={handleGoogleSignIn}
-      className="bg-secondary text-white shadow rounded-md text-center w-full py-4 flex gap-3 items-center justify-center hover:bg-secondary/60 transition duration-300"
+      className="btn-primary-flex"
     >
       <>
         <FaGoogle className="h-6" />

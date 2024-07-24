@@ -60,19 +60,19 @@ export function NavLinksContent({ logged }: NavLinksContentProps) {
           <Link
             key={`${link.name}_${index}`}
             href={link.href}
-            className={`flex mb-2 justify-start items-center gap-4 pl-5 p-2 rounded-md group cursor-pointer hover:bg-primary_b hover:shadow-lg m-auto ${
-              pathname === link.href ? 'bg-primary_b' : ''
+            className={`flex mb-2 justify-start items-center gap-4 pl-5 p-2 rounded-md group cursor-pointer hover:bg-secondary hover:shadow-lg m-auto ${
+              pathname === link.href ? 'bg-secondary' : ''
             }`}
           >
             <LinkIcon
               className={`text-2xl ${
-                pathname === link.href ? 'text-white' : 'text-secondary'
-              } group-hover:text-white`}
+                pathname === link.href ? 'text-primary' : 'text-secondary'
+              } group-hover:text-primary`}
             />
             <h3
               className={`text-base font-semibold ${
-                pathname === link.href ? 'text-white' : 'text-secondary'
-              } group-hover:text-white`}
+                pathname === link.href ? 'text-primary' : 'text-secondary'
+              } group-hover:text-primary`}
             >
               {link.name}
             </h3>
@@ -89,19 +89,19 @@ export function NavLinksContent({ logged }: NavLinksContentProps) {
       )}
       <div
         onClick={() => pathValue()}
-        className="flex mb-2 justify-start items-center gap-4 pl-5 border border-primary_b  hover:bg-primary_b p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto"
+        className="flex mb-2 justify-start items-center gap-4 pl-5 border border-bg-secondary  hover:bg-secondary p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto"
       >
-        <MdOutlineLogout className="text-2xl  group-hover:text-white " />
-        <h3 className="text-base  group-hover:text-white font-semibold ">
+        <MdOutlineLogout className="text-2xl  group-hover:text-primary " />
+        <h3 className="text-base  group-hover:text-primary font-semibold ">
           Logout
         </h3>
       </div>
       <Link
         href="/"
-        className="flex mb-2 justify-start items-center gap-4 pl-5 border border-primary_b hover:bg-primary_b p-1 rounded-md group cursor-pointer hover:shadow-lg m-auto"
+        className="flex mb-2 justify-start items-center gap-4 pl-5 border border-bg-secondary hover:bg-secondary p-1 rounded-md group cursor-pointer hover:shadow-lg m-auto"
       >
-        <IoReturnDownBack className="text-2xl  group-hover:text-white " />
-        <h3 className="text-base  group-hover:text-white font-semibold ">
+        <IoReturnDownBack className="text-2xl  group-hover:text-primary " />
+        <h3 className="text-base  group-hover:text-primary font-semibold ">
           Home
         </h3>
       </Link>

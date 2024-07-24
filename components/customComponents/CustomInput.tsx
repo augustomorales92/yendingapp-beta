@@ -29,7 +29,7 @@ const CustomInput = ({
   }
   return (
     <>
-      <label className='text-white'>{label}</label>
+      <label className='text-secondary'>{label}</label>
       <input
         id={name}
         type={type}

@@ -7,7 +7,7 @@ export default function MyPreviasReq() {
       <div className="previas-card-link">
         <div>
           <h4
-            className="mb-2 text-secondary"
+            className="mb-2"
           >
             MY REQUESTS
           </h4>

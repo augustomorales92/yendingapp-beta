@@ -19,7 +19,7 @@ export default function Breadcrumbs({
             key={breadcrumb.href}
             aria-current={breadcrumb.active}
             className={`
-              ${breadcrumb.active ? 'text-white' : 'text-secondary'}
+              ${breadcrumb.active ? 'text-primary_b' : 'text-secondary'}
             `}
           >
             <Link href={breadcrumb.href}>{breadcrumb.label}</Link>

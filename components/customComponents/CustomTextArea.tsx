@@ -16,14 +16,14 @@ const CustomTextArea = ({name, label, required, initialValue}: CustomTextAreaPro
 
   return (
     <>
-      <label className='text-white'>{label}</label>
+      <label className='text-secondary'>{label}</label>
       <textarea
         id={name}
         name={name}
         required={required}
         value={value}
         onChange={handleChange}
-        className={`bg-transparent border border-white rounded-2 my-2 w-full ${
+        className={`bg-transparent border border-secondary rounded-md my-2 w-full ${
           value ? 'text-secondary' : 'text-secondary'
         }`}
       />
