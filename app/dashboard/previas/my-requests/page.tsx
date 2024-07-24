@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import Loader from '@/components/Loader'
 import { getMyPrevias } from '@/services/previas'
 import { sanitizeImages } from '@/lib/utils'
+import Breadcrumbs from '@/components/breadcrumbs'
 
 async function MyRequestContent() {
   const {
@@ -70,6 +71,16 @@ async function MyRequestContent() {
 export default function Page() {
   return (
     <Suspense fallback={<Loader />}>
+         <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Previas', href: '/dashboard/previas' },
+          {
+            label: 'My Requests',
+            href: '/dashboard/previas/my-requests',
+            active: true
+          }
+        ]}
+      />
       <MyRequestContent />
     </Suspense>
   )

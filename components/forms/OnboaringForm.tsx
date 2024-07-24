@@ -1,21 +1,30 @@
 'use client'
 import GenderSelect from '@/components/forms/GenderSelected'
 import InterestSelected from '@/components/forms/InterestSelected'
-import {  updateUser } from '@/lib/actions'
-import { useFormState } from 'react-dom'
+import { updateUser } from '@/lib/actions'
+import { dob_day_values, dob_month_values } from '@/lib/data'
 import { FormState } from '@/types/onboarding'
+import toast from 'react-hot-toast'
 import { CustomButton } from '../buttons/CustomButton'
 import CustomDropDowns from '../customComponents/CustomDropDown'
 import CustomInput from '../customComponents/CustomInput'
-import CustomTextArea from '../customComponents/CustomTextArea'
 import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
-import { dob_day_values, dob_month_values } from '@/lib/data'
+import CustomTextArea from '../customComponents/CustomTextArea'
 
 export default function OnboardingForm({ user }: { user?: FormState }) {
-  const [errorMessage, dispatch] = useFormState(updateUser, undefined)
+
+  const handleForm = async(formData: FormData) => {
+    const res = await updateUser(undefined, formData)
+    toast.dismiss()
+    if (res?.error) {
+      toast.error(res.error)
+    } else {
+      toast.success('Profile updated!')
+    }
+  }
 
   return (
-    <form className="grid grid-cols-3 gap-3 text-white" action={dispatch}>
+    <form className="grid grid-cols-3 gap-3 text-white" action={handleForm}>
       <div className="col-span-3 lg:col-span-2">
         <CustomInput
           label="First name"
@@ -107,7 +116,7 @@ export default function OnboardingForm({ user }: { user?: FormState }) {
         </div>
       </div>
 
-      <CustomButton errorMessage={errorMessage || ''} text="Save" />
+      <CustomButton text="Save" />
     </form>
   )
 }

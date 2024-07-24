@@ -1,14 +1,13 @@
 'use client'
 
-import toast from 'react-hot-toast'
-import { useFormState } from 'react-dom'
 import { createPrevia } from '@/lib/actions'
-import CustomInput from '../customComponents/CustomInput'
-import CustomTextArea from '../customComponents/CustomTextArea'
-import { CustomButton } from '../buttons/CustomButton'
-import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
-import CustomDropDowns from '../customComponents/CustomDropDown'
 import { place_details } from '@/lib/data'
+import toast from 'react-hot-toast'
+import { CustomButton } from '../buttons/CustomButton'
+import CustomDropDowns from '../customComponents/CustomDropDown'
+import CustomInput from '../customComponents/CustomInput'
+import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
+import CustomTextArea from '../customComponents/CustomTextArea'
 
 /* type Validations = {
   date?: string
@@ -23,10 +22,19 @@ import { place_details } from '@/lib/data'
 
 
 export default function NewPreviaForm() {
-  const [errorMessage, dispatch] = useFormState(createPrevia, undefined)
+
+  const handleForm = async(formData: FormData) => {
+    const res = await createPrevia(undefined, formData)
+    toast.dismiss()
+    if (res?.error) {
+      toast.error(res.error)
+    } else {
+      toast.success('Previa Created!')
+    }
+  }
 
   return (
-    <form className="grid grid-cols-3 gap-3" action={dispatch}>
+    <form className="grid grid-cols-3 gap-3" action={handleForm}>
       <div className="col-span-3 lg:col-span-2">
         <div className="my-2">
           <CustomInput label="Location" name="location" required={true} />
@@ -90,13 +98,13 @@ export default function NewPreviaForm() {
           </div>
         </div>
       </div>
-      {!!errorMessage && (
+  {/*     {!!errorMessage && (
         <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
           {errorMessage}
         </div>
-      )}
+      )} */}
       <div className="col-span-3 lg:col-span-1 mt-3">
-      <CustomButton text="Create Previa" errorMessage={errorMessage || ''} />
+      <CustomButton text="Create Previa"/>
       </div>
       
     </form>

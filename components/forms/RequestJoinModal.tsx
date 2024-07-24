@@ -1,27 +1,12 @@
-import { auth } from '@/auth'
-import { upload } from '@/lib/upload'
-import Image from 'next/image'
-import React, { useState } from 'react'
-import toast from 'react-hot-toast'
-import { FaTimes, FaUpload } from 'react-icons/fa'
-import CustomInput from '../customComponents/CustomInput'
-import CustomDropDowns from '../customComponents/CustomDropDown'
-import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
-import { CustomButton } from '../buttons/CustomButton'
-import { useFormState } from 'react-dom'
 import { requestJoin } from '@/lib/actions'
+import { intentionsValues } from '@/lib/data'
 import { Previas } from '@/types/data'
-
-const intentionsValues = [
-  { value: 'Let it flow', label: 'Let it flow' },
-  { value: 'Drink and have fun', label: 'Drink and have fun' },
-  { value: 'Go to a disco', label: 'Go to a disco' },
-  { value: 'Meet fun people', label: 'Meet fun people' },
-  {
-    value: 'Flirting and casual encounters',
-    label: 'Flirting and casual encounters'
-  }
-]
+import toast from 'react-hot-toast'
+import { FaTimes } from 'react-icons/fa'
+import { CustomButton } from '../buttons/CustomButton'
+import CustomDropDowns from '../customComponents/CustomDropDown'
+import CustomInput from '../customComponents/CustomInput'
+import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
 
 type RequestJoinModalProps = {
   previa: Previas
@@ -34,10 +19,15 @@ export default function RequestJoinModal({
 }: RequestJoinModalProps) {
   const { creator, previa_id, location, startTime } = previa
   const requestJoinWithId = requestJoin.bind(null, previa_id || '')
-  const [errorMessage, dispatch] = useFormState(requestJoinWithId, undefined)
 
-  const handleRequestJoin = (formData: FormData) => {
-    dispatch(formData)
+  const handleRequestJoin = async (formData: FormData) => {
+    const res = await requestJoinWithId(undefined, formData)
+    toast.dismiss()
+    if (res?.error) {
+      toast.error(res.error)
+    } else {
+      toast.success('Request sent!')
+    }
     onClose()
   }
 
@@ -72,13 +62,12 @@ export default function RequestJoinModal({
         <div className="col-span-3 lg:col-span-1">
           <div className="flex flex-wrap justify-center items-center gap-2">
             <div className="text-secondary">
-              =
               <CustomPhotoUploader label="Take a photo" name="url_img" />
             </div>
           </div>
         </div>
-        <button className="btn-secondary mt-4 col-span-3" type="submit">
-          <CustomButton text="Join" errorMessage={errorMessage || ''} />
+        <button className="mt-4 col-span-3" type="submit">
+          <CustomButton text="Join"  />
         </button>
       </form>
     </div>

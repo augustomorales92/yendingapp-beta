@@ -1,13 +1,20 @@
 'use client'
-import { useFormState } from 'react-dom'
-import { authenticate } from '@/lib/actions'
 import { CustomButton } from '@/components/buttons/CustomButton'
+import { authenticate } from '@/lib/actions'
+import toast from 'react-hot-toast'
 
 export default function LoginForm() {
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined)
 
+
+  const handleLogin = async(formData: FormData) => {
+    const res = await authenticate(undefined, formData)
+    toast.dismiss()
+    if (res) {
+      toast.error(res)
+    }
+  }
   return (
-    <form action={dispatch} className="flex flex-col mt-3 gap-3">
+    <form action={handleLogin} className="flex flex-col mt-3 gap-3">
       <label className='text-primary font-bold'>Email</label>
       <input
         className='border-primary'
@@ -22,12 +29,12 @@ export default function LoginForm() {
         type="password"
         name="password"
       />
-      <CustomButton errorMessage={errorMessage} text="login" />
-      {errorMessage && (
+      <CustomButton  text="Login" />
+      {/* {errorMessage && (
         <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
           {errorMessage}
         </div>
-      )}
+      )} */}
     </form>
   )
 }

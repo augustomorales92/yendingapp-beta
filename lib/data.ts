@@ -89,3 +89,14 @@ export const dob_month_values = [
       value: `Flirting and casual encounters`
     }
   ]
+
+  export const intentionsValues = [
+    { value: 'Let it flow', label: 'Let it flow' },
+    { value: 'Drink and have fun', label: 'Drink and have fun' },
+    { value: 'Go to a disco', label: 'Go to a disco' },
+    { value: 'Meet fun people', label: 'Meet fun people' },
+    {
+      value: 'Flirting and casual encounters',
+      label: 'Flirting and casual encounters'
+    }
+  ]

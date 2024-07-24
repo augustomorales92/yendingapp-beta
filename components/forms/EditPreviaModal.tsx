@@ -1,13 +1,12 @@
-import { useState } from 'react'
-import { FaTimes } from 'react-icons/fa'
-import CustomInput from '../customComponents/CustomInput'
-import CustomDropDowns from '../customComponents/CustomDropDown'
-import { place_details } from '@/lib/data'
-import CustomTextArea from '../customComponents/CustomTextArea'
-import { useFormState } from 'react-dom'
 import { updatePrevia } from '@/lib/actions'
+import { place_details } from '@/lib/data'
 import type { Previas } from '@/types/data'
+import toast from 'react-hot-toast'
+import { FaTimes } from 'react-icons/fa'
 import { CustomButton } from '../buttons/CustomButton'
+import CustomDropDowns from '../customComponents/CustomDropDown'
+import CustomInput from '../customComponents/CustomInput'
+import CustomTextArea from '../customComponents/CustomTextArea'
 
 type EditPreviaModalProps = {
   previa: Previas
@@ -16,10 +15,15 @@ type EditPreviaModalProps = {
 function EditPreviaModal({ previa, onClose }: EditPreviaModalProps) {
   const updatePreviaWithId = updatePrevia.bind(null, previa?.previa_id || '')
 
-  const [errorMessage, dispatch] = useFormState(updatePreviaWithId, undefined)
 
-  const handleEdit = (formData: FormData) => {
-    dispatch(formData)
+  const handleEdit = async(formData: FormData) => {
+    const res =  await updatePreviaWithId(undefined, formData)
+    toast.dismiss()
+    if (res?.error) {
+      toast.error(res.error)
+    } else {
+      toast.success('Previa edited!')
+    }
     onClose()
   }
 

@@ -1,21 +1,16 @@
 'use client'
 
+import { deletePrevia } from '@/lib/actions'
+import { today } from '@/lib/constants'
+import { sanitizeImages } from '@/lib/utils'
+import { Creator } from '@/types/data'
 import { format, isBefore, isSameDay } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { useState } from 'react'
-import EditPreviaModal from '../forms/EditPreviaModal'
-import { BeatLoader } from 'react-spinners'
-import toast from 'react-hot-toast'
-import Swal from 'sweetalert2'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { Creator, Previas } from '@/types/data'
-import { revalidatePath } from 'next/cache'
-import { today } from '@/lib/constants'
+import { Suspense, useState } from 'react'
+import Swal from 'sweetalert2'
+import EditPreviaModal from '../forms/EditPreviaModal'
 import Loader from '../Loader'
-import { Suspense } from 'react'
-import { sanitizeImages } from '@/lib/utils'
-import { deletePrevia } from '@/lib/actions'
 interface PreviaCardProps {
   previa_id?: string
   location?: string
