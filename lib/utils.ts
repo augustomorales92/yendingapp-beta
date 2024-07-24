@@ -4,6 +4,7 @@ import { isBefore, isSameDay, format, compareAsc } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { today } from '@/lib/constants'
 import { CreateUserFromSchema } from './schemas'
+import { FormState, ValidatedErrors } from '@/types/onboarding'
 
 interface calculateAge {
   dob_day: string
@@ -87,18 +88,10 @@ export const formattedDate = ({ date, inputDate }: FormattedDate) =>
 export const sanitizeImages = (images?: string[] | string) =>
   (Array.isArray(images) && images?.filter((image) => image)) || []
 
-export const getUserValues = (formData: FormData) => {
-  const {
-    dob_day,
-    dob_month,
-    dob_year,
-    name,
-    about,
-    show_interest,
-    gender_identity,
-    url_img,
-    previas_interest
-  } = CreateUserFromSchema.parse({
+export const getUserValues = (
+  formData: FormData
+): FormState | ValidatedErrors => {
+  const intitalValues = {
     dob_day: formData.get('dob_day'),
     dob_month: formData.get('dob_month'),
     dob_year: formData.get('dob_year'),
@@ -108,18 +101,19 @@ export const getUserValues = (formData: FormData) => {
     gender_identity: formData.get('gender_identity'),
     url_img: formData.get('url_img'),
     previas_interest: formData.get('previas_interest')
-  })
+  }
+  const validatedFields = CreateUserFromSchema.safeParse(intitalValues)
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create User.'
+    }
+  }
+  const { dob_day, dob_month, dob_year } = validatedFields.data
   const calculatedAge = calculateAge({ dob_day, dob_month, dob_year })
   const newFormData = {
-    name,
-    about,
-    show_interest,
-    gender_identity,
-    url_img,
-    dob_day,
-    dob_month,
-    dob_year,
-    previas_interest,
+    ...validatedFields.data,
     age: calculatedAge
   }
   return newFormData

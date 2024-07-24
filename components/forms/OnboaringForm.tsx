@@ -10,15 +10,28 @@ import CustomDropDowns from '../customComponents/CustomDropDown'
 import CustomInput from '../customComponents/CustomInput'
 import CustomPhotoUploader from '../customComponents/CustomPhotoUploader'
 import CustomTextArea from '../customComponents/CustomTextArea'
+import { useFormState } from 'react-dom'
+
+const handleOnboardingForm = async (
+  dispatch: (formData: FormData) => void,
+  formData: FormData
+) => {
+  return new Promise((resolve) => {
+    dispatch(formData)
+    resolve(true)
+  })
+}
 
 export default function OnboardingForm({ user }: { user?: FormState }) {
+  const [state, dispatch] = useFormState(updateUser, undefined)
 
-  const handleForm = async(formData: FormData) => {
-    const res = await updateUser(undefined, formData)
-    toast.dismiss()
-    if (res?.error) {
-      toast.error(res.error)
+  const handleForm = async (formData: FormData) => {
+    await handleOnboardingForm(dispatch, formData)
+    if (state?.error) {
+      toast.dismiss()
+      toast.error(state.error)
     } else {
+      toast.dismiss()
       toast.success('Profile updated!')
     }
   }

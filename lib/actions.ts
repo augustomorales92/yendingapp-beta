@@ -21,6 +21,7 @@ import {
   CreateRequestJoinSchema,
   UpdatePreviaFromSchema
 } from './schemas'
+import { FormState, ValidatedErrors } from '@/types/onboarding'
 
 export async function authenticate(
   prevState: string | undefined,
@@ -82,14 +83,20 @@ export async function signup(
 }
 
 export async function updateUser(
-  prevState: { error: string } | undefined,
+  prevState: { error: string; errors?: Record<string, any> } | undefined,
   formData: FormData
 ) {
   try {
     const session = await auth()
     const user = session?.user
     const newFormData = getUserValues(formData)
-    const res = await updatedUser(newFormData)
+    if ((newFormData as ValidatedErrors).errors) {
+      return {
+        error: (newFormData as ValidatedErrors).message,
+        errors: (newFormData as ValidatedErrors).errors
+      }
+    }
+    const res = await updatedUser(newFormData as FormState)
     await update({ ...user, userData: newFormData })
     if (!res.ok) {
       return { error: 'Error updating user' }
@@ -155,19 +162,17 @@ export async function createPrevia(
 
 export async function requestJoin(
   previaId: string,
-  prevState: {message: string} | undefined,
+  prevState: { message: string } | undefined,
   formData: FormData
 ) {
-  const { intentions, url_img, attendants } = CreateRequestJoinSchema.parse({
+  const values = CreateRequestJoinSchema.parse({
     intentions: formData.get('intentions'),
     url_img: formData.get('url_img'),
     attendants: formData.get('attendants')
   })
   try {
     const res = await postRequestJoin({
-      intentions,
-      url_img,
-      attendants,
+      ...values,
       previa_id: previaId
     })
     if (!res) {
