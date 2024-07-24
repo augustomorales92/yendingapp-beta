@@ -15,6 +15,7 @@ type Creator {
 }
 
 type PreviasJoinRequests {
+  id         String   @map("_id") @db.ObjectId
   attendants Int
   intentions String
   photos     String[]
@@ -56,14 +57,13 @@ model previas {
 
 model previausers {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  v          Int      @map("__v") 
   attendants Int
-  createdAt  DateTime @db.Date
+  createdAt  DateTime @default(now()) @db.Date
   intentions String
   photos     String[]
   previa_id  String
   status     String
-  updatedAt  DateTime @db.Date
+  updatedAt  DateTime @updatedAt @db.Date
   user_id    String   @unique  @map("user_id")
 }
 

@@ -140,8 +140,16 @@ export async function requestJoin(
     url_img: formData.get('url_img'),
     attendants: formData.get('attendants')
   })
-
-  await postRequestJoin({ intentions, url_img, attendants, previaId })
+  try {
+    await postRequestJoin({
+      intentions,
+      url_img,
+      attendants,
+      previa_id: previaId
+    })
+  } catch (error) {
+    console.error('Error requesting join:', error)
+  }
   revalidatePath('/dashboard/previas/my-requests')
 }
 

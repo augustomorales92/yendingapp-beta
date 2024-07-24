@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Suspense } from 'react'
 import Loader from '@/components/Loader'
 import { getMyPrevias } from '@/services/previas'
+import { sanitizeImages } from '@/lib/utils'
 
 async function MyRequestContent() {
   const {
@@ -21,7 +22,7 @@ async function MyRequestContent() {
               <p>Participants: {previa.participants}</p>
               <div>
                 <h4>Images:</h4>
-                {previa.images_previa_url.map((url, i) => (
+                {sanitizeImages(previa?.images_previa_url)?.map((url, i) => (
                   <Image
                     key={i}
                     src={url}

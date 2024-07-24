@@ -109,22 +109,26 @@ export const getStatusRequests = async () => {
   }
 }
 type RequestJoin = {
-  previaId: string
+  previa_id: string
   intentions: string
   url_img?: string | string[]
   attendants: string
 }
 
 export const postRequestJoin = async (body: RequestJoin) => {
-  console.log('body:', body)
   try {
     const response = await customFetch({
-      path: `/api/previa/joinRequest`,
-      method: 'PUT',
+      path: `/api/previaUsers`,
+      method: 'POST',
       withCredentials: true,
       body: body
     })
+    if (response.status === 400) {
+      throw new Error('User already sent a request')
+    }
+
     return response.json()
+
   } catch (error) {
     console.error('Error fetching user data:', error)
     return 'Error joining previa'

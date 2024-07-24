@@ -21,7 +21,6 @@ export async function PUT(req: NextRequest, res: NextResponse) {
     }
 
 
-    console.log('attendants', attendants)
     const joinRequest = {
       intentions,
       //TODO: handle photos properly
@@ -44,19 +43,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
     })
 
     return NextResponse.json({ previa_data: updatedPrevia })
-    //   const { previaId, joinRequest } = await req.json()
 
-    //   const previa_data = await prisma.previas.findUnique(
-    //     { previa_id: previaId },
-    //     { $push: { join_requests: joinRequest } },
-    //     { new: true }
-    //   )
-
-    //   if (!previa_data) {
-    //     return NextResponse.json({ message: 'Previa not found' }, { status: 404 })
-    //   }
-
-    //   return NextResponse.json({ previa_data })
   } catch (error) {
     console.log('error', error)
     return NextResponse.json({ message: 'An error occurred' }, { status: 500 })
