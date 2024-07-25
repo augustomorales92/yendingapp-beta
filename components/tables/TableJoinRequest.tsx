@@ -10,7 +10,7 @@ async function Table() {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg p-2 md:pt-0">
+        <div className="rounded-lg p-2 md:pt-0 m-2">
           {/* Mobile View */}
           <div className="md:hidden ">
             {createdPrevias?.map((previa) => (
@@ -69,9 +69,12 @@ async function Table() {
           </div>
           {/* Desktop View */}
           <div className="hidden md:block">
-            <div className="flex flex-col gap-4 bg-primary_b rounded-lg p-2 m-4">
+            <div className="flex flex-col ">
               {createdPrevias?.map((previa, index) => (
-                <div key={`${previa.id}_${index}`}>
+                <div
+                  key={`${previa.id}_${index}`}
+                  className="gap-4 bg-primary_b rounded-lg p-2 m-2"
+                >
                   <div className="flex items-center justify-around p-4 bg-secondary rounded-lg">
                     <div className="flex items-center gap-3">
                       <Image

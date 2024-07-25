@@ -22,7 +22,7 @@ function SideNavbar() {
         id="side-navbar"
         className={`bg-primary_b top-0 p-4 fixed h-full w-64 max-w-full md:static md:w-64 transition-all transform ${
           open ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 z-50 md:h-auto`}
+        } md:translate-x-0 z-50 md:h-screen`}
       >
         <div className="flex flex-col justify-start items-center text-secondary h-full">
           <div className="flex justify-between items-center w-full">

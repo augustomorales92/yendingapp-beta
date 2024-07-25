@@ -5,7 +5,7 @@ import { Suspense } from 'react'
 import Loader from '@/components/Loader'
 import CredentialLogin from '@/components/buttons/CredentialLogin'
 
-export default async function LoginPage() {
+export default function LoginPage() {
   return (
     <Suspense fallback={<Loader />}>
     <div className="grid place-items-center h-screen mx-2 ">
