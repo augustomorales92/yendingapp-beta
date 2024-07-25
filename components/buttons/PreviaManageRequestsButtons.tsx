@@ -1,9 +1,4 @@
 'use client'
-import React from 'react'
-import toast from 'react-hot-toast'
-import { baseUrl } from '@/lib/constants'
-import { revalidatePath } from 'next/cache'
-import { auth } from '@/auth'
 import { updateJoinRequestStatus } from '@/lib/actions'
 
 type PreviaManageRequestsButtonsProps = {
@@ -70,9 +65,9 @@ const PreviaManageRequestsButtons = ({
     }
   } */
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap gap-1">
       <button
-        className="btn-secondary"
+        className="btn btn-secondary min-w-10 w-24"
         onClick={() =>
           updateJoinRequestStatus({ previaId, userId, status: 'accepted' })
         }
@@ -80,7 +75,7 @@ const PreviaManageRequestsButtons = ({
         Accept
       </button>
       <button
-        className=" btn-secondary"
+        className="btn btn-secondary w-24"
         onClick={() =>
           updateJoinRequestStatus({ previaId, userId, status: 'rejected' })
         }

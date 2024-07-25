@@ -59,11 +59,11 @@ const NewPreviaCard = ({
 
   return (
     <>
-      <div className=" bg-secondary border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-[24rem]  h-[40rem]">
+      <div className=" bg-casal-200 border border-gray-200 rounded-lg shadow dark:bg-secondary dark:border-gray-700 w-[25rem]  h-[32rem]">
         <div className="flex justify-center">
           <Suspense fallback={<Loader />}>
             <Image
-              className="rounded-t-lg h-80 w-auto flex items-center justify-center p-2 lg:h-64"
+              className="rounded-t-lg h-64 w-auto flex items-center justify-center p-2 lg:h-48"
               src={images?.[0] || '/images/placeholder.jpg'}
               alt="photo"
               width={500}
@@ -71,8 +71,8 @@ const NewPreviaCard = ({
             />
           </Suspense>
         </div>
-        <div className="p-5">
-          <div className="mb-4 flex items-center justify-around lg:h-24">
+        <div className="p-3">
+          <div className="mb-2 flex items-center justify-around lg:h-20">
             <div className="flex-shrink-0 mr-2">
               <div className="group relative w-max">
                 <Image
@@ -88,15 +88,15 @@ const NewPreviaCard = ({
               </div>
             </div>
             <div className="flex flex-col ">
-              <div className="flex flex-row text-xl tracking-tight dark:text-white text-secondary_b">
+              <div className="flex flex-row text-lg tracking-tight dark:text-secondary_b text-secondary_b">
                 {location}
               </div>
-              <p className="font-normal text-lg text-primary_b dark:text-gray-400">
+              <p className="font-normal text-sm text-primary_b dark:text-primary_b">
                 {`${formattedDate({ date, inputDate })} at ${startTime}`}
               </p>
             </div>
           </div>
-          <p className="mb-3 font-normal text-lg text-primary_b dark:text-gray-400 text-ellipsis lg:h-32 h-24">
+          <p className="mb-3 font-normal text-lg text-primary_b dark:text-primary_b text-ellipsis lg:h-24 h-20">
             {description}
           </p>
           <div className="flex flex-wrap gap-2 ">
@@ -126,7 +126,7 @@ const NewPreviaCard = ({
             </button>
             <div className="group relative w-max">
               <button className='cursor-pointer rounded-full bg-primary_b p-3 text-primary transition-colors hover:bg-opacity-70 group-hover:bg-opacity-70'>
-                <FaShare />
+                <FaShare color='white'/>
               </button>
               <span className="pointer-events-none absolute -top-9 left-0 w-max rounded bg-gray-900 px-2 py-1 my-1 text-sm font-medium text-gray-50 opacity-0 shadow transition-opacity group-hover:opacity-100">
                 Share

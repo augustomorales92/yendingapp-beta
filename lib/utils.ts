@@ -118,3 +118,16 @@ export const getUserValues = (
   }
   return newFormData
 }
+
+export const getFormatedDate = (date?: Date) => {
+  const inputDate = new Date(date as Date)
+  const formattedDate = isSameDay(today, inputDate)
+    ? 'Today'
+    : isBefore(inputDate, today)
+    ? 'Due'
+    : format(inputDate, "EEEE d 'de' MMMM", { locale: es })
+
+    return formattedDate
+}
+
+export const editDisabled = (date?: Date | string) => isBefore(new Date(date as Date), today)

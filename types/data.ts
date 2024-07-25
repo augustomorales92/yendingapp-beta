@@ -3,7 +3,7 @@ export interface JoinRequest {
   attendants: number
   intentions: string
   photos: string[]
-  status: string
+  status: 'pending' | 'accepted' | 'rejected' | 'sent'
   user_id: string
 }
 

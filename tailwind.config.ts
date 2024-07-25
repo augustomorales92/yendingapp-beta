@@ -13,6 +13,19 @@ const config: Config = {
         secondary: 'rgb(57, 72, 103)', // blue-dark
         primary_b: 'rgb(155, 164, 181)',// grey 
         secondary_b: 'rgb(33, 42, 62)', // dark
+        casal: {
+          '50': '#ebfffc',
+          '100': '#cdfffa',
+          '200': '#a2fff9',
+          '300': '#61fff8',
+          '400': '#1af6ef',
+          '500': '#00dcd8',
+          '600': '#01b3b9',
+          '700': '#098e95',
+          '800': '#117179',
+          '900': '#135d66',
+          '950': '#063f46'
+        }
       }
     }
   },
