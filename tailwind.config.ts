@@ -9,22 +9,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: 'rgb(241, 246, 249)', // Whitesmoke
-        secondary: 'rgb(57, 72, 103)', // blue-dark
-        primary_b: 'rgb(155, 164, 181)',// grey 
-        secondary_b: 'rgb(33, 42, 62)', // dark
-        casal: {
-          '50': '#ebfffc',
-          '100': '#cdfffa',
-          '200': '#a2fff9',
-          '300': '#61fff8',
-          '400': '#1af6ef',
-          '500': '#00dcd8',
-          '600': '#01b3b9',
-          '700': '#098e95',
-          '800': '#117179',
-          '900': '#135d66',
-          '950': '#063f46'
+        primary: '#F1F6F9', // Whitesmoke
+        secondary: '#394867', // blue-dark
+        primary_b: '#9BA4B5', // grey
+        secondary_b: '#212A3E', // dark
+        yending_blue: {
+          '50': '#f5f7fa',
+          '100': '#e9edf5',
+          '200': '#cfd8e8',
+          '300': '#a4b7d5',
+          '400': '#7391bd',
+          '500': '#5273a5',
+          '600': '#3f5a8a',
+          '700': '#344a70',
+          '800': '#2e3f5e',
+          '900': '#2a3750',
+          '950': '#212a3e'
         }
       }
     }
