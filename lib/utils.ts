@@ -5,6 +5,7 @@ import { es } from 'date-fns/locale'
 import { today } from '@/lib/constants'
 import { CreateUserFromSchema } from './schemas'
 import { FormState, ValidatedErrors } from '@/types/onboarding'
+import { ReadonlyURLSearchParams } from 'next/navigation'
 
 interface calculateAge {
   dob_day: string
@@ -127,7 +128,33 @@ export const getFormatedDate = (date?: Date) => {
     ? 'Due'
     : format(inputDate, "EEEE d 'de' MMMM", { locale: es })
 
-    return formattedDate
+  return formattedDate
 }
 
-export const editDisabled = (date?: Date | string) => isBefore(new Date(date as Date), today)
+export const editDisabled = (date?: Date | string) =>
+  isBefore(new Date(date as Date), today)
+
+type HandleQueryParams = {
+  value?: string
+  searchParams: ReadonlyURLSearchParams
+  pathname: string
+  replace: Function
+  query: string
+}
+
+export const handleQueryParams = ({
+  value,
+  searchParams,
+  pathname,
+  replace,
+  query
+}: HandleQueryParams) => {
+  const params = new URLSearchParams(searchParams)
+  if (value) {
+    params.set(query, value)
+  } else {
+    params.delete(query)
+  }
+
+  replace(`${pathname}?${params.toString()}`)
+}
