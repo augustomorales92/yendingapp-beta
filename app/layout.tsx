@@ -21,7 +21,7 @@ const RootLayout = ({ children }:RootLayoutProps) => {
       <body>
         <AuthProvider>
           <div>
-            <Toaster position="bottom-center" />
+            <Toaster position="bottom-right" />
             {children}
           </div>
         </AuthProvider>
