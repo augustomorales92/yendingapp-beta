@@ -29,12 +29,7 @@ export default function LoginForm() {
         type="password"
         name="password"
       />
-      <CustomButton  text="Login" />
-      {/* {errorMessage && (
-        <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
-          {errorMessage}
-        </div>
-      )} */}
+      <CustomButton  text="Login" toastMessage={`we're working on it, you'll be redirected soon...`}/>
     </form>
   )
 }
