@@ -24,7 +24,7 @@ import {
 import { FormState, ValidatedErrors } from '@/types/onboarding'
 
 export async function authenticate(
-  prevState: string | undefined,
+  _prevState: string | undefined,
   formData: FormData
 ) {
   try {
@@ -48,7 +48,7 @@ export async function authenticate(
 }
 
 export async function signup(
-  prevState: { error: string } | undefined,
+  _prevState: { error: string } | undefined,
   formData: FormData
 ) {
   try {
@@ -83,7 +83,7 @@ export async function signup(
 }
 
 export async function updateUser(
-  prevState: { error: string; errors?: Record<string, any> } | undefined,
+  _prevState: { error: string; errors?: Record<string, any> } | undefined,
   formData: FormData
 ) {
   try {
@@ -110,7 +110,7 @@ export async function updateUser(
 }
 
 export async function createPrevia(
-  prevState: void | undefined,
+  _prevState: void | undefined,
   formData: FormData
 ) {
   const {
@@ -162,7 +162,7 @@ export async function createPrevia(
 
 export async function requestJoin(
   previaId: string,
-  prevState: { message: string } | undefined,
+  _prevState: { message: string } | undefined,
   formData: FormData
 ) {
   const values = CreateRequestJoinSchema.parse({
@@ -211,7 +211,7 @@ export async function updateJoinRequestStatus({
 
 export async function updatePrevia(
   previaId: string,
-  prevState: { error: string } | undefined,
+  _prevState: { error: string } | undefined,
   formData: FormData
 ) {
   const {
