@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { Suspense } from 'react'
 import Loader from '@/components/Loader'
 import Breadcrumbs from '@/components/breadcrumbs'

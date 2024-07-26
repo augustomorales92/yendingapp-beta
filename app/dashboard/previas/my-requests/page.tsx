@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import Breadcrumbs from '@/components/breadcrumbs'
 import Loader from '@/components/Loader'
 import Table from '@/components/tables/TableMyRequests'

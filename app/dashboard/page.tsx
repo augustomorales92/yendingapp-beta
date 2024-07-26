@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import GroupBtn from '@/components/buttons/GroupBtn'
 import { Suspense } from 'react'
 import Loader from '@/components/Loader'
