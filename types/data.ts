@@ -1,9 +1,11 @@
+export type JoinRequestStatus = 'pending' | 'accepted' | 'rejected' | 'sent'
+
 export interface JoinRequest {
   id: string
   attendants: number
   intentions: string
   photos: string[]
-  status: 'pending' | 'accepted' | 'rejected' | 'sent'
+  status: JoinRequestStatus
   user_id: string
 }
 

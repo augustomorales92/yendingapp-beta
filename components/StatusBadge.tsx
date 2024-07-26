@@ -1,8 +1,8 @@
-import React from 'react'
 import { FaClock, FaCheck } from 'react-icons/fa'
+import type { JoinRequestStatus } from '@/types/data'
 
 type StatusBadgeProps = {
-  status: 'pending' | 'sent'
+  status: JoinRequestStatus
 }
 const StatusBadge = ({ status }: StatusBadgeProps) => {
   return (
