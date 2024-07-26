@@ -3,7 +3,7 @@ import { prisma } from '@/auth.config'
 import { NextRequest, NextResponse } from 'next/server'
 
 // actualizacion de el model User , añadiendo las previas que ha solicitado unirse .. modificamos el array previa_requests
-export async function PUT(req: NextRequest, res: NextResponse) {
+export async function PUT(req: NextRequest) {
   const session = await auth()
   const emailWanted = session?.user?.email || ""
 

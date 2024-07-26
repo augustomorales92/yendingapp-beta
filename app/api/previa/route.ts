@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/auth.config'
 import { v4 as uuidv4 } from 'uuid'
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
   const user = session?.user?.userData
 
@@ -91,7 +91,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function PUT(req: NextRequest, res: NextResponse) {
+export async function PUT(req: NextRequest) {
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
   if (!session) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })

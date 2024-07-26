@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/auth.config'
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   // necesito el dato del usuario que esta solicitando para enviarlo a la db como user_id del solicitante
   const session = JSON.parse(req.headers.get('Authorization') || '{}')
   const user_data = session?.user?.userData || ''
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         previa_id
       }
     })
-    
+
     if (previaUserExists) {
       return NextResponse.json(
         { message: 'User already sent a request' },
@@ -121,7 +121,7 @@ export async function PUT(req: NextRequest) {
   try {
     const { previaId, status }: { previaId: string; status: string } =
       await req.json()
-
+    console.log('previaId:', previaId)
     const previaUser = await prisma.previausers.findUnique({
       where: {
         user_id: userId
@@ -132,7 +132,7 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
 
-    const updatedStatusPrev = await prisma.previausers.update({
+    await prisma.previausers.update({
       where: {
         user_id: userId
       },
