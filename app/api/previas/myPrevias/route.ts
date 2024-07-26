@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import { prisma } from '@/auth.config'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -9,7 +10,7 @@ export async function GET(req: NextRequest) {
     const values = await prisma.users.findUnique({
       where: { email: emailWanted }
     })
-    console.log('values:', values)
+
     const previas_ids = values?.previas_requests
     const user_id = values?.user_id
 

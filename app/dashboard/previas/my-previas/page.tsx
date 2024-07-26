@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import GroupBtn from '@/components/buttons/GroupBtn'
 import MyPreviasCard from '@/components/cards/MyPreviasCard'
 import React, { Suspense } from 'react'
