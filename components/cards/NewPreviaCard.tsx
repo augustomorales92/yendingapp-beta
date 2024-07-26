@@ -37,7 +37,6 @@ const NewPreviaCard = ({
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Handle date event
-  const inputDate = new Date(date as Date)
 
   // Seteo el formato de fecha para que figure bien
 
@@ -92,7 +91,7 @@ const NewPreviaCard = ({
                 {location}
               </div>
               <p className="font-normal text-sm text-primary_b dark:text-primary_b">
-                {`${formattedDate({ date, inputDate })} at ${startTime}`}
+                {`${formattedDate({ date })} at ${startTime}`}
               </p>
             </div>
           </div>

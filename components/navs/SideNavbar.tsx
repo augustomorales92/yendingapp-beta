@@ -10,7 +10,7 @@ function SideNavbar() {
 
   return (
     <>
-      <div className="md:hidden flex text-secondary font-bold items-center p-4 my-2">
+      <div className="lg:hidden flex text-secondary font-bold items-center p-4 my-2 ">
         <button id="menu-button" onClick={() => setOpen(!open)}>
           <GiHamburgerMenu className="h-6 w-6" aria-hidden="true" />
         </button>
@@ -20,9 +20,9 @@ function SideNavbar() {
       </div>
       <aside
         id="side-navbar"
-        className={`bg-primary_b top-0 p-4 fixed h-full w-64 max-w-full md:static md:w-64 transition-all transform ${
+        className={`bg-primary_b top-0 p-4 fixed h-full w-64 max-w-full lg:static lg:w-64 transition-all transform ${
           open ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 z-50 md:h-screen`}
+        } lg:translate-x-0 z-50 md:h-screen`}
       >
         <div className="flex flex-col justify-start items-center text-secondary h-full">
           <div className="flex justify-between items-center w-full">
@@ -30,7 +30,7 @@ function SideNavbar() {
               Yending App Dashboard
             </h1>
             <button
-              className="md:hidden text-secondary font-bold p-2"
+              className="lg:hidden text-secondary font-bold p-2"
               onClick={() => setOpen(false)}
             >
               <AiOutlineClose className="h-6 w-6" aria-hidden="true" />

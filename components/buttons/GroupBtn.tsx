@@ -22,7 +22,7 @@ export default function GroupBtn() {
 
   return (
     <div className="flex justify-end space-x-4 mb-4">
-      <div className="hidden md:flex space-x-4">
+      <div className="hidden lg:flex space-x-4">
         <div className="flex justify-flex items-center border rounded-md border-none gap-3">
           <button
             onClick={() => handleSearch('date')}
@@ -40,7 +40,7 @@ export default function GroupBtn() {
           </button>
         </div>
       </div>
-      <div className="md:hidden w-full flex flex-col">
+      <div className="lg:hidden w-full flex flex-col">
         <label className="text-secondary">Sort By</label>
         <select
           className="text-secondary"

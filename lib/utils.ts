@@ -79,12 +79,13 @@ export const getSortedPrevias = async ({
 
 type FormattedDate = {
   date?: Date | string | number
-  inputDate: Date
 }
-export const formattedDate = ({ date, inputDate }: FormattedDate) =>
-  isSameDay(today, inputDate)
+export const formattedDate = ({ date }: FormattedDate) => {
+  const inputDate = new Date(date as Date)
+  return isSameDay(today, inputDate)
     ? 'Today'
     : format(date as Date, "EEEE d 'de' MMMM", { locale: es })
+}
 
 export const sanitizeImages = (images?: string[] | string) =>
   (Array.isArray(images) && images?.filter((image) => image)) || []
