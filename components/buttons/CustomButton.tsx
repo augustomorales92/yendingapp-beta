@@ -7,9 +7,8 @@ import Spinner from '@/components/spinner'
 export function CustomButton({ text }: { text: string }) {
   const { pending } = useFormStatus()
   useEffect(() => {
-    let toastId: string
     if (pending) {
-      toastId = toast.loading('Loading...')
+       toast.loading('Loading...')
     }
   }, [pending])
   return (
