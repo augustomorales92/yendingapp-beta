@@ -7,7 +7,7 @@ import { auth } from '@/auth'
   const session = await auth()
   const user = session?.user.userData
   return (
-    <div className="px-12 py-16 md:py-6 min-h-screen">
+    <div className="px-12 py-6 lg:py-16 min-h-screen overflow-x-hidden">
       <h1 className="text-secondary text-2xl font-bold mb-4">My Profile</h1>
       <OnboardingForm user={user} />
     </div>

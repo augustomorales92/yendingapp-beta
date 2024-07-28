@@ -55,7 +55,7 @@ export default function NewPreviaForm() {
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-start gap-3">
+        <div className="flex flex-wrap justify-start gap-3 items-center">
           <div className="w-50 my-3">
             <CustomInput
               label="How many are there?"

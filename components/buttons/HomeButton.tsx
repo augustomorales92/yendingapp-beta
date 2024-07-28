@@ -1,15 +1,9 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 export default function HomeButton() {
-
   return (
-    <Link
-      className={`btn-secondary my-3 max-w-32 ${
-        false ? 'opacity-50 cursor-not-allowed' : ''
-      }`}
-      href='/auth/login'
-    >
+    <Link className={`btn-secondary my-3 max-w-36 `} href="/auth/login">
       {"Let's Start"}
     </Link>
-  )
+  );
 }

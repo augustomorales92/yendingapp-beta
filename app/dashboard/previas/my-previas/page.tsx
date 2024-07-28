@@ -22,7 +22,7 @@ export default function Page({
           }
         ]}
       />
-      <div className="px-12 py-16 md:py-6 min-h-screen">
+      <div className="px-12 py-6 md:py-6 min-h-screen lg:py-16">
         <div>
           <GroupBtn />
         </div>

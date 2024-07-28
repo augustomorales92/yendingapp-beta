@@ -19,7 +19,15 @@ export async function GET(req: NextRequest) {
     }
     const previa_data = await prisma.previas.findMany({
       where: {
-        previa_id: { in: previas_ids }
+        previa_id: { in: previas_ids },
+        date: {
+          gte: new Date(),
+        },
+        join_requests: {
+          some: {
+            user_id,
+          },
+        },
       }
     })
 

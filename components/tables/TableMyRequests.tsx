@@ -1,18 +1,24 @@
-import React from 'react'
-import Image from 'next/image'
-import StatusBadge from '../StatusBadge'
-import { Previas } from '@/types/data'
-import { getMyPrevias } from '@/services/previas'
+import React from "react";
+import Image from "next/image";
+import StatusBadge from "../StatusBadge";
+import { Previas } from "@/types/data";
+import { getMyPrevias } from "@/services/previas";
 
 async function Table() {
   const {
     previas_data: previasData,
-    user_id
-  }: { previas_data: Previas[]; user_id: string } = await getMyPrevias()
+    user_id,
+  }: { previas_data: Previas[]; user_id: string } = await getMyPrevias();
+
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg p-2 md:pt-0 m-2">
+          {!previasData?.length && (
+            <div className="bg-primary_b text-white w-fit text-lg py-1 px-3 rounded-md mt-2">
+              You have no previas Requests
+            </div>
+          )}
           {/* Mobile View */}
           <div className="md:hidden ">
             {previasData?.map((previa, index) => (
@@ -26,7 +32,7 @@ async function Table() {
                       <Image
                         src={
                           previa?.images_previa_url?.[0] ||
-                          '/images/placeholder.jpg'
+                          "/images/placeholder.jpg"
                         }
                         className="mr-2 rounded-full"
                         width={28}
@@ -35,12 +41,12 @@ async function Table() {
                       />
                       <p className="text-secondary_b">{previa.location}</p>
                       <p className="text-secondary_b">
-                        {' '}
+                        {" "}
                         + {previa.participants}
                       </p>
                     </div>
                     <p className="text-sm text-secondary_b">
-                      {new Date(previa?.date || '').toLocaleDateString()}
+                      {new Date(previa?.date || "").toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -55,7 +61,7 @@ async function Table() {
                       <div className="flex items-center gap-3">
                         <Image
                           src={
-                            join_req.photos?.[0] || '/images/placeholder.jpg'
+                            join_req.photos?.[0] || "/images/placeholder.jpg"
                           }
                           className="rounded-full"
                           width={28}
@@ -66,7 +72,7 @@ async function Table() {
                       <p>Attendants: {join_req?.attendants}</p>
                       <p>Intentions: {join_req?.intentions}</p>
                       <div className="flex justify-end gap-2 mt-2">
-                        <StatusBadge status={join_req?.status || 'pending'} />
+                        <StatusBadge status={join_req?.status || "pending"} />
                       </div>
                     </div>
                   ))}
@@ -86,7 +92,7 @@ async function Table() {
                       <Image
                         src={
                           previa?.images_previa_url?.[0] ||
-                          '/images/placeholder.jpg'
+                          "/images/placeholder.jpg"
                         }
                         className="rounded-full"
                         width={28}
@@ -136,7 +142,7 @@ async function Table() {
                                 <Image
                                   src={
                                     join_req.photos?.[0] ||
-                                    '/images/placeholder.jpg'
+                                    "/images/placeholder.jpg"
                                   }
                                   className="rounded-full"
                                   width={28}
@@ -147,7 +153,7 @@ async function Table() {
                             </td>
                             <td className="whitespace-nowrap px-3 py-3">
                               {new Date(
-                                previa?.date || ''
+                                previa?.date || "",
                               ).toLocaleDateString()}
                             </td>
                             <td className="whitespace-nowrap px-3 py-3">
@@ -158,7 +164,7 @@ async function Table() {
                             </td>
                             <td className="whitespace-nowrap px-3 py-3">
                               <StatusBadge
-                                status={join_req?.status || 'pending'}
+                                status={join_req?.status || "pending"}
                               />
                             </td>
                           </tr>
@@ -172,7 +178,7 @@ async function Table() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Table
+export default Table;

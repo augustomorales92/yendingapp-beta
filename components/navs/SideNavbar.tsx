@@ -1,12 +1,18 @@
-'use client'
-import { useState } from 'react'
-import { GiHamburgerMenu } from 'react-icons/gi'
-import { FaGlassCheers } from 'react-icons/fa'
-import { AiOutlineClose } from 'react-icons/ai'
-import NavLinks from './nav-links'
+"use client";
+import { useEffect, useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { FaGlassCheers } from "react-icons/fa";
+import { AiOutlineClose } from "react-icons/ai";
+import NavLinks from "./nav-links";
+import { usePathname } from "next/navigation";
 
 function SideNavbar() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -21,7 +27,7 @@ function SideNavbar() {
       <aside
         id="side-navbar"
         className={`bg-primary_b top-0 p-4 fixed h-full w-64 max-w-full lg:static lg:w-64 transition-all transform ${
-          open ? 'translate-x-0' : '-translate-x-full'
+          open ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 z-50 md:h-screen`}
       >
         <div className="flex flex-col justify-start items-center text-secondary h-full">
@@ -42,7 +48,7 @@ function SideNavbar() {
         </div>
       </aside>
     </>
-  )
+  );
 }
 
-export default SideNavbar
+export default SideNavbar;
