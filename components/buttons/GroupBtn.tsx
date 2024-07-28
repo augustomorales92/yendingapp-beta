@@ -1,39 +1,39 @@
-'use client'
-import React from 'react'
-import { FaSortNumericDownAlt } from 'react-icons/fa'
-import { MdGroupAdd } from 'react-icons/md'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+"use client";
+import React from "react";
+import { FaSortNumericDownAlt } from "react-icons/fa";
+import { MdGroupAdd } from "react-icons/md";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 export default function GroupBtn() {
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const { replace } = useRouter()
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
   const handleSearch = (criteria: string | undefined) => {
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams);
     if (criteria) {
-      params.set('criteria', criteria)
+      params.set("criteria", criteria);
     } else {
-      params.delete('criteria')
+      params.delete("criteria");
     }
 
-    replace(`${pathname}?${params.toString()}`)
-  }
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
-    <div className="flex justify-end space-x-4 mb-4">
+    <div className="flex justify-end space-x-4 mb-4 pr-4">
       <div className="hidden lg:flex space-x-4">
         <div className="flex justify-flex items-center border rounded-md border-none gap-3">
           <button
-            onClick={() => handleSearch('date')}
-            className="flex text-xl text-primary hover:bg-secondary/80 rounded-md p-3  focus:bg-secondary/80 bg-secondary"
+            onClick={() => handleSearch("date")}
+            className="flex items-center text-xl text-primary hover:bg-secondary/80 rounded-md p-3  focus:bg-secondary/80 bg-secondary"
           >
             <FaSortNumericDownAlt />
             Sort by date
           </button>
           <button
-            onClick={() => handleSearch('participants')}
-            className="flex text-xl text-primary hover:bg-secondary/80 rounded-md p-3  focus:bg-secondary/80 bg-secondary"
+            onClick={() => handleSearch("participants")}
+            className="flex items-center text-xl text-primary hover:bg-secondary/80 rounded-md p-3  focus:bg-secondary/80 bg-secondary"
           >
             <MdGroupAdd />
             Sort by participants
@@ -53,5 +53,5 @@ export default function GroupBtn() {
         </select>
       </div>
     </div>
-  )
+  );
 }

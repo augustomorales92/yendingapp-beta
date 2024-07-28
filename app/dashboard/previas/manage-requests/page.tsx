@@ -17,7 +17,7 @@ import Table from '@/components/tables/TableJoinRequest'
           }
         ]}
       />
-      <div className="px-6 py-16 md:py-6 min-h-screen">
+      <div className="px-6 py-6 lg:py-16 min-h-screen">
         <Table />
       </div>
     </div>

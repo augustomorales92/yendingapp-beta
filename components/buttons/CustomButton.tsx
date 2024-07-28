@@ -16,7 +16,7 @@ export function CustomButton({
     if (pending) {
       toast.loading(toastMessage || "Loading...");
     }
-  }, [pending]);
+  }, [pending, toastMessage]);
   return (
     <button className="btn-secondary-flex">
       <span>{pending ? <Spinner /> : text}</span>

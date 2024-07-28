@@ -12,8 +12,8 @@ export default function Page({
 }) {
   return (
     <Suspense fallback={<Loader />}>
-      <div className="px-4 py-16 md:py-6 min-h-screen">
-        <div>
+      <div className="px-4 py-6 lg:py-16 min-h-screen flex items-center flex-col">
+        <div className='w-full'>
           <GroupBtn />
         </div>
         <Grid searchParams={searchParams} />

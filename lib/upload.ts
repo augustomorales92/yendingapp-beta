@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 
-export async function upload(ev: React.ChangeEvent<HTMLInputElement>, callbackFn: (link: string) => void): Promise<void> {
+export async function uploadFile(ev: React.ChangeEvent<HTMLInputElement>, callbackFn: (link: string) => void): Promise<void> {
   const file = ev.target.files?.[0];
 
   if (file) {
@@ -28,6 +28,26 @@ export async function upload(ev: React.ChangeEvent<HTMLInputElement>, callbackFn
       error: 'Upload error!',
     });
   }
+}
+
+export async function deleteFile(file: string): Promise<void> {
+  const deletePromise = new Promise<void>((resolve, reject) => {
+    fetch(`/api/upload?fileUrl=${encodeURIComponent(file)}`, {
+      method: 'DELETE',
+    }).then(response => {
+      if (response.ok) {
+        resolve();
+      } else {
+        reject();
+      }
+    }).catch(reject);
+  });
+
+  await toast.promise(deletePromise, {
+    loading: 'Deleting...',
+    success: 'Deleted!',
+    error: 'Delete error!',
+  });
 }
 
 

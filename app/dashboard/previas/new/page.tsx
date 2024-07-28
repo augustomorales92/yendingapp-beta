@@ -16,7 +16,7 @@ export default function page() {
           }
         ]}
       />
-      <div className="px-12 py-16 md:py-6 min-h-screen">
+      <div className="px-12 py-6 min-h-screen lg:py-16">
         <NewPreviaForm />
       </div>
     </Suspense>

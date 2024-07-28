@@ -26,7 +26,6 @@ const CustomDropDowns = ({
     setValue(fieldValue)
   }
 
- // console.log(value)
 
   return (
     <>
