@@ -16,13 +16,14 @@ type RequestJoinModalProps = {
 };
 
 export default function RequestJoinModal({ previa }: RequestJoinModalProps) {
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+  const pathname = usePathname();
+
   if(!previa) return null;
+
   const { creator, previa_id, location, startTime } = previa;
   const requestJoinWithId = requestJoin.bind(null, previa_id || "");
-
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
 
   const handleModalClose = () =>
     handleQueryParams({
