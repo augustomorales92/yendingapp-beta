@@ -1,10 +1,12 @@
+export const dynamic = 'force-dynamic'
+
 import React, { Suspense } from "react";
 import Loader from "@/components/Loader";
 import { MapProvider } from "@/lib/MapProvider";
 import Map from "@/components/map/Map";
 import { getPrevias } from "@/services/previas";
 
-export async function MapContent() {
+async function MapContent() {
   const previas = await getPrevias();
   return (
     <MapProvider>
