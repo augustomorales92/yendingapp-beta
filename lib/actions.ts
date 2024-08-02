@@ -113,6 +113,7 @@ export async function createPrevia(
   _prevState: void | undefined,
   formData: FormData,
 ) {
+  console.log(formData);
   const {
     location,
     date,
@@ -122,6 +123,8 @@ export async function createPrevia(
     place_details,
     show_location,
     images_previa_url,
+    lng,
+    lat,
   } = CreatePreviaFromSchema.parse({
     location: formData.get("location"),
     date: formData.get("date"),
@@ -131,6 +134,8 @@ export async function createPrevia(
     place_details: formData.get("place_details"),
     show_location: formData.get("show_location"),
     images_previa_url: formData.get("images_previa_url"),
+    lng: formData.get("longitude"),
+    lat: formData.get("latitude"),
   });
 
   const newFormData = {
@@ -141,6 +146,8 @@ export async function createPrevia(
     description,
     place_details,
     show_location,
+    lat,
+    lng,
     images_previa_url: Array.isArray(images_previa_url)
       ? images_previa_url
       : [images_previa_url],
