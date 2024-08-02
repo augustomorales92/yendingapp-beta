@@ -12,10 +12,11 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { handleQueryParams } from "@/lib/utils";
 
 type RequestJoinModalProps = {
-  previa: Previas;
+  previa?: Previas;
 };
 
 export default function RequestJoinModal({ previa }: RequestJoinModalProps) {
+  if(!previa) return null;
   const { creator, previa_id, location, startTime } = previa;
   const requestJoinWithId = requestJoin.bind(null, previa_id || "");
 

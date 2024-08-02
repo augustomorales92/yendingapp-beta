@@ -50,7 +50,10 @@ export const CreatePreviaSchema = z.object({
   v: z.number(),
   createdAt: z.string(),
   id: z.string(),
-  updatedAt: z.string()
+  updatedAt: z.string(),
+  lat: z.string().optional(),
+  lng: z.string().optional()
+  
 })
 
 export const CreatePreviaFromSchema = CreatePreviaSchema.omit({

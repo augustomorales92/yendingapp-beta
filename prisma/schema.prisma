@@ -46,6 +46,8 @@ model previas {
   images_previa_url String[]
   join_requests     PreviasJoinRequests[]
   location          String
+  lat               String?
+  lng               String?
   participants      String?
   pass_code         String                @unique(map: "pass_code_1")
   place_details     String

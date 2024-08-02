@@ -33,6 +33,8 @@ export interface Previas {
   show_location?: boolean
   startTime?: string
   updatedAt?: Date
+  lat?: string
+  lng?: string
 }
 
 export type UpdateJoinRequest = {

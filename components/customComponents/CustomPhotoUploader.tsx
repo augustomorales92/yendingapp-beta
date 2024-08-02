@@ -23,12 +23,12 @@ const CustomPhotoUploader = ({
   }
   const handleValue = (value: string) => {
     setValue(value);
-  }
+  };
 
   return (
     <div className="flex items-center justify-center">
       {value ? (
-       <ImageWithButton file={value} handleValue={handleValue}/>
+        <ImageWithButton file={value} handleValue={handleValue} />
       ) : (
         <div className="flex items-center justify-center w-full">
           <label
@@ -53,9 +53,9 @@ const CustomPhotoUploader = ({
               onChange={handleChange}
             />
           </label>
-          <input type="hidden" name={name} value={value} />
         </div>
       )}
+      <input type="hidden" name={name} value={value} />
     </div>
   );
 };
