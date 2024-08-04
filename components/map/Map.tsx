@@ -7,27 +7,10 @@ we need to make this component client rendered as well else error occurs
 //Map component Component from library
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import { Previas } from "@/types/data";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import MapInfoWindow from "./MapInfoWindows";
-//Map's styling
-export const defaultMapContainerStyle = {
-  width: "100%",
-  height: "80vh",
-  borderRadius: "15px 0px 0px 15px",
-};
+import { defaultMapCenter, defaultMapContainerStyle, defaultMapOptions, defaultMapZoom } from "@/lib/constants";
 
-export const defaultMapCenter = {
-  lat: 41.3951006,
-  lng: 2.1790547,
-};
-
-const defaultMapZoom = 14;
-
-const defaultMapOptions = {
-  zoomControl: true,
-  tilt: 0,
-  gestureHandling: "auto",
-};
 
 type MapComponentProps = {
   previas: Previas[];
@@ -37,6 +20,8 @@ export default function MapComponent({ previas }: MapComponentProps) {
   const [selectedPrevia, setSelectedPrevia] = useState<Previas | undefined>(
     undefined,
   );
+  const [mapCenter, setMapCenter] = useState(defaultMapCenter);
+
   const handleMarkerClick = useCallback((previa: Previas) => {
     setSelectedPrevia(previa);
   }, []);
@@ -54,23 +39,34 @@ export default function MapComponent({ previas }: MapComponentProps) {
     lat: Number(lat) || defaultMapCenter.lat,
     lng: Number(lng) || defaultMapCenter.lng,
   });
+
+  useEffect(() => {
+    navigator?.geolocation.getCurrentPosition(function (position) {
+      setMapCenter({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+    });
+  }, []);
+
   return (
     <div className="w-full">
       <GoogleMap
         mapContainerStyle={defaultMapContainerStyle}
-        center={defaultMapCenter}
+        center={mapCenter}
         zoom={defaultMapZoom}
         options={defaultMapOptions}
       >
+        <Marker position={mapCenter} />
         {previas.map((previa, index) => (
-            <Marker
-              key={`${previa.previa_id}_${index}`}
-              position={getPosition(previa?.lat, previa?.lng)}
-              icon={customIcon(
-                previa?.images_previa_url?.[0] || "/images/placeholder.jpg",
-              )}
-              onClick={() => handleMarkerClick(previa)}
-            />
+          <Marker
+            key={`${previa.previa_id}_${index}`}
+            position={getPosition(previa?.lat, previa?.lng)}
+            icon={customIcon(
+              previa?.images_previa_url?.[0] || "/images/placeholder.jpg",
+            )}
+            onClick={() => handleMarkerClick(previa)}
+          />
         ))}
         {selectedPrevia && (
           <MapInfoWindow

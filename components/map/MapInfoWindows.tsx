@@ -31,11 +31,16 @@ const MapInfoWindow: React.FC<CustomInfoWindowProps> = ({
     <>
       <InfoWindow position={position} onCloseClick={onCloseClick}>
         <div style={infoWindowStyle}>
-          <h3>{previa?.description}</h3>
-          <p>
-            {`${formattedDate({ date: previa?.date })} at ${previa?.startTime}`}
-          </p>
-          <JoinModalButton />
+          <div className="text-secondary text-md my-2">
+            <b className="text-secondary_b">{previa?.creator?.name}</b>
+            {`'s Previa in`}{" "}
+            <b className="text-secondary_b">{previa?.location}</b> at{" "}
+            <b className="text-secondary_b">{`${formattedDate({ date: previa?.date })} at ${previa?.startTime}`}</b>
+            <p className="mt-2">{previa?.description}</p>
+          </div>
+          <div className="flex justify-center">
+            <JoinModalButton />
+          </div>
         </div>
       </InfoWindow>
       {isModalOpen && <RequestJoinModal previa={previa} />}
