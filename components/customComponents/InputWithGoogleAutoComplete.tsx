@@ -1,6 +1,6 @@
 import { useRef, useCallback, useState } from "react";
 import { useLoadScript, Autocomplete, Libraries } from "@react-google-maps/api";
-import { defaultMapCenter } from "../map/Map";
+import { defaultMapCenter } from "@/lib/constants";
 
 const libraries: "places"[] = ["places"];
 
