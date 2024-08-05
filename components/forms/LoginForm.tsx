@@ -1,7 +1,7 @@
 'use client'
 import { CustomButton } from '@/components/buttons/CustomButton'
 import { authenticate } from '@/lib/actions'
-import { useRouter } from 'next/navigation'
+import { useTransitionRouter as useRouter } from 'next-view-transitions'
 import toast from 'react-hot-toast'
 
 export default function LoginForm() {
