@@ -4,6 +4,7 @@ import './globals.css'
 import { AuthProvider } from '@/context/Providers';
 import { ReactNode } from 'react';
 import { Toaster } from "react-hot-toast";
+import { ViewTransitions } from 'next-view-transitions'
 
 
 /* export const metadata = {
@@ -17,6 +18,7 @@ interface RootLayoutProps {
 
 const RootLayout = ({ children }:RootLayoutProps) => {
   return (
+    <ViewTransitions>
     <html lang="en">
       <body>
         <AuthProvider>
@@ -27,6 +29,8 @@ const RootLayout = ({ children }:RootLayoutProps) => {
         </AuthProvider>
       </body>
     </html>
+    </ViewTransitions>
+
   )
 }
 
