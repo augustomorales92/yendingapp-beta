@@ -1,6 +1,6 @@
 import LoginGoogle from '@/components/buttons/LoginGoogle'
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { Suspense } from 'react'
 import Loader from '@/components/Loader'
 import CredentialLogin from '@/components/buttons/CredentialLogin'

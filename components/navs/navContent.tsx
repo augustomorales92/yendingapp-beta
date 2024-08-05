@@ -1,6 +1,6 @@
 'use client'
 import { signOut } from 'next-auth/react'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { usePathname } from 'next/navigation'
 import { BiMessageSquareDots } from 'react-icons/bi'
 import { CgProfile } from 'react-icons/cg'
