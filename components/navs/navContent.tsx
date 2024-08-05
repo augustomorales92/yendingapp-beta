@@ -1,7 +1,7 @@
 'use client'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { BiMessageSquareDots } from 'react-icons/bi'
 import { CgProfile } from 'react-icons/cg'
 import { FaGlassCheers, FaMapMarkerAlt } from 'react-icons/fa'
@@ -47,9 +47,11 @@ interface NavLinksContentProps {
 
 export function NavLinksContent({ logged }: NavLinksContentProps) {
   const pathname = usePathname()
+  const router = useRouter()
 
-  const pathValue = () => {
-      signOut()
+  const handleSignOut = async() => {
+      await signOut({redirect: false})
+      router.push('/')
   }
 
   return (
@@ -88,7 +90,7 @@ export function NavLinksContent({ logged }: NavLinksContentProps) {
         ''
       )}
       <div
-        onClick={() => pathValue()}
+        onClick={handleSignOut}
         className="flex mb-2 justify-start items-center gap-4 pl-5 border border-bg-secondary  hover:bg-secondary p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto"
       >
         <MdOutlineLogout className="text-2xl  group-hover:text-primary " />
