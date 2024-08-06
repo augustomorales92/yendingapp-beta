@@ -1,4 +1,4 @@
-export type JoinRequestStatus = 'pending' | 'accepted' | 'rejected' | 'sent'
+export type JoinRequestStatus = 'pending' | 'accepted' | 'rejected'
 
 export interface JoinRequest {
   id: string
@@ -37,8 +37,10 @@ export interface Previas {
   lng?: string
 }
 
+export type UpdateJoinRequestStatus = 'accepted' | 'rejected'
+
 export type UpdateJoinRequest = {
   previaId?: string
   userId: string
-  status: 'accepted' | 'rejected'
+  status: UpdateJoinRequestStatus
 }

@@ -4,6 +4,7 @@ import { InfoWindow } from "@react-google-maps/api";
 import { CSSProperties } from "react";
 import RequestJoinModal, { JoinModalButton } from "../forms/RequestJoinModal";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface CustomInfoWindowProps {
   position: google.maps.LatLngLiteral;
@@ -24,8 +25,10 @@ const MapInfoWindow: React.FC<CustomInfoWindowProps> = ({
   previa,
 }) => {
   const searchParams = useSearchParams();
+  const { data: session } = useSession()
   const join = searchParams.get("join");
   const isModalOpen = join === "true";
+
 
   return (
     <>
@@ -39,7 +42,7 @@ const MapInfoWindow: React.FC<CustomInfoWindowProps> = ({
             <p className="mt-2">{previa?.description}</p>
           </div>
           <div className="flex justify-center">
-            <JoinModalButton />
+            <JoinModalButton requested={previa?.join_requests?.some( join_req => join_req.user_id === session?.user.userData.user_id )} />
           </div>
         </div>
       </InfoWindow>

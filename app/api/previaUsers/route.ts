@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       //TODO: should be an string
       attendants: Number(attendants),
       user_id: user_data?.user_id,
-      status: 'sent',
+      status: 'pending',
       previa_id
     }
 

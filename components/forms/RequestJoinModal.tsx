@@ -1,15 +1,15 @@
-"use client";
-import { requestJoin } from "@/lib/actions";
-import { intentionsValues } from "@/lib/data";
-import { Previas } from "@/types/data";
-import toast from "react-hot-toast";
-import { FaTimes } from "react-icons/fa";
-import { CustomButton } from "../buttons/CustomButton";
-import CustomDropDowns from "../customComponents/CustomDropDown";
-import CustomInput from "../customComponents/CustomInput";
-import CustomPhotoUploader from "../customComponents/CustomPhotoUploader";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { handleQueryParams } from "@/lib/utils";
+'use client';
+import { requestJoin } from '@/lib/actions';
+import { intentionsValues } from '@/lib/data';
+import { Previas } from '@/types/data';
+import toast from 'react-hot-toast';
+import { FaTimes } from 'react-icons/fa';
+import { CustomButton } from '../buttons/CustomButton';
+import CustomDropDowns from '../customComponents/CustomDropDown';
+import CustomInput from '../customComponents/CustomInput';
+import CustomPhotoUploader from '../customComponents/CustomPhotoUploader';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { handleQueryParams } from '@/lib/utils';
 
 type RequestJoinModalProps = {
   previa?: Previas;
@@ -20,17 +20,17 @@ export default function RequestJoinModal({ previa }: RequestJoinModalProps) {
   const { replace } = useRouter();
   const pathname = usePathname();
 
-  if(!previa) return null;
+  if (!previa) return null;
 
   const { creator, previa_id, location, startTime } = previa;
-  const requestJoinWithId = requestJoin.bind(null, previa_id || "");
+  const requestJoinWithId = requestJoin.bind(null, previa_id || '');
 
   const handleModalClose = () =>
     handleQueryParams({
       searchParams,
       pathname,
       replace,
-      query: "join",
+      values: [{query: 'join'}, {query: 'previa_id'}],
     });
 
   const handleRequestJoin = async (formData: FormData) => {
@@ -39,7 +39,7 @@ export default function RequestJoinModal({ previa }: RequestJoinModalProps) {
     if (res?.error) {
       toast.error(res.error);
     } else {
-      toast.success("Request sent!");
+      toast.success('Request sent!');
     }
     handleModalClose();
   };
@@ -50,7 +50,7 @@ export default function RequestJoinModal({ previa }: RequestJoinModalProps) {
         searchParams,
         pathname,
         replace,
-        query: "join",
+        values: [{query: 'join'}, {query: 'previa_id'}],
       });
     }
   };
@@ -113,19 +113,17 @@ export default function RequestJoinModal({ previa }: RequestJoinModalProps) {
         onClick={handleBackdropClick}
       >
         <div
-          className="relative p-4 w-full max-w-md max-h-full"
+          className="relative max-h-full w-full max-w-md p-4"
           onClick={(e) => e.stopPropagation()}
         >
           {/*   <!-- Modal content --> */}
-          <div className="relative bg-primary_b rounded-lg shadow ">
+          <div className="relative rounded-lg bg-primary_b shadow">
             {/*  <!-- Modal header --> */}
-            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-              <h3 className="text-lg font-semibold text-secondary ">
-                Send Join Request
-              </h3>
+            <div className="flex items-center justify-between rounded-t border-b p-4 md:p-5 dark:border-gray-600">
+              <h3 className="text-lg font-semibold text-secondary">Send Join Request</h3>
               <button
                 type="button"
-                className="text-secondary bg-transparent cursor-pointer hover:text-primary rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                className="ms-auto inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-transparent text-sm text-secondary hover:text-primary"
                 data-modal-toggle="crud-modal"
                 onClick={handleModalClose}
               >
@@ -134,12 +132,12 @@ export default function RequestJoinModal({ previa }: RequestJoinModalProps) {
             </div>
             {/* <!-- Modal body --> */}
             <form className="p-4 md:p-5" action={handleRequestJoin}>
-              <div className="text-secondary text-md my-2">
+              <div className="text-md my-2 text-secondary">
                 <b className="text-secondary_b">{creator?.name}</b>
-                {`'s Previa in`} <b className="text-secondary_b">{location}</b>{" "}
-                at <b className="text-secondary_b">{startTime}</b>
+                {`'s Previa in`} <b className="text-secondary_b">{location}</b> at{' '}
+                <b className="text-secondary_b">{startTime}</b>
               </div>
-              <div className="grid gap-4 mb-4 grid-cols-2">
+              <div className="mb-4 grid grid-cols-2 gap-4">
                 <div className="col-span-2">
                   <CustomInput
                     name="attendants"
@@ -157,7 +155,7 @@ export default function RequestJoinModal({ previa }: RequestJoinModalProps) {
                   />
                 </div>
                 <div className="col-span-2">
-                  <div className="text-secondary flex w-full justify-center">
+                  <div className="flex w-full justify-center text-secondary">
                     <CustomPhotoUploader label="Take a photo" name="url_img" />
                   </div>
                 </div>
@@ -172,23 +170,25 @@ export default function RequestJoinModal({ previa }: RequestJoinModalProps) {
   );
 }
 
-export const JoinModalButton = () => {
+export const JoinModalButton = ({ previaId, requested }: { previaId?: string; requested?: boolean }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
   const handleModalOpen = () =>
     handleQueryParams({
-      value: "true",
+      values: [
+        { value: previaId, query: 'previa_id' },
+        { value: 'true', query: 'join' },
+      ],
       searchParams,
       pathname,
       replace,
-      query: "join",
     });
 
   return (
-    <button className={"btn-primary"} onClick={handleModalOpen}>
-      Join
+    <button className={requested? 'btn-secondary' : 'btn-primary'} onClick={handleModalOpen} disabled={requested}>
+      {requested ? 'Requested' : 'Join'}
     </button>
   );
 };
