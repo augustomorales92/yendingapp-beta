@@ -11,8 +11,7 @@ export default function LoginForm() {
     toast.dismiss()
     if (res) {
       toast.error(res)
-    }
-  }
+    }  }
   return (
     <form action={handleLogin} className="flex flex-col mt-3 gap-3">
       <label className='text-primary font-bold'>Email</label>
