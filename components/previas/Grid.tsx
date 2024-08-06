@@ -4,18 +4,22 @@ import { getPrevias } from '@/services/previas'
 import Image from 'next/image'
 import { FaShare } from 'react-icons/fa'
 import RequestJoinModal, { JoinModalButton } from '../forms/RequestJoinModal'
+import { auth } from '@/auth'
 
 export async function Grid({
   searchParams
 }: {
-  searchParams: { sortCriteria: string; join: string }
+  searchParams: { sortCriteria: string; join: string; previa_id: string }
 }) {
+  const session = await auth()
   const previas = await getPrevias()
   const sortedPrevias = await getSortedPrevias({
     previas,
     sortCriteria: searchParams.sortCriteria
   })
   const isModalOpen = searchParams.join === 'true'
+  const previa_id = searchParams.previa_id
+
   return (
     <section
       id="Projects"
@@ -24,8 +28,8 @@ export async function Grid({
       {sortedPrevias.length ? (
         sortedPrevias?.map((previa, index) => (
           <div key={`${previa.previa_id}_${index}`}>
-            <div className="w-80 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-              <a href="#">
+            <div className="w-80 bg-white shadow-md rounded-xl duration-500 hover:shadow-2xl">
+              <div>
                 <Image
                   src={
                     sanitizeImages(previa.images_previa_url)?.[0] ||
@@ -74,7 +78,7 @@ export async function Grid({
                   </div>
                 </div>
                 <div className="flex items-center justify-around p-2">
-                  <JoinModalButton />
+                  <JoinModalButton previaId={previa.previa_id} requested={previa.join_requests?.some( join_req => join_req.user_id === session?.user.userData.user_id )}/>
                   <div className="ml-auto">
                     <button className="cursor-pointer rounded-full bg-primary_b p-3 text-primary transition-colors hover:bg-opacity-70 group-hover:bg-opacity-70">
                       <FaShare color="white" />
@@ -84,9 +88,9 @@ export async function Grid({
                     </span>
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
-            {isModalOpen && <RequestJoinModal previa={previa} />}
+            {isModalOpen && previa.previa_id === previa_id && <RequestJoinModal previa={previa} />}
           </div>
         ))
       ) : (
