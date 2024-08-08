@@ -8,10 +8,10 @@ datasource db {
 }
 
 type Creator {
-  email String
+  email   String
   user_id String
-  name String
-  photo String 
+  name    String
+  photo   String
 }
 
 type PreviasJoinRequests {
@@ -23,53 +23,27 @@ type PreviasJoinRequests {
   user_id    String
 }
 
-model accounts {
-  id                String @id @default(auto()) @map("_id") @db.ObjectId
-  access_token      String
-  expires_at        Int
-  id_token          String
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  type              String
   provider          String
   providerAccountId String
-  scope             String
-  token_type        String
-  type              String
-  userId            String @db.ObjectId
+  token_type        String?
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  id_token          String? @db.String
+  scope             String?
+  session_state     String?
+  expires_at        Int?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
-model previas {
-  id                String                @id @default(auto()) @map("_id") @db.ObjectId
-  v                 Int?                   @map("__v")
-  createdAt         DateTime?              @db.Date
-  creator           Creator?
-  date              DateTime              @db.Date
-  description       String
-  images_previa_url String[]
-  join_requests     PreviasJoinRequests[]
-  location          String
-  lat               String?
-  lng               String?
-  participants      String?
-  pass_code         String                @unique(map: "pass_code_1")
-  place_details     String
-  previa_id         String                @unique(map: "previa_id_1")
-  show_location     Boolean
-  startTime         String?
-  updatedAt         DateTime?              @db.Date
-}
-
-model previausers {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  attendants Int
-  createdAt  DateTime @default(now()) @db.Date
-  intentions String
-  photos     String[]
-  previa_id  String
-  status     String
-  updatedAt  DateTime @updatedAt @db.Date
-  user_id    String   @unique  @map("user_id")
-}
-
-model users {
+model User {
   id               String    @id @default(auto()) @map("_id") @db.ObjectId
   v                Int?      @map("__v")
   about            String?
@@ -88,15 +62,50 @@ model users {
   previas_interest String?
   previas_requests String[]
   show_interest    Boolean?
-  updatedAt        DateTime  @db.Date
+  updatedAt        DateTime  @db.Date @updatedAt
   url_img          String?
-  user_id          String    @unique(map: "user_id_1")
+  user_id          String?    @unique(map: "user_id_1")
+  Account          Account[]
+
+  @@map("users")
 }
 
+model previas {
+  id                String                @id @default(auto()) @map("_id") @db.ObjectId
+  v                 Int?                  @map("__v")
+  createdAt         DateTime?             @db.Date
+  creator           Creator?
+  date              DateTime              @db.Date
+  description       String
+  images_previa_url String[]
+  join_requests     PreviasJoinRequests[]
+  location          String
+  lat               String?
+  lng               String?
+  participants      String?
+  pass_code         String                @unique(map: "pass_code_1")
+  place_details     String
+  previa_id         String                @unique(map: "previa_id_1")
+  show_location     Boolean
+  startTime         String?
+  updatedAt         DateTime?             @db.Date
+}
+
+model previausers {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  attendants Int
+  createdAt  DateTime @default(now()) @db.Date
+  intentions String
+  photos     String[]
+  previa_id  String
+  status     String
+  updatedAt  DateTime @updatedAt @db.Date
+  user_id    String   @unique @map("user_id")
+}
 
 model Message {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
-  channel   String  
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  channel   String
   user_id   String
   url_img   String?
   name      String?
