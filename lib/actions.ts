@@ -92,10 +92,10 @@ export async function updateUser(
       };
     }
     const res = await updatedUser(newFormData as FormState);
-    await update({ ...user, userData: newFormData });
     if (!res.ok) {
       return { error: 'Error updating user' };
     }
+    await update({ ...user, userData: res.updatedUser });
   } catch (error) {
     console.error('Error updating user:', error);
     return { error: 'Error updating user' };
