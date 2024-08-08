@@ -4,6 +4,7 @@ export default auth((req) => {
   const { auth, nextUrl } = req;
   const isLoggedIn = !!auth;
   const hasUserId = auth?.user?.userData?.user_id;
+  const hasUserName = auth?.user?.userData?.name;
   const publicRoutes = ['/'];
   const authRoutes = ['/auth/login', '/auth/register'];
   const isApiURL = nextUrl.pathname.startsWith('/api');
@@ -15,7 +16,7 @@ export default auth((req) => {
   }
 
   if (isAuthRoute) {
-    if (isLoggedIn && !hasUserId) {
+    if (isLoggedIn && (!hasUserId || !hasUserName)) {
       return Response.redirect(new URL('/onboarding', nextUrl));
     }
     if (isLoggedIn) {
