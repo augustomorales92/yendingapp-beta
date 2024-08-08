@@ -22,8 +22,8 @@ export async function GET(req: NextRequest) {
       ?.filter((user) => user) as string[];
 
     const users = [previa_data?.creator?.user_id || '', ...acceptedUsers];
-    
-    const users_data = await prisma.users.findMany({ where: { user_id: { in: users } } });
+
+    const users_data = await prisma.user.findMany({ where: { user_id: { in: users } } });
 
     if (!users_data?.length) {
       return NextResponse.json({ message: 'Users not found' }, { status: 404 });

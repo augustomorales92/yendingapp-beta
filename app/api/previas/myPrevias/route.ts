@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   try {
     const session = JSON.parse(req.headers.get('Authorization') || '{}');
     const emailWanted = session?.user?.email || '';
-    const values = await prisma.users.findUnique({
+    const values = await prisma.user.findUnique({
       where: { email: emailWanted },
     });
 
