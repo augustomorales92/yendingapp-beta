@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type CustomInputProps = {
   name: string;
@@ -11,6 +11,7 @@ type CustomInputProps = {
   initialValue?: string;
   disabled?: boolean;
   customClass?: string;
+  onReset?: boolean;
 };
 
 const CustomInput = ({
@@ -24,6 +25,7 @@ const CustomInput = ({
   initialValue,
   disabled,
   customClass,
+  onReset,
 }: CustomInputProps) => {
   const [value, setValue] = useState(initialValue);
 
@@ -31,6 +33,10 @@ const CustomInput = ({
     e.preventDefault();
     setValue(e.target.value);
   };
+
+  useEffect(() => {
+    setValue('');
+  }, [onReset]);
 
   return (
     <>
