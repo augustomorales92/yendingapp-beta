@@ -20,7 +20,7 @@ type PreviasJoinRequests {
   intentions String
   photos     String[]
   status     String
-  user_id    String
+  user_id    String?
 }
 
 model Account {
