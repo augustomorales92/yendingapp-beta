@@ -39,8 +39,13 @@ export default function NewPreviaForm({
 
   const handleForm = async (formData: FormData) => {
     if (coordinates) {
-      formData.append('latitude', coordinates.lat.toString() || lat || '');
-      formData.append('longitude', coordinates.lng.toString() || lng || '');
+      formData.append('latitude', coordinates?.lat.toString());
+      formData.append('longitude', coordinates?.lng.toString());
+    }
+    if (lat && lng) {
+      formData.append('latitude', lat);
+      formData.append('longitude', lng);
+      formData.append('location', 'Somewhere');
     }
     const res = await createPrevia(undefined, formData);
     toast.dismiss();
