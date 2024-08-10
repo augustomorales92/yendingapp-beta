@@ -8,7 +8,7 @@ type MapContentProps = {
   previas?: Previas[];
 };
 
-export async function MapContent({ previas }: MapContentProps) {
+export function MapContent({ previas }: MapContentProps) {
   return (
     <MapProvider>
       <main className="flex items-center justify-center p-2">
