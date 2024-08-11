@@ -53,7 +53,7 @@ model User {
   dob_month        String?
   dob_year         String?
   email            String    @unique(map: "email_1")
-  emailVerified    Boolean?
+  emailVerified    DateTime?
   gender_identity  String?
   image            String?
   name             String?
