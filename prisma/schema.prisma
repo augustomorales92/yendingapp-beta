@@ -8,10 +8,10 @@ datasource db {
 }
 
 type Creator {
-  email String
+  email   String
   user_id String
-  name String
-  photo String 
+  name    String
+  photo   String
 }
 
 type PreviasJoinRequests {
@@ -20,26 +20,60 @@ type PreviasJoinRequests {
   intentions String
   photos     String[]
   status     String
-  user_id    String
+  user_id    String?
 }
 
-model accounts {
-  id                String @id @default(auto()) @map("_id") @db.ObjectId
-  access_token      String
-  expires_at        Int
-  id_token          String
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  type              String
   provider          String
   providerAccountId String
-  scope             String
-  token_type        String
-  type              String
-  userId            String @db.ObjectId
+  token_type        String?
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  id_token          String? @db.String
+  scope             String?
+  session_state     String?
+  expires_at        Int?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model User {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  v                Int?      @map("__v")
+  about            String?
+  age              Int?
+  createdAt        DateTime? @db.Date
+  dob_day          String?
+  dob_month        String?
+  dob_year         String?
+  email            String    @unique(map: "email_1")
+  emailVerified    DateTime?
+  gender_identity  String?
+  image            String?
+  name             String?
+  password         String?
+  previas_created  String[]
+  previas_interest String?
+  previas_requests String[]
+  show_interest    Boolean?
+  updatedAt        DateTime  @db.Date @updatedAt
+  url_img          String?
+  user_id          String?    @unique(map: "user_id_1")
+  Account          Account[]
+
+  @@map("users")
 }
 
 model previas {
   id                String                @id @default(auto()) @map("_id") @db.ObjectId
-  v                 Int?                   @map("__v")
-  createdAt         DateTime?              @db.Date
+  v                 Int?                  @map("__v")
+  createdAt         DateTime?             @db.Date
   creator           Creator?
   date              DateTime              @db.Date
   description       String
@@ -54,7 +88,7 @@ model previas {
   previa_id         String                @unique(map: "previa_id_1")
   show_location     Boolean
   startTime         String?
-  updatedAt         DateTime?              @db.Date
+  updatedAt         DateTime?             @db.Date
 }
 
 model previausers {
@@ -66,29 +100,18 @@ model previausers {
   previa_id  String
   status     String
   updatedAt  DateTime @updatedAt @db.Date
-  user_id    String   @unique  @map("user_id")
+  user_id    String   @unique @map("user_id")
 }
 
-model users {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  v                Int?      @map("__v")
-  about            String?
-  age              Int?
-  createdAt        DateTime? @db.Date
-  dob_day          String?
-  dob_month        String?
-  dob_year         String?
-  email            String    @unique(map: "email_1")
-  emailVerified    Boolean?
-  gender_identity  String?
-  image            String?
-  name             String?
-  password         String?
-  previas_created  String[]
-  previas_interest String?
-  previas_requests String[]
-  show_interest    Boolean?
-  updatedAt        DateTime  @db.Date
-  url_img          String?
-  user_id          String    @unique(map: "user_id_1")
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  channel   String
+  user_id   String
+  url_img   String?
+  name      String?
+  text      String
+  timestamp DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([channel, user_id, timestamp])
 }

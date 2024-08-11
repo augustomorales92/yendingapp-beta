@@ -8,7 +8,7 @@ import { Grid } from '@/components/previas/Grid'
 export default function Page({
   searchParams
 }: {
-  searchParams: { sortCriteria: string; join: string }
+  searchParams: { sortCriteria: string; join: string; previa_id: string }
 }) {
   return (
     <Suspense fallback={<Loader />}>

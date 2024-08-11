@@ -55,26 +55,9 @@ const CustomPhotoUploader = ({
           </label>
         </div>
       )}
-      <input type="hidden" name={name} value={value} />
+      <input type="hidden" name={name} value={value || ''} />
     </div>
   );
 };
 
 export default CustomPhotoUploader;
-
-{
-  /*   <div>
-  <label className="w-full btn-secondary flex items-center justify-center gap-1 ">
-  <FaUpload />
-  <div>{label}</div>
-  <input
-  type="file"
-  id={name}
-  className="hidden"
-  onChange={handleChange}
-  value={""}
-  />
-  </label>
-  <input type="hidden" name={name} value={value} />
-  </div> */
-}
