@@ -31,7 +31,7 @@ export async function authenticate(_prevState: string | undefined, formData: For
       password: formData.get('password'),
     });
 
-    await signIn('credentials', { email, password, redirectTo: '/dashboard' });
+    await signIn("credentials", { email, password, redirect: false });
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -104,8 +104,10 @@ export async function updateUser(
   redirect('/dashboard');
 }
 
-export async function createPrevia(_prevState: void | undefined, formData: FormData) {
-  console.log(formData);
+export async function createPrevia(
+  _prevState: void | undefined,
+  formData: FormData,
+) {
   const {
     location,
     date,
